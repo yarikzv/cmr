@@ -15,9 +15,6 @@ public class Passport {
     @Column(name = "id")
     Integer id;
 
-    @Column(name = "series")
-    String series;
-
     @Column(name = "number")
     String number;
 

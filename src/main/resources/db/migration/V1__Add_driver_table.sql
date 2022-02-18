@@ -1,7 +1,6 @@
 create table public.passport
 (
     id     serial not null primary key,
-    series varchar(5),
     number varchar(20),
     date   date,
     issue  varchar(255)
