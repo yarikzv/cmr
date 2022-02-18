@@ -26,7 +26,10 @@ public class Driver {
     @OneToOne
     Passport passport;
 
-    @OneToOne
-    Transport transport;
+    @Column(name = "truck")
+    String truck;
+
+    @Column(name = "trailer")
+    String trailer;
 
 }
