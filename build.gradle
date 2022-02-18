@@ -1,0 +1,46 @@
+buildscript {
+    dependencies {
+        classpath 'org.postgresql:postgresql:42.2.22'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "org.flywaydb.flyway" version "8.5.0"
+}
+
+group = 'dev.zvolinskiy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.flywaydb:flyway-core:8.5.0'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/cmr'
+    user = 'postgres'
+    password = 'root'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
