@@ -3,7 +3,7 @@ package dev.zvolinskiy.cmr.service.impl;
 import dev.zvolinskiy.cmr.entity.Container;
 import dev.zvolinskiy.cmr.repo.ContainerRepo;
 import dev.zvolinskiy.cmr.service.ContainerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ContainerServiceImpl implements ContainerService {
 
     private final ContainerRepo containerRepo;
