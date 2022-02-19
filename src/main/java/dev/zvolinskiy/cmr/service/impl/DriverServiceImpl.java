@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -38,6 +37,11 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public List<Driver> findDriverByTruck(String truck) {
         return driverRepo.findDriverByTruckContaining(truck);
+    }
+
+    @Override
+    public List<Driver> findAllDrivers() {
+        return (List<Driver>) driverRepo.findAll();
     }
 
     @Override

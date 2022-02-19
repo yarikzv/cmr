@@ -14,6 +14,8 @@ public interface DriverService {
 
     List<Driver> findDriverByTruck(String truck);
 
+    List<Driver> findAllDrivers();
+
     Driver findDriverByPassport(String passportNumber);
 
     void deleteDriver(Driver driver);
