@@ -9,6 +9,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "org.flywaydb.flyway" version "8.5.0"
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group = 'dev.zvolinskiy'
@@ -40,6 +42,11 @@ flyway {
     url = 'jdbc:postgresql://localhost:5432/cmr'
     user = 'postgres'
     password = 'root'
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 tasks.named('test') {
