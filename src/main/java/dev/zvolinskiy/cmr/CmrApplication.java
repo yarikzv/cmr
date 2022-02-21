@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class CmrApplication extends Application {
 
@@ -21,17 +23,20 @@ public class CmrApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
+    public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fx/scene.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/fx/styles.css").toExternalForm());
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
-        stage.setTitle("CMR - Помощник экспедитора");
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setMinHeight(600);
-        stage.setMinWidth(800);
-        stage.show();
+            stage.setTitle("CMR - Помощник экспедитора");
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.setMinHeight(600);
+            stage.setMinWidth(800);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
