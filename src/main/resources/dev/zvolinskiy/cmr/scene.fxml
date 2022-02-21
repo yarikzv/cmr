@@ -16,7 +16,7 @@
                      <children>
                         <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="400.0">
                            <image>
-                              <Image url="@truck.jpg" />
+                              <Image url="@images/truck.jpg" />
                            </image>
                         </ImageView>
                         <Label layoutX="26.0" layoutY="24.0" text="Фамилия" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
