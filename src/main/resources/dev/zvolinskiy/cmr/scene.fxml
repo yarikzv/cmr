@@ -1,29 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.MainWindowController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.MainWindowController">
     <children>
-      <MenuBar StackPane.alignment="TOP_LEFT">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Новая CMR" />
-              <MenuItem fx:id="closeItem" mnemonicParsing="false" onAction="#closeItemAction" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <TabPane id="driver-tab-pane" fx:id="driverTabPane" layoutX="210.0" layoutY="100.0" prefHeight="448.0" prefWidth="588.0" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <tabs>
+          <Tab fx:id="addDriverTab" text="Добавить водителя">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="400.0">
+                           <image>
+                              <Image url="@truck.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="26.0" layoutY="24.0" text="Фамилия" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                        <TextField layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Фамилия" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="20.0" />
+                        <Label layoutX="25.0" layoutY="64.0" text="Имя" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="64.0" />
+                        <TextField layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Имя" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="60.0" />
+                        <Label layoutX="25.0" layoutY="104.0" text="Отчество" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="104.0" />
+                        <TextField layoutX="91.0" layoutY="94.0" minWidth="-Infinity" prefWidth="300.0" promptText="Отчество" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="100.0" />
+                        <Separator layoutX="25.0" layoutY="157.0" prefHeight="2.0" prefWidth="370.0" />
+                        <Label layoutX="25.0" layoutY="182.0" text="Паспорт" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="184.0" />
+                        <TextField layoutX="91.0" layoutY="178.0" minWidth="-Infinity" prefWidth="300.0" promptText="Серия и номер паспорта" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="180.0" />
+                        <Label layoutX="29.0" layoutY="227.0" text="Дата" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="224.0" />
+                        <TextField layoutX="94.0" layoutY="223.0" minWidth="-Infinity" prefWidth="300.0" promptText="Дата выдачи" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="220.0" />
+                        <Label layoutX="29.0" layoutY="269.0" text="Кем выдан" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="264.0" />
+                        <TextField layoutX="94.0" layoutY="265.0" minWidth="-Infinity" prefWidth="300.0" promptText="Кем выдан" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="260.0" />
+                        <Separator layoutX="25.0" layoutY="309.0" prefHeight="2.0" prefWidth="370.0" />
+                        <Label layoutX="28.0" layoutY="331.0" text="Тягач" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="334.0" />
+                        <TextField layoutX="93.0" layoutY="327.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер автомобиля" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="330.0" />
+                        <Label layoutX="25.0" layoutY="372.0" text="Прицеп" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="374.0" />
+                        <TextField layoutX="90.0" layoutY="368.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер прицепа" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="370.0" />
+                        <Button id="custom-button" fx:id="saveDriverButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#saveDriverAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="420.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Найти водителя">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+        <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: #f37474;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <effect>
+                <DropShadow />
+            </effect>
+            <children>
+                <Text fill="WHITE" layoutX="664.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CMR" AnchorPane.rightAnchor="22.53564453125">
+                    <font>
+                        <Font name="Droid Sans" size="55.0" />
+                    </font>
+                </Text>
+                <Text fill="WHITE" layoutX="564.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Помощник экспедитора" AnchorPane.rightAnchor="22.671289062500023">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
+            </children>
+        </AnchorPane>
+        <AnchorPane id="body-bg" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="210.0" stylesheets="@styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <effect>
+                <DropShadow />
+            </effect>
+            <children>
+                <Button id="close-button" fx:id="closeButton" alignment="CENTER" blendMode="DARKEN" contentDisplay="CENTER" layoutX="30.0" layoutY="555.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.bottomAnchor="13.8">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+               <effect>
+                  <Blend />
+               </effect>
+                </Button>
+            <Separator layoutY="540.0" prefHeight="0.0" prefWidth="210.0" AnchorPane.bottomAnchor="56.8" />
+            <Button id="custom-button" fx:id="cmrButton" alignment="CENTER" blendMode="DARKEN" contentDisplay="CENTER" layoutX="30.0" layoutY="114.0" mnemonicParsing="false" onAction="#cmrButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="CMR">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button id="custom-button" fx:id="driverButton" alignment="CENTER" blendMode="DARKEN" contentDisplay="CENTER" layoutX="30.0" layoutY="161.0" mnemonicParsing="false" onAction="#driverButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Водитель">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            </children>
+        </AnchorPane>
     </children>
-</StackPane>
+</AnchorPane>
