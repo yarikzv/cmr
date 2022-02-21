@@ -1,11 +1,11 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/cmr
-    username: postgres
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/cmr-db
+    username: sa
+    password: sa
   jpa:
-    database: postgresql
+    database: h2
     show-sql: true
     hibernate:
       ddl-auto: create
