@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Controller
 @RequiredArgsConstructor
 public class DriverController {
-
     private final DriverService driverService;
     private final PassportService passportService;
 
@@ -41,6 +40,10 @@ public class DriverController {
     public Button saveDriverButton;
     @FXML
     public TabPane driverTabPane;
+    @FXML
+    public TextField tfDriverLastNameSearch;
+    @FXML
+    public Button searchDriverByLastName;
 
     public void saveDriverAction() {
         String driverPassportSeries = tfDriverPassportSeries.getText();
@@ -70,7 +73,11 @@ public class DriverController {
         driverService.saveDriver(driver);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Водитель " + driver.getLastName() + " успешно сохранен в базу данных!",
+                "Водитель " +
+                        driver.getLastName() + " " +
+                        (!driver.getFirstName().equals("") ? (driver.getFirstName().charAt(0) + ". ") : " ") +
+                        (!driver.getMiddleName().equals("") ? (driver.getMiddleName().charAt(0) + ". ") : " ") +
+                        " успешно сохранен в базу данных!",
                 ButtonType.OK);
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
@@ -78,7 +85,7 @@ public class DriverController {
         refresh();
     }
 
-    private void refresh(){
+    private void refresh() {
         tfDriverPassportSeries.clear();
         dpDriverPassportDate.getEditor().clear();
         tfDriverPassportIssue.clear();
@@ -87,5 +94,13 @@ public class DriverController {
         tfDriverLastName.clear();
         tfDriverTruck.clear();
         tfDriverTrailer.clear();
+    }
+
+    public Driver searchDriverByLastNameAction() {
+
+        return null;
+    }
+
+    public void searchDriverByPassportNumberAction() {
     }
 }
