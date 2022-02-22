@@ -1,12 +1,18 @@
 package dev.zvolinskiy.cmr.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "passport")
 public class Passport {
 
@@ -19,7 +25,7 @@ public class Passport {
     String number;
 
     @Column(name = "date")
-    Date date;
+    LocalDate date;
 
     @Column(name = "issue")
     String issue;

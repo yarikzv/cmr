@@ -1,11 +1,14 @@
 package dev.zvolinskiy.cmr.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "drivers")
 public class Driver {
 
