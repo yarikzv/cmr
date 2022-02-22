@@ -3,7 +3,7 @@ package dev.zvolinskiy.cmr.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import static javax.persistence.CascadeType.*;
 
@@ -21,7 +21,7 @@ public class CMR {
     String number;
 
     @Column(name = "date")
-    Date date;
+    LocalDate date;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "sender_id")

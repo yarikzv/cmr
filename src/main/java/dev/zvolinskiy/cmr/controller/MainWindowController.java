@@ -3,15 +3,24 @@ package dev.zvolinskiy.cmr.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Component
 public class MainWindowController implements Initializable {
+
+    private final Resource driverFxml;
+    private final ApplicationContext applicationContext;
 
     @FXML
     public Button cmrButton;
@@ -21,6 +30,11 @@ public class MainWindowController implements Initializable {
     private Button closeButton;
     @FXML
     private AnchorPane rootAnchorPane;
+
+    public MainWindowController(@Value("classpath:/fx/driver.fxml") Resource driverFxml, ApplicationContext applicationContext) {
+        this.driverFxml = driverFxml;
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,8 +55,11 @@ public class MainWindowController implements Initializable {
 
     public void driverButtonAction() {
         try {
-            rootAnchorPane.getChildren().set(0, FXMLLoader.load(getClass().getResource("/fx/driver.fxml")));
-
+            URL url = this.driverFxml.getURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            loader.setControllerFactory(applicationContext::getBean);
+            Node node = loader.load();
+            rootAnchorPane.getChildren().set(0, node);
         } catch (IOException e) {
             e.printStackTrace();
         }

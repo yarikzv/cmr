@@ -27,15 +27,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     compileOnly 'org.flywaydb:flyway-core:8.5.0'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2:2.1.210'
+    runtimeOnly 'com.h2database:h2:1.4.200'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/cmr'
-    user = 'postgres'
-    password = 'root'
+    url = 'jdbc:h2:~/cmrdb'
+    user = 'sa'
+    password = ''
 }
 
 javafx {
