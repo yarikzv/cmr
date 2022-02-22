@@ -1,6 +1,6 @@
 create table public.cmr
 (
-    id                   serial not null primary key,
+    id                   int auto_increment not null primary key,
     number               varchar(11),
     date                 date,
     sender_id            int,
