@@ -38,9 +38,6 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
             stage.setTitle("CMR - Помощник экспедитора");
             stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setMinHeight(600);
-            stage.setMinWidth(800);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
