@@ -7,7 +7,7 @@ spring:
     web-application-type: none
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./cmrdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    url: jdbc:h2:~/cmrdb
     username: sa
     password:
   jpa:
@@ -15,7 +15,7 @@ spring:
     database: h2
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
