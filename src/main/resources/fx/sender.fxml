@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="sender-anchor-pane" fx:id="senderAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1800.0" prefWidth="2400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.SenderController">
+    <children>
+        <TabPane id="sender-tab-pane" fx:id="senderTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+            <tabs>
+                <Tab fx:id="addSenderTab" text="Добавить отправителя">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="400.0">
+                                    <image>
+                                        <Image url="@images/truck.jpg" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="26.0" layoutY="24.0" text="Название" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                                <TextField fx:id="tfSenderName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Название" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="25.0" layoutY="64.0" text="Адресс" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="74.0" />
+                                <TextField fx:id="tfSenderAddress" layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Адресс" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="70.0" />
+                                <Label layoutX="25.0" layoutY="104.0" text="Страна" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="124.0" />
+                                <Button id="custom-button" fx:id="saveSenderButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveSenderAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="200.0" />
+                        <ComboBox fx:id="cbCountryList" editable="true" layoutX="91.0" layoutY="99.0" prefWidth="300.0" promptText="Страна" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="120.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Найти отправителя">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="28.0" layoutY="24.0" text="Поиск по названию:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
+                                <Label layoutX="28.0" layoutY="64.0" text="Название" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="64.0" />
+                                <TextField fx:id="tfSenderNameSearch" layoutX="93.0" layoutY="60.0" minWidth="-Infinity" prefWidth="290.0" promptText="Название" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="60.0" />
+                                <Button fx:id="searchSenderByName" layoutX="393.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchSenderByNameAction" text="Найти" />
+                                <Separator layoutX="25.0" layoutY="114.0" prefHeight="2.0" prefWidth="370.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="110.0" />
+                                <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefWidth="1082.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="150.0">
+                                    <columns>
+                                        <TableColumn fx:id="colName" prefWidth="140.0" text="Название" />
+                                        <TableColumn fx:id="colAddress" prefWidth="100.0" text="Адресс" />
+                                        <TableColumn fx:id="colCountry" prefWidth="140.0" text="Страна" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Список отправителей">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button id="custom-button" fx:id="getSendersListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getSendersListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
+                                <TableView fx:id="sendersListTable" layoutX="25.0" layoutY="230.0" prefWidth="1082.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
+                                    <columns>
+                                        <TableColumn fx:id="listName" prefWidth="140.0" text="Название" />
+                                        <TableColumn fx:id="listAddress" prefWidth="100.0" text="Адресс" />
+                                        <TableColumn fx:id="listCountry" prefWidth="140.0" text="Страна" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

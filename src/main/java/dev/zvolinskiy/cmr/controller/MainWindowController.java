@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public class MainWindowController implements Initializable {
 
     private final Resource driverFxml;
+    private final Resource senderFxml;
     private final ApplicationContext applicationContext;
 
     @FXML
@@ -27,20 +28,25 @@ public class MainWindowController implements Initializable {
     @FXML
     public Button driverButton;
     @FXML
+    public Button senderButton;
+    @FXML
     private Button closeButton;
     @FXML
     private AnchorPane rootAnchorPane;
 
-    public MainWindowController(@Value("classpath:/fx/driver.fxml") Resource driverFxml, ApplicationContext applicationContext) {
+    public MainWindowController(
+                                @Value("classpath:/fx/driver.fxml") Resource driverFxml,
+                                @Value("classpath:/fx/sender.fxml") Resource senderFxml,
+                                ApplicationContext applicationContext) {
         this.driverFxml = driverFxml;
+        this.senderFxml = senderFxml;
         this.applicationContext = applicationContext;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        driverButton.setOnAction(event -> {
-            driverButtonAction();
-        });
+        driverButton.setOnAction(event -> driverButtonAction());
+        senderButton.setOnAction(event -> senderButtonAction());
     }
 
     public void closeButtonAction() {
@@ -56,6 +62,18 @@ public class MainWindowController implements Initializable {
     public void driverButtonAction() {
         try {
             URL url = this.driverFxml.getURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            loader.setControllerFactory(applicationContext::getBean);
+            Node node = loader.load();
+            rootAnchorPane.getChildren().set(0, node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void senderButtonAction() {
+        try {
+            URL url = this.senderFxml.getURL();
             FXMLLoader loader = new FXMLLoader(url);
             loader.setControllerFactory(applicationContext::getBean);
             Node node = loader.load();
