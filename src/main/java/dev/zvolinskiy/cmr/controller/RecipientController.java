@@ -88,7 +88,8 @@ public class RecipientController implements Initializable {
     private void refresh() {
         tfRecipientName.clear();
         tfRecipientAddress.clear();
-        cbCountryList.cancelEdit();
+        cbCountryList.getSelectionModel().clearSelection();
+        cbCountryList.setValue(null);
     }
 
     public void searchRecipientByNameAction() {

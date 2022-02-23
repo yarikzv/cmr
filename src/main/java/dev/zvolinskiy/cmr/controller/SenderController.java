@@ -88,7 +88,8 @@ public class SenderController implements Initializable {
     private void refresh() {
         tfSenderName.clear();
         tfSenderAddress.clear();
-        cbCountryList.cancelEdit();
+        cbCountryList.getSelectionModel().clearSelection();
+        cbCountryList.setValue(null);
     }
 
     public void searchSenderByNameAction() {

@@ -32,6 +32,11 @@ public class PlaceOfLoadingServiceImpl implements PlaceOfLoadingService {
     }
 
     @Override
+    public List<PlaceOfLoading> findAllPlaceOfLoading() {
+        return (List<PlaceOfLoading>) placeOfLoadingRepo.findAll();
+    }
+
+    @Override
     public void deletePlaceOfLoading(PlaceOfLoading placeOfLoading) {
         placeOfLoadingRepo.delete(placeOfLoading);
     }

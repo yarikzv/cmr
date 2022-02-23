@@ -91,6 +91,14 @@
                         <Font size="14.0"/>
                     </font>
                 </Button>
+                <Button id="custom-button" fx:id="placeOfLoadingButton" alignment="CENTER" blendMode="DARKEN"
+                        contentDisplay="CENTER" layoutX="30.0" layoutY="360.0" mnemonicParsing="false"
+                        onAction="#polButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css"
+                        text="Место погрузки">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Button>
             </children>
         </AnchorPane>
     </children>

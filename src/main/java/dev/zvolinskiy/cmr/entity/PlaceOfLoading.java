@@ -1,11 +1,17 @@
 package dev.zvolinskiy.cmr.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "place_of_loading")
 public class PlaceOfLoading {
 

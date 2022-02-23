@@ -12,5 +12,7 @@ public interface PlaceOfLoadingService {
 
     List<PlaceOfLoading> findPlaceOfLoadingByAddress(String address);
 
+    List<PlaceOfLoading> findAllPlaceOfLoading();
+
     void deletePlaceOfLoading(PlaceOfLoading placeOfLoading);
 }
