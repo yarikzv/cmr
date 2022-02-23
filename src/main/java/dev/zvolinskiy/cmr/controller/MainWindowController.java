@@ -24,6 +24,7 @@ public class MainWindowController implements Initializable {
     private final Resource recipientFxml;
     private final Resource podFxml;
     private final Resource polFxml;
+    private final Resource containerFxml;
     private final ApplicationContext applicationContext;
 
     @FXML
@@ -39,6 +40,8 @@ public class MainWindowController implements Initializable {
     @FXML
     public Button placeOfLoadingButton;
     @FXML
+    public Button containerButton;
+    @FXML
     private Button closeButton;
     @FXML
     private AnchorPane rootAnchorPane;
@@ -49,12 +52,14 @@ public class MainWindowController implements Initializable {
             @Value("classpath:/fx/recipient.fxml") Resource recipientFxml,
             @Value("classpath:/fx/pod.fxml") Resource podFxml,
             @Value("classpath:/fx/pol.fxml") Resource polFxml,
+            @Value("classpath:/fx/container.fxml") Resource containerFxml,
             ApplicationContext applicationContext) {
         this.driverFxml = driverFxml;
         this.senderFxml = senderFxml;
         this.recipientFxml = recipientFxml;
         this.podFxml = podFxml;
         this.polFxml = polFxml;
+        this.containerFxml = containerFxml;
         this.applicationContext = applicationContext;
     }
 
@@ -92,6 +97,10 @@ public class MainWindowController implements Initializable {
     }
     public void polButtonAction() {
         customSceneLoader(polFxml);
+    }
+
+    public void containerButtonAction() {
+        customSceneLoader(containerFxml);
     }
 
     private void customSceneLoader(Resource resourceFxml) {

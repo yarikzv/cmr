@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="container-anchor-pane" fx:id="containerAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1800.0" prefWidth="2400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.ContainerController">
+    <children>
+        <TabPane id="container-tab-pane" fx:id="containerTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+            <tabs>
+                <Tab fx:id="addContainerTab" text="Добавить контейнер">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="400.0">
+                                    <image>
+                                        <Image url="@images/truck.jpg" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="26.0" layoutY="24.0" text="Номер контейнера" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                                <TextField id="custom-text-field" fx:id="tfContainerNumber" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="270.0" promptText="Номер контейнера" stylesheets="@styles.css" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="25.0" layoutY="104.0" text="Тип контейнера" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="74.0" />
+                                <TextField id="custom-text-field" fx:id="tfContainerType" layoutX="91.0" layoutY="99.0" prefWidth="270.0" promptText="Тип контейнера" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="70.0" />
+                                <Button id="custom-button" fx:id="saveContainerButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveContainerAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="130.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Список контейнеров">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button id="custom-button" fx:id="getContainerListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getContainerListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
+                                <TableView fx:id="containerListTable" layoutX="25.0" layoutY="230.0" prefWidth="352.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
+                                    <columns>
+                                        <TableColumn fx:id="listNumber" prefWidth="250.0" text="Номер контейнера" />
+                                        <TableColumn fx:id="listType" prefWidth="100.0" text="Тип контейнера" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
