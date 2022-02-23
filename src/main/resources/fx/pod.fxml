@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="pod-anchor-pane" fx:id="podAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1800.0" prefWidth="2400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.PlaceOfDeliveryController">
+    <children>
+        <TabPane id="pod-tab-pane" fx:id="podTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+            <tabs>
+                <Tab fx:id="addPlaceOfDeliveryTab" text="Добавить место доставки">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="400.0">
+                                    <image>
+                                        <Image url="@images/truck.jpg" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="26.0" layoutY="24.0" text="Место доставки" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                                <TextField id="custom-text-field" fx:id="tfPlaceOfDeliveryAddress" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="270.0" promptText="Место доставки" stylesheets="@styles.css" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="25.0" layoutY="104.0" text="Страна" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="74.0" />
+                                <Button id="custom-button" fx:id="savePlaceOfDeliveryButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#savePlaceOfDeliveryAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="130.0" />
+                                <ComboBox fx:id="cbCountryList" editable="true" layoutX="91.0" layoutY="99.0" prefWidth="300.0" promptText="Страна" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="70.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Список мест доставки">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button id="custom-button" fx:id="getPlaceOfDeliveryListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getPlaceOfDeliveryListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
+                                <TableView fx:id="podListTable" layoutX="25.0" layoutY="230.0" prefWidth="352.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
+                                    <columns>
+                                        <TableColumn fx:id="listAddress" prefWidth="250.0" text="Место доставки" />
+                                        <TableColumn fx:id="listCountry" prefWidth="100.0" text="Страна" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

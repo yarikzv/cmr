@@ -32,6 +32,11 @@ public class PlaceOfDeliveryServiceImpl implements PlaceOfDeliveryService {
     }
 
     @Override
+    public List<PlaceOfDelivery> findAllPlaceOfDelivery() {
+        return (List<PlaceOfDelivery>) placeOfDeliveryRepo.findAll();
+    }
+
+    @Override
     public void deletePlaceOfDelivery(PlaceOfDelivery placeOfDelivery) {
         placeOfDeliveryRepo.delete(placeOfDelivery);
     }

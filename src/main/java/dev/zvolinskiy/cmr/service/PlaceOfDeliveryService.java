@@ -12,5 +12,7 @@ public interface PlaceOfDeliveryService {
 
     List<PlaceOfDelivery> findPlaceOfDeliveryByAddress(String address);
 
+    List<PlaceOfDelivery> findAllPlaceOfDelivery();
+
     void deletePlaceOfDelivery(PlaceOfDelivery placeOfDelivery);
 }
