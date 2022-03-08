@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 @Component
 public class MainWindowController implements Initializable {
 
+    private final Resource cmrFxml;
     private final Resource driverFxml;
     private final Resource senderFxml;
     private final Resource recipientFxml;
@@ -47,6 +48,7 @@ public class MainWindowController implements Initializable {
     private AnchorPane rootAnchorPane;
 
     public MainWindowController(
+            @Value("classpath:/fx/cmr.fxml") Resource cmrFxml,
             @Value("classpath:/fx/driver.fxml") Resource driverFxml,
             @Value("classpath:/fx/sender.fxml") Resource senderFxml,
             @Value("classpath:/fx/recipient.fxml") Resource recipientFxml,
@@ -54,6 +56,7 @@ public class MainWindowController implements Initializable {
             @Value("classpath:/fx/pol.fxml") Resource polFxml,
             @Value("classpath:/fx/container.fxml") Resource containerFxml,
             ApplicationContext applicationContext) {
+        this.cmrFxml = cmrFxml;
         this.driverFxml = driverFxml;
         this.senderFxml = senderFxml;
         this.recipientFxml = recipientFxml;
@@ -77,7 +80,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void cmrButtonAction() {
-
+        customSceneLoader(cmrFxml);
     }
 
     public void driverButtonAction() {
@@ -95,6 +98,7 @@ public class MainWindowController implements Initializable {
     public void podButtonAction() {
         customSceneLoader(podFxml);
     }
+
     public void polButtonAction() {
         customSceneLoader(polFxml);
     }
