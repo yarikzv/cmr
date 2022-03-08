@@ -1,20 +1,23 @@
 package dev.zvolinskiy.cmr.controller;
 
-import dev.zvolinskiy.cmr.entity.CMR;
-import dev.zvolinskiy.cmr.entity.Container;
+import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.service.*;
+import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Controller
 @RequiredArgsConstructor
-public class CMRController {
+public class CMRController implements Initializable {
     private final CMRService cmrService;
     private final SenderService senderService;
     private final RecipientService recipientService;
@@ -142,5 +145,23 @@ public class CMRController {
     }
 
     public void addNewDriver() {
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbSenderList);
+        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbRecipientList);
+        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOD);
+        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOL);
+        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
+        new AutoCompleteComboBoxListener<>(cbContainerList);
+        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
+                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
+                .toList());
+        new AutoCompleteComboBoxListener<>(cbDriverList);
     }
 }
