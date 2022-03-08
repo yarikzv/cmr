@@ -35,8 +35,7 @@ public class CMRServiceImpl implements CMRService {
 
     @Override
     public List<CMR> findCMRByContainerNumber(String number) {
-        List<Container> containerByNumber = containerService.findContainerByNumber(number);
-        Container container = containerByNumber.stream().findFirst().orElse(null);
+        Container container = containerService.findContainerByNumber(number);
         if (container != null) {
             return cmrRepo.findCMRSByContainerContaining(container);
         } else {
@@ -51,8 +50,7 @@ public class CMRServiceImpl implements CMRService {
 
     @Override
     public List<CMR> findCMRByRecipientName(String recipientName) {
-        List<Recipient> recipients = recipientService.findRecipientByName(recipientName);
-        Recipient recipient = recipients.stream().findFirst().orElse(null);
+        Recipient recipient = recipientService.findRecipientByName(recipientName);
         if (recipient != null) {
             return cmrRepo.findCMRSByRecipient(recipient);
         } else {

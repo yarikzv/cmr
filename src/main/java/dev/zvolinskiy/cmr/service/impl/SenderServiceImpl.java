@@ -27,8 +27,8 @@ public class SenderServiceImpl implements SenderService {
     }
 
     @Override
-    public List<Sender> findSenderByName(String name) {
-        return senderRepo.findSendersByNameContaining(name);
+    public Sender findSenderByName(String name) {
+        return senderRepo.findSendersByName(name);
     }
 
     @Override

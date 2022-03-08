@@ -10,7 +10,7 @@ public interface PlaceOfLoadingService {
 
     PlaceOfLoading findPlaceOfLoadingById(Integer id);
 
-    List<PlaceOfLoading> findPlaceOfLoadingByAddress(String address);
+    PlaceOfLoading findPlaceOfLoadingByAddress(String address);
 
     List<PlaceOfLoading> findAllPlaceOfLoading();
 

@@ -10,7 +10,7 @@ public interface RecipientService {
 
     Recipient findRecipientById(Integer id);
 
-    List<Recipient> findRecipientByName(String name);
+    Recipient findRecipientByName(String name);
 
     List<Recipient> findAllRecipient();
 

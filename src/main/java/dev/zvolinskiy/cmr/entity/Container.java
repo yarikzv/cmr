@@ -18,11 +18,11 @@ public class Container {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
 
     @Column(name = "number")
-    String number;
+    private String number;
 
     @Column(name = "type")
-    String type;
+    private String type;
 }

@@ -18,12 +18,12 @@ public class PlaceOfDelivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
 
     @Column(name = "address")
-    String address;
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
-    Country country;
+    private Country country;
 }

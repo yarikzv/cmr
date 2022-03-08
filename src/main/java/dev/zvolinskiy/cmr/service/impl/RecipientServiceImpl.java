@@ -27,8 +27,8 @@ public class RecipientServiceImpl implements RecipientService {
     }
 
     @Override
-    public List<Recipient> findRecipientByName(String name) {
-        return recipientRepo.findRecipientsByNameContaining(name);
+    public Recipient findRecipientByName(String name) {
+        return recipientRepo.findRecipientsByName(name);
     }
 
     @Override

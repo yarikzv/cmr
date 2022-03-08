@@ -1,6 +1,9 @@
 package dev.zvolinskiy.cmr.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,59 +12,68 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cmr")
 public class CMR {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
 
     @Column(name = "number")
-    String number;
+    private String number;
 
     @Column(name = "date")
-    LocalDate date;
+    private LocalDate date;
+
+    @Column(name = "order_number")
+    private String orderNumber;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "sender_id")
-    Sender sender;
+    private Sender sender;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "recipient_id")
-    Recipient recipient;
+    private Recipient recipient;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "place_of_delivery_id")
-    PlaceOfDelivery placeOfDelivery;
+    private PlaceOfDelivery placeOfDelivery;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "place_of_loading_id")
-    PlaceOfLoading placeOfLoading;
+    private PlaceOfLoading placeOfLoading;
 
     @Column(name = "documents")
-    String documents;
+    private String documents;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "container_id")
-    Container container;
+    private Container container;
 
     @Column(name = "cargo_name")
-    String cargoName;
+    private String cargoName;
 
     @Column(name = "cargo_quantity")
-    Integer cargoQuantity;
+    private Integer cargoQuantity;
 
     @Column(name = "cargo_weight")
-    String cargoWeight;
+    private String cargoWeight;
 
     @Column(name = "cargo_code")
-    Long cargoCode;
+    private Long cargoCode;
+
+    @Column(name = "senders_instructions")
+    private String sendersInstructions;
 
     @Column(name = "place_of_issue")
-    String placeOfIssue;
+    private String placeOfIssue;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     @JoinColumn(name = "driver_id")
-    Driver driver;
+    private Driver driver;
 }

@@ -27,8 +27,8 @@ public class PlaceOfDeliveryServiceImpl implements PlaceOfDeliveryService {
     }
 
     @Override
-    public List<PlaceOfDelivery> findPlaceOfDeliveryByAddress(String address) {
-        return placeOfDeliveryRepo.findPlaceOfDeliveriesByAddress(address);
+    public PlaceOfDelivery findPlaceOfDeliveryByAddress(String address) {
+        return placeOfDeliveryRepo.findPlaceOfDeliveryByAddress(address);
     }
 
     @Override

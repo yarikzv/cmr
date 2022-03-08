@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -93,7 +94,8 @@ public class SenderController implements Initializable {
     }
 
     public void searchSenderByNameAction() {
-        List<Sender> sendersByName = senderService.findSenderByName(tfSenderNameSearch.getText());
+        List<Sender> sendersByName = new ArrayList<>();
+                sendersByName.add(senderService.findSenderByName(tfSenderNameSearch.getText()));
         fillTableBySearchResult(sendersByName,
                 colName,
                 colAddress,

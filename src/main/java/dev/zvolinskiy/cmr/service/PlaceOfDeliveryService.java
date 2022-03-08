@@ -10,7 +10,7 @@ public interface PlaceOfDeliveryService {
 
     PlaceOfDelivery findPlaceOfDeliveryById(Integer id);
 
-    List<PlaceOfDelivery> findPlaceOfDeliveryByAddress(String address);
+    PlaceOfDelivery findPlaceOfDeliveryByAddress(String address);
 
     List<PlaceOfDelivery> findAllPlaceOfDelivery();
 

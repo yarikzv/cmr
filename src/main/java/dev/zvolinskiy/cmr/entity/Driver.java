@@ -15,24 +15,24 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
 
     @Column(name = "firstname")
-    String firstName;
+    private String firstName;
 
     @Column(name = "middlename")
-    String middleName;
+    private String middleName;
 
     @Column(name = "lastname")
-    String lastName;
+    private String lastName;
 
     @OneToOne
-    Passport passport;
+    private Passport passport;
 
     @Column(name = "truck")
-    String truck;
+    private String truck;
 
     @Column(name = "trailer")
-    String trailer;
+    private String trailer;
 
 }

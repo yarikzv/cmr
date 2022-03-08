@@ -10,7 +10,7 @@ public interface SenderService {
 
     Sender findSenderById(Integer id);
 
-    List<Sender> findSenderByName(String name);
+    Sender findSenderByName(String name);
 
     List<Sender> findAllSenders();
 

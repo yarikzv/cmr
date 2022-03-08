@@ -19,14 +19,14 @@ public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
 
     @Column(name = "number")
-    String number;
+    private String number;
 
     @Column(name = "date")
-    LocalDate date;
+    private LocalDate date;
 
     @Column(name = "issue")
-    String issue;
+    private String issue;
 }

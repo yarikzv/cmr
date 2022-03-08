@@ -27,8 +27,8 @@ public class ContainerServiceImpl implements ContainerService {
     }
 
     @Override
-    public List<Container> findContainerByNumber(String number) {
-        return containerRepo.findContainersByNumberContaining(number);
+    public Container findContainerByNumber(String number) {
+        return containerRepo.findContainerByNumber(number);
     }
 
     @Override

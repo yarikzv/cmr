@@ -10,7 +10,7 @@ public interface ContainerService {
 
     Container findContainerById(Integer id);
 
-    List<Container> findContainerByNumber(String number);
+    Container findContainerByNumber(String number);
 
     List<Container> findAllContainers();
 

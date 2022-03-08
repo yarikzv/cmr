@@ -27,7 +27,7 @@ public class PlaceOfLoadingServiceImpl implements PlaceOfLoadingService {
     }
 
     @Override
-    public List<PlaceOfLoading> findPlaceOfLoadingByAddress(String address) {
+    public PlaceOfLoading findPlaceOfLoadingByAddress(String address) {
         return placeOfLoadingRepo.findPlaceOfLoadingsByAddress(address);
     }
 
