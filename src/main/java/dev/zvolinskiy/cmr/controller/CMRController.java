@@ -3,6 +3,7 @@ package dev.zvolinskiy.cmr.controller;
 import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.service.*;
 import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,6 +46,8 @@ public class CMRController implements Initializable {
     public Button bNewDriver;
     @FXML
     public Button saveCmrButton;
+    @FXML
+    public Button closeButton;
     @FXML
     public ComboBox<String> cbSenderList;
     @FXML
@@ -80,11 +84,50 @@ public class CMRController implements Initializable {
     public TextField tfCargoCode;
     @FXML
     public TextField tfIssuePlace;
+    @FXML
+    public Button getContainerListButton;
+    @FXML
+    public TableView<CMR> cmrListTable;
+    @FXML
+    public TableColumn<CMR, String> listNumber;
+    @FXML
+    public TableColumn<CMR, String> listDate;
+    @FXML
+    public TableColumn<CMR, String> listOrder;
+    @FXML
+    public TableColumn<CMR, String> listSender;
+    @FXML
+    public TableColumn<CMR, String> listRecipient;
+    @FXML
+    public TableColumn<CMR, String> listPOD;
+    @FXML
+    public TableColumn<CMR, String> listPOL;
+    @FXML
+    public TableColumn<CMR, String> listDocuments;
+    @FXML
+    public TableColumn<CMR, String> listContainer;
+    @FXML
+    public TableColumn<CMR, String> listCargoName;
+    @FXML
+    public TableColumn<CMR, String> listCargoQuantity;
+    @FXML
+    public TableColumn<CMR, String> listCargoWeight;
+    @FXML
+    public TableColumn<CMR, String> listCargoCode;
+    @FXML
+    public TableColumn<CMR, String> listSenderInstructions;
+    @FXML
+    public TableColumn<CMR, String> listDriver;
+    @FXML
+    public TableColumn<CMR, String> listTruck;
+    @FXML
+    public TableColumn<CMR, String> listTrailer;
 
 
     public void saveCmrAction() {
         String cmrNumber = tfCMRNumber.getText();
         LocalDate cmrDate = dpCMRDate.getValue();
+        String cmrOrderNumber = tfOrderNumber.getText();
         String cmrSender = cbSenderList.getValue();
         String cmrRecipient = cbRecipientList.getValue();
         String cmrPOD = cbPOD.getValue();
@@ -102,6 +145,7 @@ public class CMRController implements Initializable {
         CMR cmr = CMR.builder()
                 .number(cmrNumber)
                 .date(cmrDate)
+                .orderNumber(cmrOrderNumber)
                 .sender(senderService.findSenderByName(cmrSender))
                 .recipient(recipientService.findRecipientByName(cmrRecipient))
                 .placeOfDelivery(podService.findPlaceOfDeliveryByAddress(cmrPOD))
@@ -137,24 +181,80 @@ public class CMRController implements Initializable {
         tfCargoWeight.clear();
         tfCargoCode.clear();
         tfIssuePlace.clear();
+        dpCMRDate.getEditor().clear();
+        cbSenderList.setValue(null);
+        cbRecipientList.setValue(null);
+        cbPOD.setValue(null);
+        cbPOL.setValue(null);
+        cbContainerList.setValue(null);
+        cbDriverList.setValue(null);
     }
 
     public void getCmrListAction() {
-//        List<CMR> cmrList = cmrService.findAllCMRs();
-//        fillTableBySearchResult(cmrList,
-//                listNumber,
-//                listType,
-//                containerListTable);
+        List<CMR> cmrList = cmrService.findAllCMRs();
+        fillTableBySearchResult(cmrList,
+                listNumber,
+                listDate,
+                listOrder,
+                listSender,
+                listRecipient,
+                listPOD,
+                listPOL,
+                listDocuments,
+                listContainer,
+                listCargoName,
+                listCargoQuantity,
+                listCargoWeight,
+                listCargoCode,
+                listSenderInstructions,
+                listDriver,
+                listTruck,
+                listTrailer,
+                cmrListTable);
     }
 
-    private void fillTableBySearchResult(List<Container> containers,
-                                         TableColumn<Container, String> number,
-                                         TableColumn<Container, String> type,
-                                         TableView<Container> table
+    private void fillTableBySearchResult(List<CMR> cmrList,
+                                         TableColumn<CMR, String> number,
+                                         TableColumn<CMR, String> date,
+                                         TableColumn<CMR, String> order,
+                                         TableColumn<CMR, String> sender,
+                                         TableColumn<CMR, String> recipient,
+                                         TableColumn<CMR, String> pod,
+                                         TableColumn<CMR, String> pol,
+                                         TableColumn<CMR, String> documents,
+                                         TableColumn<CMR, String> container,
+                                         TableColumn<CMR, String> cargoName,
+                                         TableColumn<CMR, String> cargoQuantity,
+                                         TableColumn<CMR, String> cargoWeight,
+                                         TableColumn<CMR, String> cargoCode,
+                                         TableColumn<CMR, String> senderInstructions,
+                                         TableColumn<CMR, String> driver,
+                                         TableColumn<CMR, String> truck,
+                                         TableColumn<CMR, String> trailer,
+                                         TableView<CMR> table
     ) {
         number.setCellValueFactory(new PropertyValueFactory<>("number"));
-        type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        table.getItems().setAll(containers);
+        date.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getDate()
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+        order.setCellValueFactory(o -> new SimpleStringProperty(o.getValue().getOrderNumber()));
+        sender.setCellValueFactory(s -> new SimpleStringProperty(s.getValue().getSender().getName()));
+        recipient.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().getRecipient().getName()));
+        pod.setCellValueFactory(pd -> new SimpleStringProperty(pd.getValue().getPlaceOfDelivery().getAddress()));
+        pol.setCellValueFactory(pl -> new SimpleStringProperty(pl.getValue().getPlaceOfLoading().getAddress()));
+        documents.setCellValueFactory(doc -> new SimpleStringProperty(doc.getValue().getDocuments()));
+        container.setCellValueFactory(cont -> new SimpleStringProperty(cont.getValue().getContainer().getNumber()));
+        cargoName.setCellValueFactory(new PropertyValueFactory<>("cargoName"));
+        cargoQuantity.setCellValueFactory(new PropertyValueFactory<>("cargoQuantity"));
+        cargoWeight.setCellValueFactory(new PropertyValueFactory<>("cargoWeight"));
+        cargoCode.setCellValueFactory(new PropertyValueFactory<>("cargoCode"));
+        senderInstructions.setCellValueFactory(si -> new SimpleStringProperty(si.getValue().getSendersInstructions()));
+        driver.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getDriver().getLastName()
+                        + " " + d.getValue().getDriver().getFirstName()
+                        + " " + d.getValue().getDriver().getMiddleName()));
+        truck.setCellValueFactory(trk -> new SimpleStringProperty(trk.getValue().getDriver().getTruck()));
+        trailer.setCellValueFactory(trl -> new SimpleStringProperty(trl.getValue().getDriver().getTrailer()));
+        table.getItems().setAll(cmrList);
     }
 
     public void addNewSender() {
@@ -211,5 +311,9 @@ public class CMRController implements Initializable {
                 .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
                 .toList());
         new AutoCompleteComboBoxListener<>(cbDriverList);
+    }
+
+    public void closeButtonAction() {
+        cmrAnchorPane.getScene().getWindow().hide();
     }
 }

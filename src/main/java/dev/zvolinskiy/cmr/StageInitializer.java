@@ -20,7 +20,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     private final Resource fxml;
     private final ApplicationContext applicationContext;
 
-    public StageInitializer(@Value("classpath:/fx/scene.fxml") Resource fxml, ApplicationContext applicationContext) {
+    public StageInitializer(@Value("classpath:/fx/main_scene.fxml") Resource fxml, ApplicationContext applicationContext) {
         this.fxml = fxml;
         this.applicationContext = applicationContext;
     }
