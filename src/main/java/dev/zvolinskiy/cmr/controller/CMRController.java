@@ -174,7 +174,6 @@ public class CMRController implements Initializable {
         try {
             CMR cmr = fillCmr();
             cmrService.saveCMR(cmr);
-
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     "CMR №" +
                             cmr.getNumber() +
@@ -213,7 +212,6 @@ public class CMRController implements Initializable {
         taDocuments.clear();
         taCargoName.clear();
         taSenderInstructions.clear();
-
     }
 
     public void getCmrListAction() {
