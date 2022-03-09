@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -160,9 +161,9 @@ public class CMRController implements Initializable {
                 .documents(cmrDocuments)
                 .container(containerService.findContainerByNumber(cmrContainer))
                 .cargoName(cmrCargoName)
-                .cargoQuantity(Integer.valueOf(cmrCargoQuantity))
+                .cargoQuantity(cmrCargoQuantity)
                 .cargoWeight(cmrCargoWeight)
-                .cargoCode(Long.valueOf(cmrCargoCode))
+                .cargoCode(cmrCargoCode)
                 .sendersInstructions(cmrSendersInstructions)
                 .placeOfIssue(cmrIssuePlace)
                 .driver(driverService.findDriverByFullName(cmrDriver))
@@ -170,18 +171,28 @@ public class CMRController implements Initializable {
     }
 
     public void saveCmrAction() {
+        try {
+            CMR cmr = fillCmr();
+            cmrService.saveCMR(cmr);
 
-        CMR cmr = fillCmr();
-        cmrService.saveCMR(cmr);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "CMR №" +
-                        cmr.getNumber() +
-                        " успешно сохранена в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "CMR №" +
+                            cmr.getNumber() +
+                            " успешно сохранена в базу данных!",
+                    ButtonType.OK);
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) alert.close();
+            });
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Необходимо заполнить обязательные поля",
+                    ButtonType.OK);
+            alert.setHeaderText("Внимание!");
+            alert.setTitle("Внимание!");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) alert.close();
+            });
+        }
         refresh();
     }
 
@@ -329,6 +340,7 @@ public class CMRController implements Initializable {
     }
 
     public void closeButtonAction() {
+        cleanUp();
         cmrAnchorPane.getScene().getWindow().hide();
     }
 
@@ -342,5 +354,10 @@ public class CMRController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void cleanUp() {
+        File folder = new File(System.getProperty("user.dir"));
+        Arrays.stream(folder.listFiles()).filter(f -> f.getName().endsWith(".pdf")).forEach(File::delete);
     }
 }

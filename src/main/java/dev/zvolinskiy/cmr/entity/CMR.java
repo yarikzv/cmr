@@ -57,13 +57,13 @@ public class CMR {
     private String cargoName;
 
     @Column(name = "cargo_quantity")
-    private Integer cargoQuantity;
+    private String cargoQuantity;
 
     @Column(name = "cargo_weight")
     private String cargoWeight;
 
     @Column(name = "cargo_code")
-    private Long cargoCode;
+    private String cargoCode;
 
     @Column(name = "senders_instructions")
     private String sendersInstructions;
