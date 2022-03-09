@@ -53,6 +53,7 @@
                                 <Button fx:id="bNewDriver" layoutX="710.0" layoutY="410.0" mnemonicParsing="false" onAction="#addNewDriver" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="410.0" />
                                 <Separator layoutX="397.0" layoutY="80.0" orientation="VERTICAL" prefHeight="220.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="80.0" />
                                 <Separator layoutX="397.0" layoutY="360.0" orientation="VERTICAL" prefHeight="120.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="360.0" />
+                                <Button id="custom-button" fx:id="createPdfButton" layoutX="59.0" layoutY="523.0" mnemonicParsing="false" onAction="#createPdfAction" stylesheets="@styles.css" text="Просмотр" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="520.0" />
                                 <Button id="custom-button" fx:id="saveCmrButton" layoutX="322.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveCmrAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="520.0" />
                                 <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="520.0" />
                             </children>

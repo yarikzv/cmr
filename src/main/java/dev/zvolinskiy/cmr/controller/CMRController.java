@@ -3,6 +3,7 @@ package dev.zvolinskiy.cmr.controller;
 import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.service.*;
 import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.util.CmrPdfCreator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,8 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +24,7 @@ import java.util.ResourceBundle;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CMRController implements Initializable {
     private final CMRService cmrService;
     private final SenderService senderService;
@@ -122,9 +127,11 @@ public class CMRController implements Initializable {
     public TableColumn<CMR, String> listTruck;
     @FXML
     public TableColumn<CMR, String> listTrailer;
+    @FXML
+    public Button createPdfButton;
 
 
-    public void saveCmrAction() {
+    private CMR fillCmr() {
         String cmrNumber = tfCMRNumber.getText();
         LocalDate cmrDate = dpCMRDate.getValue();
         String cmrOrderNumber = tfOrderNumber.getText();
@@ -142,7 +149,7 @@ public class CMRController implements Initializable {
         String cmrIssuePlace = tfIssuePlace.getText();
         String cmrDriver = cbDriverList.getValue();
 
-        CMR cmr = CMR.builder()
+        return CMR.builder()
                 .number(cmrNumber)
                 .date(cmrDate)
                 .orderNumber(cmrOrderNumber)
@@ -160,7 +167,11 @@ public class CMRController implements Initializable {
                 .placeOfIssue(cmrIssuePlace)
                 .driver(driverService.findDriverByFullName(cmrDriver))
                 .build();
+    }
 
+    public void saveCmrAction() {
+
+        CMR cmr = fillCmr();
         cmrService.saveCMR(cmr);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
@@ -188,6 +199,10 @@ public class CMRController implements Initializable {
         cbPOL.setValue(null);
         cbContainerList.setValue(null);
         cbDriverList.setValue(null);
+        taDocuments.clear();
+        taCargoName.clear();
+        taSenderInstructions.clear();
+
     }
 
     public void getCmrListAction() {
@@ -315,5 +330,17 @@ public class CMRController implements Initializable {
 
     public void closeButtonAction() {
         cmrAnchorPane.getScene().getWindow().hide();
+    }
+
+    public void createPdfAction() {
+        CmrPdfCreator creator = new CmrPdfCreator();
+        CMR cmr = fillCmr();
+        creator.createPdfFile(cmr);
+        File file = new File("CMR" + cmr.getNumber() + ".pdf");
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
