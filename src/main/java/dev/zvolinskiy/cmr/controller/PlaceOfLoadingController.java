@@ -64,13 +64,7 @@ public class PlaceOfLoadingController implements Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfPlaceOfLoadingAddress.clear();
-        cbCountryList.getSelectionModel().clearSelection();
-        cbCountryList.setValue(null);
+        polAnchorPane.getScene().getWindow().hide();
     }
 
     public void getPlaceOfLoadingListAction() {

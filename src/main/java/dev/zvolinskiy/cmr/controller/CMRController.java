@@ -3,6 +3,7 @@ package dev.zvolinskiy.cmr.controller;
 import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.service.*;
 import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,32 +26,59 @@ public class CMRController implements Initializable {
     private final PlaceOfLoadingService polService;
     private final ContainerService containerService;
     private final DriverService driverService;
+    private final MainWindowController mainWindowController;
 
+    @FXML
     public AnchorPane cmrAnchorPane;
+    @FXML
     public Button bNewSender;
+    @FXML
     public Button bNewRecipient;
+    @FXML
     public Button bNewPOL;
+    @FXML
     public Button bNewPOD;
+    @FXML
     public Button bNewContainer;
+    @FXML
     public Button bNewDriver;
+    @FXML
     public Button saveCmrButton;
+    @FXML
     public ComboBox<String> cbSenderList;
+    @FXML
     public ComboBox<String> cbRecipientList;
+    @FXML
     public ComboBox<String> cbPOD;
+    @FXML
     public ComboBox<String> cbPOL;
+    @FXML
     public ComboBox<String> cbContainerList;
+    @FXML
     public ComboBox<String> cbDriverList;
+    @FXML
     public DatePicker dpCMRDate;
+    @FXML
     public Tab addCmrTab;
+    @FXML
     public TabPane cmrTabPane;
+    @FXML
     public TextArea taDocuments;
+    @FXML
     public TextArea taCargoName;
+    @FXML
     public TextArea taSenderInstructions;
+    @FXML
     public TextField tfOrderNumber;
+    @FXML
     public TextField tfCargoQuantity;
+    @FXML
     public TextField tfCMRNumber;
+    @FXML
     public TextField tfCargoWeight;
+    @FXML
     public TextField tfCargoCode;
+    @FXML
     public TextField tfIssuePlace;
 
 
@@ -86,7 +114,7 @@ public class CMRController implements Initializable {
                 .cargoCode(Long.valueOf(cmrCargoCode))
                 .sendersInstructions(cmrSendersInstructions)
                 .placeOfIssue(cmrIssuePlace)
-                .driver(driverService.findDriverByPassport(cmrDriver))
+                .driver(driverService.findDriverByFullName(cmrDriver))
                 .build();
 
         cmrService.saveCMR(cmr);
@@ -130,21 +158,41 @@ public class CMRController implements Initializable {
     }
 
     public void addNewSender() {
+        mainWindowController.senderButtonAction();
+        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbSenderList);
     }
 
     public void addNewRecipient() {
+        mainWindowController.recipientButtonAction();
+        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbRecipientList);
     }
 
     public void addNewPOL() {
+        mainWindowController.polButtonAction();
+        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOL);
     }
 
     public void addNewPOD() {
+        mainWindowController.podButtonAction();
+        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOD);
     }
 
     public void addNewContainer() {
+        mainWindowController.containerButtonAction();
+        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
+        new AutoCompleteComboBoxListener<>(cbContainerList);
     }
 
     public void addNewDriver() {
+        mainWindowController.driverButtonAction();
+        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
+                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
+                .toList());
+        new AutoCompleteComboBoxListener<>(cbDriverList);
     }
 
     @Override

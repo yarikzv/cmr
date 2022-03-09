@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="cmr-anchor-pane" fx:id="cmrAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1800.0" prefWidth="2400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.CMRController">
+<AnchorPane id="cmr-anchor-pane" fx:id="cmrAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.CMRController">
     <children>
-        <TabPane id="cmr-tab-pane" fx:id="cmrTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <TabPane id="cmr-tab-pane" fx:id="cmrTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab fx:id="addCmrTab" text="Добавить CMR">
                     <content>
@@ -23,13 +22,13 @@
                                 <ComboBox fx:id="cbSenderList" layoutX="106.0" layoutY="80.0" prefHeight="31.0" prefWidth="200.0" promptText="Отправитель" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="80.0" />
                                 <Label layoutX="419.0" layoutY="84.0" text="Получатель" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="84.0" />
                                 <ComboBox fx:id="cbRecipientList" layoutX="505.0" layoutY="80.0" prefHeight="31.0" prefWidth="200.0" promptText="Получатель" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="80.0" />
-                                <Button fx:id="bNewSender" layoutX="311.0" layoutY="80.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="80.0" />
-                                <Button fx:id="bNewRecipient" layoutX="710.0" layoutY="80.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="80.0" />
+                                <Button fx:id="bNewSender" layoutX="311.0" layoutY="80.0" mnemonicParsing="false" onAction="#addNewSender" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="80.0" />
+                                <Button fx:id="bNewRecipient" layoutX="710.0" layoutY="80.0" mnemonicParsing="false" onAction="#addNewRecipient" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="80.0" />
                                 <Label layoutX="15.0" layoutY="134.0" text="Погрузка" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="134.0" />
                                 <ComboBox fx:id="cbPOL" layoutX="106.0" layoutY="130.0" prefHeight="31.0" prefWidth="200.0" promptText="Место погрузки" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="130.0" />
-                                <Button fx:id="bNewPOL" layoutX="311.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="130.0" />
+                                <Button fx:id="bNewPOL" layoutX="311.0" layoutY="130.0" mnemonicParsing="false" onAction="#addNewPOL" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="130.0" />
                                 <Label layoutX="419.0" layoutY="134.0" text="Выгрузка" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="134.0" />
-                                <Button fx:id="bNewPOD" layoutX="710.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="130.0" />
+                                <Button fx:id="bNewPOD" layoutX="710.0" layoutY="130.0" mnemonicParsing="false" onAction="#addNewPOD" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="130.0" />
                                 <Label layoutX="540.0" layoutY="24.0" text="Наряд" AnchorPane.leftAnchor="540.0" AnchorPane.topAnchor="24.0" />
                                 <TextField fx:id="tfOrderNumber" layoutX="590.0" layoutY="20.0" prefHeight="31.0" prefWidth="190.0" promptText="Номер и дата наряда" AnchorPane.leftAnchor="590.0" AnchorPane.topAnchor="20.0" />
                                 <Label layoutX="15.0" layoutY="184.0" text="Документы" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="184.0" />
@@ -37,9 +36,9 @@
                                 <TextArea fx:id="taDocuments" layoutX="106.0" layoutY="180.0" prefHeight="60.0" prefWidth="275.0" promptText="Список прилагаемых документов" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="180.0" />
                                 <Label layoutX="15.0" layoutY="264.0" text="Контейнер" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="264.0" />
                                 <ComboBox fx:id="cbContainerList" layoutX="106.0" layoutY="260.0" prefHeight="31.0" prefWidth="200.0" promptText="Контейнер" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="260.0" />
-                                <Button fx:id="bNewContainer" layoutX="311.0" layoutY="260.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="260.0" />
+                                <Button fx:id="bNewContainer" layoutX="311.0" layoutY="260.0" mnemonicParsing="false" onAction="#addNewContainer" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="260.0" />
                                 <Label layoutX="419.0" layoutY="184.0" text="Описание" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="184.0" />
-                        <Label layoutX="453.0" layoutY="204.0" text="груза" AnchorPane.leftAnchor="453.0" AnchorPane.topAnchor="204.0" />
+                                <Label layoutX="453.0" layoutY="204.0" text="груза" AnchorPane.leftAnchor="453.0" AnchorPane.topAnchor="204.0" />
                                 <TextArea fx:id="taCargoName" layoutX="505.0" layoutY="180.0" prefHeight="111.0" prefWidth="275.0" promptText="Наименование и описание груза" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="180.0" />
                                 <Label layoutX="15.0" layoutY="314.0" text="Мест" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="314.0" />
                                 <TextField fx:id="tfCargoQuantity" layoutX="75.0" layoutY="310.0" prefHeight="31.0" prefWidth="135.0" promptText="Кол-во мест" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="310.0" />
@@ -54,9 +53,9 @@
                                 <TextField fx:id="tfIssuePlace" layoutX="530.0" layoutY="360.0" prefHeight="31.0" prefWidth="250.0" promptText="Место издания" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="360.0" />
                                 <Label layoutX="419.0" layoutY="414.0" text="Водитель" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="414.0" />
                                 <ComboBox fx:id="cbDriverList" layoutX="505.0" layoutY="410.0" prefHeight="31.0" prefWidth="200.0" promptText="Водитель" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="410.0" />
-                                <Button fx:id="bNewDriver" layoutX="710.0" layoutY="410.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="410.0" />
-                        <Separator layoutX="397.0" layoutY="80.0" orientation="VERTICAL" prefHeight="220.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="80.0" />
-                        <Separator layoutX="397.0" layoutY="360.0" orientation="VERTICAL" prefHeight="120.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="360.0" />
+                                <Button fx:id="bNewDriver" layoutX="710.0" layoutY="410.0" mnemonicParsing="false" onAction="#addNewDriver" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="410.0" />
+                                <Separator layoutX="397.0" layoutY="80.0" orientation="VERTICAL" prefHeight="220.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="80.0" />
+                                <Separator layoutX="397.0" layoutY="360.0" orientation="VERTICAL" prefHeight="120.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="360.0" />
                             </children>
                         </AnchorPane>
                     </content>

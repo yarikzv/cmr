@@ -128,18 +128,7 @@ public class DriverController {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfDriverPassportSeries.clear();
-        dpDriverPassportDate.getEditor().clear();
-        tfDriverPassportIssue.clear();
-        tfDriverFirstName.clear();
-        tfDriverMiddleName.clear();
-        tfDriverLastName.clear();
-        tfDriverTruck.clear();
-        tfDriverTrailer.clear();
+        driverAnchorPane.getScene().getWindow().hide();
     }
 
     public void searchDriverByLastNameAction() {

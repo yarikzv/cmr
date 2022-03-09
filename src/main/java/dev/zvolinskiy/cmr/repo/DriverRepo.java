@@ -13,4 +13,6 @@ public interface DriverRepo extends CrudRepository<Driver, Integer> {
     List<Driver> findDriverByTruckContaining(String truck);
 
     Driver findDriverByPassport(Passport passport);
+
+    Driver findDriverByLastNameAndFirstNameAndMiddleName(String lastName, String firstName, String middleName);
 }

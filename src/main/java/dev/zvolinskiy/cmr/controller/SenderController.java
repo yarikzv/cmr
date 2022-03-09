@@ -83,14 +83,7 @@ public class SenderController implements Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfSenderName.clear();
-        tfSenderAddress.clear();
-        cbCountryList.getSelectionModel().clearSelection();
-        cbCountryList.setValue(null);
+        senderAnchorPane.getScene().getWindow().hide();
     }
 
     public void searchSenderByNameAction() {

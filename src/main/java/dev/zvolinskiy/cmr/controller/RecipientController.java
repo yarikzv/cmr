@@ -83,14 +83,7 @@ public class RecipientController implements Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfRecipientName.clear();
-        tfRecipientAddress.clear();
-        cbCountryList.getSelectionModel().clearSelection();
-        cbCountryList.setValue(null);
+        recipientAnchorPane.getScene().getWindow().hide();
     }
 
     public void searchRecipientByNameAction() {

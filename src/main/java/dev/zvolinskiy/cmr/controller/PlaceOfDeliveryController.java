@@ -64,13 +64,7 @@ public class PlaceOfDeliveryController implements Initializable {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfPlaceOfDeliveryAddress.clear();
-        cbCountryList.getSelectionModel().clearSelection();
-        cbCountryList.setValue(null);
+        podAnchorPane.getScene().getWindow().hide();
     }
 
     public void getPlaceOfDeliveryListAction() {

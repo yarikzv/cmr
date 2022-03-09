@@ -3,7 +3,7 @@ package dev.zvolinskiy.cmr.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -43,9 +43,9 @@ public class MainWindowController implements Initializable {
     @FXML
     public Button containerButton;
     @FXML
-    private Button closeButton;
+    public Button closeButton;
     @FXML
-    private AnchorPane rootAnchorPane;
+    public AnchorPane rootAnchorPane;
 
     public MainWindowController(
             @Value("classpath:/fx/cmr.fxml") Resource cmrFxml,
@@ -68,9 +68,13 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        cmrButton.setOnAction(event -> cmrButtonAction());
         driverButton.setOnAction(event -> driverButtonAction());
         senderButton.setOnAction(event -> senderButtonAction());
         recipientButton.setOnAction(event -> recipientButtonAction());
+        placeOfDeliveryButton.setOnAction(event -> podButtonAction());
+        placeOfLoadingButton.setOnAction(event -> polButtonAction());
+        containerButton.setOnAction(event -> containerButtonAction());
     }
 
     public void closeButtonAction() {
@@ -112,8 +116,16 @@ public class MainWindowController implements Initializable {
             URL url = resourceFxml.getURL();
             FXMLLoader loader = new FXMLLoader(url);
             loader.setControllerFactory(applicationContext::getBean);
-            Node node = loader.load();
-            rootAnchorPane.getChildren().set(0, node);
+
+//            Node node = loader.load();
+//            rootAnchorPane.getChildren().set(0, node);
+            rootAnchorPane = loader.load();
+            Stage stage = new Stage();
+            Scene scene = new Scene(rootAnchorPane);
+            stage.setScene(scene);
+            stage.setWidth(1000);
+            stage.setHeight(700);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

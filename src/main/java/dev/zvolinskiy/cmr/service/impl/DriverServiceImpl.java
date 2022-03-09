@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -48,6 +49,12 @@ public class DriverServiceImpl implements DriverService {
     public Driver findDriverByPassport(String passportNumber) {
         Passport passportByNumber = passportRepo.findPassportByNumber(passportNumber);
         return driverRepo.findDriverByPassport(passportByNumber);
+    }
+
+    @Override
+    public Driver findDriverByFullName(String fullName) {
+        List<String> driver = Arrays.stream(fullName.split(" ")).toList();
+        return driverRepo.findDriverByLastNameAndFirstNameAndMiddleName(driver.get(0), driver.get(1), driver.get(2));
     }
 
     @Override

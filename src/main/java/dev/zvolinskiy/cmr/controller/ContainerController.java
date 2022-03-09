@@ -56,12 +56,7 @@ public class ContainerController {
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
-        refresh();
-    }
-
-    private void refresh() {
-        tfContainerNumber.clear();
-        tfContainerType.clear();
+        containerAnchorPane.getScene().getWindow().hide();
     }
 
     public void getContainerListAction() {

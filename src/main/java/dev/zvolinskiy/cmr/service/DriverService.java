@@ -18,5 +18,7 @@ public interface DriverService {
 
     Driver findDriverByPassport(String passportNumber);
 
+    Driver findDriverByFullName(String fullName);
+
     void deleteDriver(Driver driver);
 }
