@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import static javax.persistence.CascadeType.*;
-
 @Entity
 @Data
 @Builder
@@ -32,26 +30,26 @@ public class CMR {
     @Column(name = "order_number")
     private String orderNumber;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "sender_id")
     private Sender sender;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "recipient_id")
     private Recipient recipient;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "place_of_delivery_id")
     private PlaceOfDelivery placeOfDelivery;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "place_of_loading_id")
     private PlaceOfLoading placeOfLoading;
 
     @Column(name = "documents")
     private String documents;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "container_id")
     private Container container;
 
@@ -73,7 +71,7 @@ public class CMR {
     @Column(name = "place_of_issue")
     private String placeOfIssue;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "driver_id")
     private Driver driver;
 }
