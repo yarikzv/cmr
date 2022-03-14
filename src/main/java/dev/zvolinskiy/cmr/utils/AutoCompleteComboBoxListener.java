@@ -1,4 +1,4 @@
-package dev.zvolinskiy.cmr.util;
+package dev.zvolinskiy.cmr.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

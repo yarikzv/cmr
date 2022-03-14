@@ -4,7 +4,8 @@ import dev.zvolinskiy.cmr.entity.Country;
 import dev.zvolinskiy.cmr.entity.PlaceOfLoading;
 import dev.zvolinskiy.cmr.service.CountryService;
 import dev.zvolinskiy.cmr.service.PlaceOfLoadingService;
-import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -44,27 +46,24 @@ public class PlaceOfLoadingController implements Initializable {
     public Button getPlaceOfLoadingListButton;
     @FXML
     public TableView<PlaceOfLoading> polListTable;
+    @FXML
+    public Button closeButton;
 
     public void savePlaceOfLoadingAction() {
         String polAddress = tfPlaceOfLoadingAddress.getText();
+        @NotNull
         String polCountry = cbCountryList.getValue();
 
-        PlaceOfLoading pol = PlaceOfLoading.builder()
-                .address(polAddress)
-                .country(countryService.findCountryByName(polCountry))
-                .build();
-
-        polService.savePlaceOfLoading(pol);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Место погрузки " +
-                        pol.getAddress() +
-                        " успешно сохранено в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
-        polAnchorPane.getScene().getWindow().hide();
+        if (!polAddress.equals("") && polCountry != null) {
+            PlaceOfLoading pol = PlaceOfLoading.builder()
+                    .address(polAddress)
+                    .country(countryService.findCountryByName(polCountry))
+                    .build();
+            polService.savePlaceOfLoading(pol);
+            Alerts.successAlert("Место погрузки " + pol.getAddress() + " успешно сохранено в базу данных!");
+        } else {
+            Alerts.errorAlert("Заполните поля!");
+        }
     }
 
     public void getPlaceOfLoadingListAction() {
@@ -89,5 +88,9 @@ public class PlaceOfLoadingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
         new AutoCompleteComboBoxListener<>(cbCountryList);
+    }
+
+    public void closeButtonAction() {
+        polAnchorPane.getScene().getWindow().hide();
     }
 }

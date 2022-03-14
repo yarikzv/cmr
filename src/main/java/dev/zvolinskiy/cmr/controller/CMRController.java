@@ -2,8 +2,9 @@ package dev.zvolinskiy.cmr.controller;
 
 import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.service.*;
-import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
-import dev.zvolinskiy.cmr.util.CmrPdfCreator;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.utils.CmrPdfCreator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -131,6 +132,112 @@ public class CMRController implements Initializable {
     @FXML
     public Button createPdfButton;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbSenderList);
+        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbRecipientList);
+        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOD);
+        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOL);
+        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
+        new AutoCompleteComboBoxListener<>(cbContainerList);
+        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
+                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
+                .toList());
+        new AutoCompleteComboBoxListener<>(cbDriverList);
+    }
+
+    public void saveCmrAction() {
+        try {
+            CMR cmr = fillCmr();
+            cmrService.saveCMR(cmr);
+            Alerts.successAlert("CMR №" + cmr.getNumber() + " успешно сохранена в базу данных!");
+        } catch (Exception e) {
+            Alerts.errorAlert("Заполните все поля!");
+        }
+        refresh();
+    }
+
+    public void getCmrListAction() {
+        List<CMR> cmrList = cmrService.findAllCMRs();
+        fillTableBySearchResult(cmrList,
+                listNumber,
+                listDate,
+                listOrder,
+                listSender,
+                listRecipient,
+                listPOD,
+                listPOL,
+                listDocuments,
+                listContainer,
+                listCargoName,
+                listCargoQuantity,
+                listCargoWeight,
+                listCargoCode,
+                listSenderInstructions,
+                listDriver,
+                listTruck,
+                listTrailer,
+                cmrListTable);
+    }
+
+    public void addNewSender() {
+        mainWindowController.senderButtonAction();
+        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbSenderList);
+    }
+
+    public void addNewRecipient() {
+        mainWindowController.recipientButtonAction();
+        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbRecipientList);
+    }
+
+    public void addNewPOL() {
+        mainWindowController.polButtonAction();
+        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOL);
+    }
+
+    public void addNewPOD() {
+        mainWindowController.podButtonAction();
+        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
+        new AutoCompleteComboBoxListener<>(cbPOD);
+    }
+
+    public void addNewContainer() {
+        mainWindowController.containerButtonAction();
+        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
+        new AutoCompleteComboBoxListener<>(cbContainerList);
+    }
+
+    public void addNewDriver() {
+        mainWindowController.driverButtonAction();
+        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
+                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
+                .toList());
+        new AutoCompleteComboBoxListener<>(cbDriverList);
+    }
+
+    public void closeButtonAction() {
+        cleanUp();
+        cmrAnchorPane.getScene().getWindow().hide();
+    }
+
+    public void createPdfAction() {
+        CmrPdfCreator creator = new CmrPdfCreator();
+        CMR cmr = fillCmr();
+        creator.createPdfFile(cmr);
+        File file = new File("CMR" + cmr.getNumber() + ".pdf");
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private CMR fillCmr() {
         String cmrNumber = tfCMRNumber.getText();
@@ -168,73 +275,6 @@ public class CMRController implements Initializable {
                 .placeOfIssue(cmrIssuePlace)
                 .driver(driverService.findDriverByFullName(cmrDriver))
                 .build();
-    }
-
-    public void saveCmrAction() {
-        try {
-            CMR cmr = fillCmr();
-            cmrService.saveCMR(cmr);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "CMR №" +
-                            cmr.getNumber() +
-                            " успешно сохранена в базу данных!",
-                    ButtonType.OK);
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) alert.close();
-            });
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Необходимо заполнить обязательные поля",
-                    ButtonType.OK);
-            alert.setHeaderText("Внимание!");
-            alert.setTitle("Внимание!");
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) alert.close();
-            });
-        }
-        refresh();
-    }
-
-    private void refresh() {
-        tfOrderNumber.clear();
-        tfCargoQuantity.clear();
-        tfCMRNumber.clear();
-        tfCargoWeight.clear();
-        tfCargoCode.clear();
-        tfIssuePlace.clear();
-        dpCMRDate.getEditor().clear();
-        cbSenderList.setValue(null);
-        cbRecipientList.setValue(null);
-        cbPOD.setValue(null);
-        cbPOL.setValue(null);
-        cbContainerList.setValue(null);
-        cbDriverList.setValue(null);
-        taDocuments.clear();
-        taCargoName.clear();
-        taSenderInstructions.clear();
-    }
-
-    public void getCmrListAction() {
-        List<CMR> cmrList = cmrService.findAllCMRs();
-        fillTableBySearchResult(cmrList,
-                listNumber,
-                listDate,
-                listOrder,
-                listSender,
-                listRecipient,
-                listPOD,
-                listPOL,
-                listDocuments,
-                listContainer,
-                listCargoName,
-                listCargoQuantity,
-                listCargoWeight,
-                listCargoCode,
-                listSenderInstructions,
-                listDriver,
-                listTruck,
-                listTrailer,
-                cmrListTable);
     }
 
     private void fillTableBySearchResult(List<CMR> cmrList,
@@ -281,77 +321,23 @@ public class CMRController implements Initializable {
         table.getItems().setAll(cmrList);
     }
 
-    public void addNewSender() {
-        mainWindowController.senderButtonAction();
-        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
-        new AutoCompleteComboBoxListener<>(cbSenderList);
-    }
-
-    public void addNewRecipient() {
-        mainWindowController.recipientButtonAction();
-        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
-        new AutoCompleteComboBoxListener<>(cbRecipientList);
-    }
-
-    public void addNewPOL() {
-        mainWindowController.polButtonAction();
-        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
-        new AutoCompleteComboBoxListener<>(cbPOL);
-    }
-
-    public void addNewPOD() {
-        mainWindowController.podButtonAction();
-        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
-        new AutoCompleteComboBoxListener<>(cbPOD);
-    }
-
-    public void addNewContainer() {
-        mainWindowController.containerButtonAction();
-        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
-        new AutoCompleteComboBoxListener<>(cbContainerList);
-    }
-
-    public void addNewDriver() {
-        mainWindowController.driverButtonAction();
-        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
-                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
-                .toList());
-        new AutoCompleteComboBoxListener<>(cbDriverList);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        cbSenderList.getItems().setAll(senderService.findAllSenders().stream().map(Sender::getName).toList());
-        new AutoCompleteComboBoxListener<>(cbSenderList);
-        cbRecipientList.getItems().setAll(recipientService.findAllRecipient().stream().map(Recipient::getName).toList());
-        new AutoCompleteComboBoxListener<>(cbRecipientList);
-        cbPOD.getItems().setAll(podService.findAllPlaceOfDelivery().stream().map(PlaceOfDelivery::getAddress).toList());
-        new AutoCompleteComboBoxListener<>(cbPOD);
-        cbPOL.getItems().setAll(polService.findAllPlaceOfLoading().stream().map(PlaceOfLoading::getAddress).toList());
-        new AutoCompleteComboBoxListener<>(cbPOL);
-        cbContainerList.getItems().setAll(containerService.findAllContainers().stream().map(Container::getNumber).toList());
-        new AutoCompleteComboBoxListener<>(cbContainerList);
-        cbDriverList.getItems().setAll(driverService.findAllDrivers().stream()
-                .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
-                .toList());
-        new AutoCompleteComboBoxListener<>(cbDriverList);
-    }
-
-    public void closeButtonAction() {
-        cleanUp();
-        cmrAnchorPane.getScene().getWindow().hide();
-    }
-
-    public void createPdfAction() {
-        CmrPdfCreator creator = new CmrPdfCreator();
-        CMR cmr = fillCmr();
-        creator.createPdfFile(cmr);
-        File file = new File("CMR" + cmr.getNumber() + ".pdf");
-        try {
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void refresh() {
+        tfOrderNumber.clear();
+        tfCargoQuantity.clear();
+        tfCMRNumber.clear();
+        tfCargoWeight.clear();
+        tfCargoCode.clear();
+        tfIssuePlace.clear();
+        dpCMRDate.getEditor().clear();
+        cbSenderList.setValue(null);
+        cbRecipientList.setValue(null);
+        cbPOD.setValue(null);
+        cbPOL.setValue(null);
+        cbContainerList.setValue(null);
+        cbDriverList.setValue(null);
+        taDocuments.clear();
+        taCargoName.clear();
+        taSenderInstructions.clear();
     }
 
     private void cleanUp() {

@@ -4,7 +4,8 @@ import dev.zvolinskiy.cmr.entity.Country;
 import dev.zvolinskiy.cmr.entity.Recipient;
 import dev.zvolinskiy.cmr.service.CountryService;
 import dev.zvolinskiy.cmr.service.RecipientService;
-import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,29 +62,25 @@ public class RecipientController implements Initializable {
     public TableColumn<Recipient, String> colCountry;
     @FXML
     public TableView<Recipient> recipientsListTable;
+    @FXML
+    public Button closeButton;
 
     public void saveRecipientAction() {
         String recipientName = tfRecipientName.getText();
         String recipientAddress = tfRecipientAddress.getText();
         String recipientCountry = cbCountryList.getValue();
 
-        Recipient recipient = Recipient.builder()
-                .name(recipientName)
-                .address(recipientAddress)
-                .country(countryService.findCountryByName(recipientCountry))
-                .build();
-
-        recipientService.saveRecipient(recipient);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Отправитель " +
-                        recipient.getName() +
-                        " успешно сохранен в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
-        recipientAnchorPane.getScene().getWindow().hide();
+        if (!recipientName.equals("") && !recipientAddress.equals("") && recipientCountry != null) {
+            Recipient recipient = Recipient.builder()
+                    .name(recipientName)
+                    .address(recipientAddress)
+                    .country(countryService.findCountryByName(recipientCountry))
+                    .build();
+            recipientService.saveRecipient(recipient);
+            Alerts.successAlert("Отправитель " + recipient.getName() + " успешно сохранен в базу данных!");
+        } else {
+            Alerts.errorAlert("Заполните поля!");
+        }
     }
 
     public void searchRecipientByNameAction() {
@@ -122,5 +119,9 @@ public class RecipientController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
         new AutoCompleteComboBoxListener<>(cbCountryList);
+    }
+
+    public void closeButtonAction() {
+        recipientAnchorPane.getScene().getWindow().hide();
     }
 }

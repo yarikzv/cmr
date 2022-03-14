@@ -35,7 +35,8 @@
                                 <TextField fx:id="tfDriverTruck" layoutX="93.0" layoutY="327.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер автомобиля" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="330.0" />
                                 <Label layoutX="25.0" layoutY="372.0" text="Прицеп" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="374.0" />
                                 <TextField fx:id="tfDriverTrailer" layoutX="90.0" layoutY="368.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер прицепа" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="370.0" />
-                                <Button id="custom-button" fx:id="saveDriverButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#saveDriverAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="420.0" />
+                                <Button id="custom-button" fx:id="saveDriverButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#saveDriverAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="420.0" />
+                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="420.0" />
                             </children>
                         </AnchorPane>
                     </content>

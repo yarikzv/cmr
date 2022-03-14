@@ -5,7 +5,7 @@
     -fx-background-color: #ffffff;
 }
 
-#driver-tab-pane {
+.tab-pane {
     -fx-background-color: #ececec;
 }
 

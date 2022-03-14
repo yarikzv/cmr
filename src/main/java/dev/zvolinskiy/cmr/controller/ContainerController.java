@@ -1,5 +1,6 @@
 package dev.zvolinskiy.cmr.controller;
 
+import dev.zvolinskiy.cmr.utils.Alerts;
 import dev.zvolinskiy.cmr.entity.Container;
 import dev.zvolinskiy.cmr.service.ContainerService;
 import javafx.fxml.FXML;
@@ -40,22 +41,16 @@ public class ContainerController implements Initializable {
     public Button getContainerListButton;
     @FXML
     public TableView<Container> containerListTable;
+    @FXML
     public Button closeButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tfContainerNumber.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) {
+            if (Boolean.FALSE.equals(newValue)) {
                 if (!tfContainerNumber.getText().matches("[A-Za-z]{4}\\d{7}")) {
                     tfContainerNumber.clear();
-                    Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "Введите правильный номер контейнера в формате ХХХХ0000000",
-                            ButtonType.OK);
-                    alert.setTitle("Ошибка!");
-                    alert.setHeaderText("Ошибка!");
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == ButtonType.OK) alert.close();
-                    });
+                    Alerts.errorAlert("Введите правильный номер контейнера в формате ХХХХ0000000");
                 }
             }
         });
@@ -64,31 +59,16 @@ public class ContainerController implements Initializable {
     public void saveContainerAction() {
         String containerNumber = tfContainerNumber.getText().toUpperCase();
         String containerType = tfContainerType.getText();
+
         if (!containerNumber.equals("") && !Objects.equals(containerType, "")) {
             Container container = Container.builder()
                     .number(containerNumber)
                     .type(containerType)
                     .build();
             containerService.saveContainer(container);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Контейнер " +
-                            container.getNumber() +
-                            " успешно сохранен в базу данных!",
-                    ButtonType.OK);
-            alert.setTitle("Поздравляю!");
-            alert.setHeaderText("Поздравляю!");
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) alert.close();
-            });
+            Alerts.successAlert("Контейнер " + container.getNumber() + " успешно сохранен в базу данных!");
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Заполните поля!",
-                    ButtonType.OK);
-            alert.setTitle("Ошибка!");
-            alert.setHeaderText("Ошибка!");
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) alert.close();
-            });
+            Alerts.errorAlert("Заполните все поля!");
         }
     }
 

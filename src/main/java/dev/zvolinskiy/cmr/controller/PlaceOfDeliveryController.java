@@ -4,7 +4,8 @@ import dev.zvolinskiy.cmr.entity.Country;
 import dev.zvolinskiy.cmr.entity.PlaceOfDelivery;
 import dev.zvolinskiy.cmr.service.CountryService;
 import dev.zvolinskiy.cmr.service.PlaceOfDeliveryService;
-import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,27 +45,23 @@ public class PlaceOfDeliveryController implements Initializable {
     public Button getPlaceOfDeliveryListButton;
     @FXML
     public TableView<PlaceOfDelivery> podListTable;
+    @FXML
+    public Button closeButton;
 
     public void savePlaceOfDeliveryAction() {
         String podAddress = tfPlaceOfDeliveryAddress.getText();
         String podCountry = cbCountryList.getValue();
 
-        PlaceOfDelivery pod = PlaceOfDelivery.builder()
-                .address(podAddress)
-                .country(countryService.findCountryByName(podCountry))
-                .build();
-
-        podService.savePlaceOfDelivery(pod);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Место доставки " +
-                        pod.getAddress() +
-                        " успешно сохранено в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
-        podAnchorPane.getScene().getWindow().hide();
+        if (!podAddress.equals("") && podCountry != null) {
+            PlaceOfDelivery pod = PlaceOfDelivery.builder()
+                    .address(podAddress)
+                    .country(countryService.findCountryByName(podCountry))
+                    .build();
+            podService.savePlaceOfDelivery(pod);
+            Alerts.successAlert("Место доставки " + pod.getAddress() + " успешно сохранено в базу данных!");
+        } else {
+            Alerts.errorAlert("Заполните поля!");
+        }
     }
 
     public void getPlaceOfDeliveryListAction() {
@@ -89,5 +86,9 @@ public class PlaceOfDeliveryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
         new AutoCompleteComboBoxListener<>(cbCountryList);
+    }
+
+    public void closeButtonAction() {
+        podAnchorPane.getScene().getWindow().hide();
     }
 }

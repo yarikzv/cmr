@@ -4,7 +4,8 @@ import dev.zvolinskiy.cmr.entity.Country;
 import dev.zvolinskiy.cmr.entity.Sender;
 import dev.zvolinskiy.cmr.service.CountryService;
 import dev.zvolinskiy.cmr.service.SenderService;
-import dev.zvolinskiy.cmr.util.AutoCompleteComboBoxListener;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,6 +62,8 @@ public class SenderController implements Initializable {
     public TableColumn<Sender, String> colCountry;
     @FXML
     public TableView<Sender> sendersListTable;
+    @FXML
+    public Button closeButton;
 
     public void saveSenderAction() {
         String senderName = tfSenderName.getText();
@@ -75,20 +78,14 @@ public class SenderController implements Initializable {
 
         senderService.saveSender(sender);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Отправитель " +
-                        sender.getName() +
-                        " успешно сохранен в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
-        senderAnchorPane.getScene().getWindow().hide();
+        Alerts.successAlert("Отправитель " +
+                sender.getName() +
+                " успешно сохранен в базу данных!");
     }
 
     public void searchSenderByNameAction() {
         List<Sender> sendersByName = new ArrayList<>();
-                sendersByName.add(senderService.findSenderByName(tfSenderNameSearch.getText()));
+        sendersByName.add(senderService.findSenderByName(tfSenderNameSearch.getText()));
         fillTableBySearchResult(sendersByName,
                 colName,
                 colAddress,
@@ -122,5 +119,9 @@ public class SenderController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
         new AutoCompleteComboBoxListener<>(cbCountryList);
+    }
+
+    public void closeButtonAction() {
+        senderAnchorPane.getScene().getWindow().hide();
     }
 }

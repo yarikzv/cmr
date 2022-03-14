@@ -4,6 +4,7 @@ import dev.zvolinskiy.cmr.entity.Driver;
 import dev.zvolinskiy.cmr.entity.Passport;
 import dev.zvolinskiy.cmr.service.DriverService;
 import dev.zvolinskiy.cmr.service.PassportService;
+import dev.zvolinskiy.cmr.utils.Alerts;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -90,45 +91,47 @@ public class DriverController {
     public TableColumn<Driver, String> listTruck;
     @FXML
     public TableColumn<Driver, String> listTrailer;
+    @FXML
+    public Button closeButton;
 
     public void saveDriverAction() {
-        String driverPassportSeries = tfDriverPassportSeries.getText();
-        LocalDate driverPassportDate = dpDriverPassportDate.getValue();
-        String driverPassportIssue = tfDriverPassportIssue.getText();
-        String driverFirstName = tfDriverFirstName.getText();
-        String driverMiddleName = tfDriverMiddleName.getText();
-        String driverLastName = tfDriverLastName.getText();
-        String driverTruck = tfDriverTruck.getText();
-        String driverTrailer = tfDriverTrailer.getText();
+        String passportSeries = tfDriverPassportSeries.getText();
+        LocalDate passportDate = dpDriverPassportDate.getValue();
+        String passportIssue = tfDriverPassportIssue.getText();
+        String firstName = tfDriverFirstName.getText();
+        String middleName = tfDriverMiddleName.getText();
+        String lastName = tfDriverLastName.getText();
+        String truck = tfDriverTruck.getText();
+        String trailer = tfDriverTrailer.getText();
 
-        Passport passport = Passport.builder()
-                .number(driverPassportSeries)
-                .date(driverPassportDate)
-                .issue(driverPassportIssue)
-                .build();
-
-        Driver driver = Driver.builder()
-                .firstName(driverFirstName)
-                .middleName(driverMiddleName)
-                .lastName(driverLastName)
-                .passport(passportService.savePassport(passport))
-                .truck(driverTruck)
-                .trailer(driverTrailer)
-                .build();
-
-        driverService.saveDriver(driver);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Водитель " +
-                        driver.getLastName() + " " +
-                        (!driver.getFirstName().equals("") ? (driver.getFirstName().charAt(0) + ". ") : " ") +
-                        (!driver.getMiddleName().equals("") ? (driver.getMiddleName().charAt(0) + ". ") : " ") +
-                        " успешно сохранен в базу данных!",
-                ButtonType.OK);
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) alert.close();
-        });
-        driverAnchorPane.getScene().getWindow().hide();
+        if (!passportSeries.equals("")
+                && passportDate != null
+                && !passportIssue.equals("")
+                && !firstName.equals("")
+                && !lastName.equals("")
+                && !truck.equals("")) {
+            Passport passport = Passport.builder()
+                    .number(passportSeries)
+                    .date(passportDate)
+                    .issue(passportIssue)
+                    .build();
+            Driver driver = Driver.builder()
+                    .firstName(firstName)
+                    .middleName(middleName)
+                    .lastName(lastName)
+                    .passport(passportService.savePassport(passport))
+                    .truck(truck)
+                    .trailer(trailer)
+                    .build();
+            driverService.saveDriver(driver);
+            Alerts.successAlert("Водитель " +
+                    driver.getLastName() + " " +
+                    (!driver.getFirstName().equals("") ? (driver.getFirstName().charAt(0) + ". ") : " ") +
+                    (!driver.getMiddleName().equals("") ? (driver.getMiddleName().charAt(0) + ". ") : " ") +
+                    " успешно сохранен в базу данных!");
+        } else {
+            Alerts.errorAlert("Заполните все поля!");
+        }
     }
 
     public void searchDriverByLastNameAction() {
@@ -147,7 +150,6 @@ public class DriverController {
     }
 
     public void searchDriverByPassportNumberAction() {
-//        TODO Change type of search result by passport number
         List<Driver> driversByPassport = List.of(driverService.findDriverByPassport(tfDriverPassportSearch.getText()));
         fillTableBySearchResult(driversByPassport,
                 colLastName,
@@ -196,5 +198,9 @@ public class DriverController {
         truck.setCellValueFactory(new PropertyValueFactory<>("truck"));
         trailer.setCellValueFactory(new PropertyValueFactory<>("trailer"));
         table.getItems().setAll(drivers);
+    }
+
+    public void closeButtonAction() {
+        driverAnchorPane.getScene().getWindow().hide();
     }
 }
