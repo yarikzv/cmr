@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -150,17 +151,21 @@ public class DriverController {
     }
 
     public void searchDriverByPassportNumberAction() {
-        List<Driver> driversByPassport = List.of(driverService.findDriverByPassport(tfDriverPassportSearch.getText()));
-        fillTableBySearchResult(driversByPassport,
-                colLastName,
-                colFirstName,
-                colMiddleName,
-                colPassportNumber,
-                colPassportIssue,
-                colPassportDate,
-                colTruck,
-                colTrailer,
-                searchResultTable);
+        try {
+            List<Driver> driversByPassport = List.of(driverService.findDriverByPassport(tfDriverPassportSearch.getText()));
+            fillTableBySearchResult(driversByPassport,
+                    colLastName,
+                    colFirstName,
+                    colMiddleName,
+                    colPassportNumber,
+                    colPassportIssue,
+                    colPassportDate,
+                    colTruck,
+                    colTrailer,
+                    searchResultTable);
+        } catch (EntityNotFoundException e) {
+            Alerts.errorAlert("Водителей с таким паспортом не найдено");
+        }
         tfDriverPassportSearch.clear();
     }
 

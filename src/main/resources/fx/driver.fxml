@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="driver-anchor-pane" fx:id="driverAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.DriverController">
+<AnchorPane id="driver-anchor-pane" fx:id="driverAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.DriverController">
     <children>
         <TabPane id="driver-tab-pane" fx:id="driverTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
@@ -55,7 +55,7 @@
                                 <TextField fx:id="tfDriverPassportSearch" layoutX="90.0" layoutY="160.0" minWidth="-Infinity" prefWidth="300.0" promptText="Номер паспорта" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="160.0" />
                                 <Button fx:id="searchDriverByPassportNumber" layoutX="393.0" layoutY="160.0" mnemonicParsing="false" onAction="#searchDriverByPassportNumberAction" text="Найти" />
                                 <Separator layoutX="25.0" layoutY="215.0" prefHeight="2.0" prefWidth="370.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="210.0" />
-                                <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefWidth="1082.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                                <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefHeight="440.0" prefWidth="960.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="230.0">
                                     <columns>
                                         <TableColumn fx:id="colLastName" maxWidth="1000.0" prefWidth="140.0" text="Фамилия" />
                                         <TableColumn fx:id="colFirstName" prefWidth="100.0" text="Имя" />
@@ -77,7 +77,7 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <Button id="custom-button" fx:id="getDriversListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getDriversListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
-                                <TableView fx:id="driverListTable" layoutX="25.0" layoutY="230.0" prefWidth="1082.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
+                                <TableView fx:id="driverListTable" layoutX="25.0" layoutY="230.0" prefHeight="440.0" prefWidth="960.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
                                     <columns>
                                         <TableColumn fx:id="listLastName" prefWidth="140.0" text="Фамилия" />
                                         <TableColumn fx:id="listFirstName" prefWidth="100.0" text="Имя" />

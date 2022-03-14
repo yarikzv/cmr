@@ -8,6 +8,7 @@ import dev.zvolinskiy.cmr.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +48,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findDriverByPassport(String passportNumber) {
-        Passport passportByNumber = passportRepo.findPassportByNumber(passportNumber);
-        return driverRepo.findDriverByPassport(passportByNumber);
+        Passport passportByNumber = passportRepo.findPassportByNumber(passportNumber.toUpperCase());
+        if (passportByNumber != null) {
+            return driverRepo.findDriverByPassport(passportByNumber);
+        } else {
+            throw new EntityNotFoundException("Driver not found");
+        }
     }
 
     @Override
