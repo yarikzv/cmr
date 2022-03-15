@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,9 +72,11 @@ public class CMRController implements Initializable {
     @FXML
     public DatePicker dpCMRDate;
     @FXML
+    public TabPane cmrTabPane;
+    @FXML
     public Tab addCmrTab;
     @FXML
-    public TabPane cmrTabPane;
+    public Tab tableCmrTab;
     @FXML
     public TextArea taDocuments;
     @FXML
@@ -148,6 +152,95 @@ public class CMRController implements Initializable {
                 .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
                 .toList());
         new AutoCompleteComboBoxListener<>(cbDriverList);
+
+        tableContextMenuHandler(cmrListTable);
+    }
+
+    private void tableContextMenuHandler(TableView<CMR> cmrListTable) {
+        ContextMenu cm = new ContextMenu();
+        MenuItem editMI = new MenuItem("Редактировать");
+        cm.getItems().add(editMI);
+        MenuItem viewMI = new MenuItem("Просмотреть");
+        cm.getItems().add(viewMI);
+        MenuItem deleteMI = new MenuItem("Удалить");
+        cm.getItems().add(deleteMI);
+
+        cmrListTable.setRowFactory(tv -> {
+            TableRow<CMR> row = new TableRow<>();
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    cm.show(cmrListTable, t.getScreenX(), t.getScreenY());
+                    CMR clickedRowCmr = row.getItem();
+                    //edit cmr
+                    editMI.setOnAction(edit -> {
+                        editCmrAction(clickedRowCmr);
+                    });
+
+                    //view row in PDF
+                    viewMI.setOnAction(view -> {
+                        try {
+                            viewPdf(clickedRowCmr);
+                        } catch (IOException e) {
+                            Alerts.errorAlert("Не могу заполнить CMR");
+                        }
+                    });
+                    //delete row
+                    deleteMI.setOnAction(delete -> {
+                        cmrService.deleteCMR(clickedRowCmr);
+                        getCmrTableAction();
+                    });
+                }
+            });
+            return row;
+        });
+
+
+//        cmrListTable.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+//            if (t.getButton() == MouseButton.SECONDARY) {
+//                cm.show(cmrListTable, t.getScreenX(), t.getScreenY());
+//
+//            }
+//        });
+//
+//        viewMI.setOnAction(t -> {
+//            cmrListTable.setRowFactory(tv -> {
+//                TableRow<CMR> row = new TableRow<>();
+//                row.setOnMouseClicked(event -> {
+//                    if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+//                            && event.getClickCount() == 2) {
+//
+//                        CMR clickedRow = row.getItem();
+//                        try {
+//                            viewPdf(clickedRow);
+//                        } catch (IOException e) {
+//                            Alerts.errorAlert("Не могу заполнить CMR");
+//                        }
+//                    }
+//                });
+//                return row;
+//            });
+//            viewPdfAction();
+//        });
+    }
+
+    private void editCmrAction(CMR clickedRowCmr) {
+        tfCMRNumber.setText(clickedRowCmr.getNumber());
+        dpCMRDate.setValue(clickedRowCmr.getDate());
+        tfOrderNumber.setText(clickedRowCmr.getOrderNumber());
+        cbSenderList.setValue(clickedRowCmr.getSender().getName());
+        cbRecipientList.setValue(clickedRowCmr.getRecipient().getName());
+        cbPOL.setValue(clickedRowCmr.getPlaceOfLoading().getAddress());
+        cbPOD.setValue(clickedRowCmr.getPlaceOfDelivery().getAddress());
+        taDocuments.setText(clickedRowCmr.getDocuments());
+        taCargoName.setText(clickedRowCmr.getCargoName());
+        cbContainerList.setValue(clickedRowCmr.getContainer().getNumber());
+        tfCargoQuantity.setText(clickedRowCmr.getCargoQuantity());
+        tfCargoWeight.setText(clickedRowCmr.getCargoWeight());
+        tfCargoCode.setText(clickedRowCmr.getCargoCode());
+        taSenderInstructions.setText(clickedRowCmr.getSendersInstructions());
+        tfIssuePlace.setText(clickedRowCmr.getPlaceOfIssue());
+        cbDriverList.setValue(clickedRowCmr.getDriver().getLastName() + " " + clickedRowCmr.getDriver().getFirstName() + " " + clickedRowCmr.getDriver().getMiddleName());
+        cmrTabPane.getSelectionModel().select(addCmrTab);
     }
 
     public void saveCmrAction() {
@@ -161,7 +254,7 @@ public class CMRController implements Initializable {
         refresh();
     }
 
-    public void getCmrListAction() {
+    public void getCmrTableAction() {
         List<CMR> cmrList = cmrService.findAllCMRs();
         fillTableBySearchResult(cmrList,
                 listNumber,
@@ -223,23 +316,28 @@ public class CMRController implements Initializable {
     }
 
     public void closeButtonAction() {
-        cleanUp();
+        cleanUpPdf();
         cmrAnchorPane.getScene().getWindow().hide();
     }
 
-    public void createPdfAction() {
-        CmrPdfCreator creator = new CmrPdfCreator();
-        CMR cmr = fillCmr();
-        creator.createPdfFile(cmr);
-        File file = new File("CMR" + cmr.getNumber() + ".pdf");
+    public void viewPdfAction() {
         try {
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
+            CMR cmr = fillCmr();
+            viewPdf(cmr);
+        } catch (Exception e) {
+            Alerts.errorAlert("Не могу заполнить CMR. Проверьте, внесены ли все данные.");
         }
     }
 
-    private CMR fillCmr() {
+    private void viewPdf(CMR cmr) throws IOException {
+        CmrPdfCreator creator = new CmrPdfCreator();
+        creator.createPdfFile(cmr);
+        File file = new File("CMR" + cmr.getNumber() + ".pdf");
+        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+
+    }
+
+    private CMR fillCmr() throws Exception {
         String cmrNumber = tfCMRNumber.getText();
         LocalDate cmrDate = dpCMRDate.getValue();
         String cmrOrderNumber = tfOrderNumber.getText();
@@ -257,24 +355,28 @@ public class CMRController implements Initializable {
         String cmrIssuePlace = tfIssuePlace.getText();
         String cmrDriver = cbDriverList.getValue();
 
-        return CMR.builder()
-                .number(cmrNumber)
-                .date(cmrDate)
-                .orderNumber(cmrOrderNumber)
-                .sender(senderService.findSenderByName(cmrSender))
-                .recipient(recipientService.findRecipientByName(cmrRecipient))
-                .placeOfDelivery(podService.findPlaceOfDeliveryByAddress(cmrPOD))
-                .placeOfLoading(polService.findPlaceOfLoadingByAddress(cmrPOL))
-                .documents(cmrDocuments)
-                .container(containerService.findContainerByNumber(cmrContainer))
-                .cargoName(cmrCargoName)
-                .cargoQuantity(cmrCargoQuantity)
-                .cargoWeight(cmrCargoWeight)
-                .cargoCode(cmrCargoCode)
-                .sendersInstructions(cmrSendersInstructions)
-                .placeOfIssue(cmrIssuePlace)
-                .driver(driverService.findDriverByFullName(cmrDriver))
-                .build();
+        try {
+            return CMR.builder()
+                    .number(cmrNumber)
+                    .date(cmrDate)
+                    .orderNumber(cmrOrderNumber)
+                    .sender(senderService.findSenderByName(cmrSender))
+                    .recipient(recipientService.findRecipientByName(cmrRecipient))
+                    .placeOfDelivery(podService.findPlaceOfDeliveryByAddress(cmrPOD))
+                    .placeOfLoading(polService.findPlaceOfLoadingByAddress(cmrPOL))
+                    .documents(cmrDocuments)
+                    .container(containerService.findContainerByNumber(cmrContainer))
+                    .cargoName(cmrCargoName)
+                    .cargoQuantity(cmrCargoQuantity)
+                    .cargoWeight(cmrCargoWeight)
+                    .cargoCode(cmrCargoCode)
+                    .sendersInstructions(cmrSendersInstructions)
+                    .placeOfIssue(cmrIssuePlace)
+                    .driver(driverService.findDriverByFullName(cmrDriver))
+                    .build();
+        } catch (Exception e) {
+            throw new IOException();
+        }
     }
 
     private void fillTableBySearchResult(List<CMR> cmrList,
@@ -340,7 +442,7 @@ public class CMRController implements Initializable {
         taSenderInstructions.clear();
     }
 
-    private void cleanUp() {
+    private void cleanUpPdf() {
         File folder = new File(System.getProperty("user.dir"));
         Arrays.stream(folder.listFiles()).filter(f -> f.getName().endsWith(".pdf")).forEach(File::delete);
     }

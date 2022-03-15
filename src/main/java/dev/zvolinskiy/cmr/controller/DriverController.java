@@ -105,12 +105,12 @@ public class DriverController {
         String truck = tfDriverTruck.getText();
         String trailer = tfDriverTrailer.getText();
 
-        if (!passportSeries.equals("")
+        if (!passportSeries.isEmpty()
                 && passportDate != null
-                && !passportIssue.equals("")
-                && !firstName.equals("")
-                && !lastName.equals("")
-                && !truck.equals("")) {
+                && !passportIssue.isEmpty()
+                && !firstName.isEmpty()
+                && !lastName.isEmpty()
+                && !truck.isEmpty()) {
             Passport passport = Passport.builder()
                     .number(passportSeries)
                     .date(passportDate)

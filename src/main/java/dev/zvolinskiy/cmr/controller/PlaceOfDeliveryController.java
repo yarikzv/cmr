@@ -52,7 +52,7 @@ public class PlaceOfDeliveryController implements Initializable {
         String podAddress = tfPlaceOfDeliveryAddress.getText();
         String podCountry = cbCountryList.getValue();
 
-        if (!podAddress.equals("") && podCountry != null) {
+        if (!podAddress.isEmpty() && podCountry != null) {
             PlaceOfDelivery pod = PlaceOfDelivery.builder()
                     .address(podAddress)
                     .country(countryService.findCountryByName(podCountry))

@@ -1,8 +1,8 @@
 package dev.zvolinskiy.cmr.controller;
 
-import dev.zvolinskiy.cmr.utils.Alerts;
 import dev.zvolinskiy.cmr.entity.Container;
 import dev.zvolinskiy.cmr.service.ContainerService;
+import dev.zvolinskiy.cmr.utils.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Controller
@@ -60,7 +59,7 @@ public class ContainerController implements Initializable {
         String containerNumber = tfContainerNumber.getText().toUpperCase();
         String containerType = tfContainerType.getText();
 
-        if (!containerNumber.equals("") && !Objects.equals(containerType, "")) {
+        if (!containerNumber.isEmpty() && !containerType.isEmpty()) {
             Container container = Container.builder()
                     .number(containerNumber)
                     .type(containerType)

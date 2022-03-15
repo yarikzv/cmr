@@ -54,7 +54,7 @@ public class PlaceOfLoadingController implements Initializable {
         @NotNull
         String polCountry = cbCountryList.getValue();
 
-        if (!polAddress.equals("") && polCountry != null) {
+        if (!polAddress.isEmpty() && polCountry != null) {
             PlaceOfLoading pol = PlaceOfLoading.builder()
                     .address(polAddress)
                     .country(countryService.findCountryByName(polCountry))

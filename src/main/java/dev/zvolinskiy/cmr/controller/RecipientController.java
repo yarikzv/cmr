@@ -70,7 +70,7 @@ public class RecipientController implements Initializable {
         String recipientAddress = tfRecipientAddress.getText();
         String recipientCountry = cbCountryList.getValue();
 
-        if (!recipientName.equals("") && !recipientAddress.equals("") && recipientCountry != null) {
+        if (!recipientName.isEmpty() && !recipientAddress.isEmpty() && recipientCountry != null) {
             Recipient recipient = Recipient.builder()
                     .name(recipientName)
                     .address(recipientAddress)
@@ -79,7 +79,7 @@ public class RecipientController implements Initializable {
             recipientService.saveRecipient(recipient);
             Alerts.successAlert("Отправитель " + recipient.getName() + " успешно сохранен в базу данных!");
         } else {
-            Alerts.errorAlert("Заполните поля!");
+            Alerts.errorAlert("Заполните все поля!");
         }
     }
 

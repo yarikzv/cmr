@@ -69,18 +69,18 @@ public class SenderController implements Initializable {
         String senderName = tfSenderName.getText();
         String senderAddress = tfSenderAddress.getText();
         String senderCountry = cbCountryList.getValue();
+        if (!senderName.isEmpty() && !senderAddress.isEmpty() && senderCountry != null) {
+            Sender sender = Sender.builder()
+                    .name(senderName)
+                    .address(senderAddress)
+                    .country(countryService.findCountryByName(senderCountry))
+                    .build();
 
-        Sender sender = Sender.builder()
-                .name(senderName)
-                .address(senderAddress)
-                .country(countryService.findCountryByName(senderCountry))
-                .build();
-
-        senderService.saveSender(sender);
-
-        Alerts.successAlert("Отправитель " +
-                sender.getName() +
-                " успешно сохранен в базу данных!");
+            senderService.saveSender(sender);
+            Alerts.successAlert("Отправитель " + sender.getName() + " успешно сохранен в базу данных!");
+        } else {
+            Alerts.errorAlert("Заполните все поля!");
+        }
     }
 
     public void searchSenderByNameAction() {
