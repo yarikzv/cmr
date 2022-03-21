@@ -3,6 +3,7 @@ package dev.zvolinskiy.cmr;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
@@ -30,6 +31,7 @@ public class CMRApplication extends Application {
     @Override
     public void start(Stage stage) {
         this.applicationContext.publishEvent(new StageReadyEvent(stage));
+        stage.getIcons().add(new Image("icon.png"));
     }
 
     @Override
