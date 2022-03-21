@@ -1,5 +1,6 @@
 package dev.zvolinskiy.cmr;
 
+import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCleaner;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -36,6 +37,7 @@ public class CMRApplication extends Application {
 
     @Override
     public void stop() {
+        CmrPdfCleaner.cleanUpPdf();
         applicationContext.close();
         Platform.exit();
     }

@@ -26,19 +26,28 @@
     -fx-min-height: 30px;
 }
 
+#button-area {
+    -fx-border-color: #03a1e5;
+    -fx-border-radius: 5px;
+}
+
+#vert-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+}
+
 #tile-button {
-    -fx-background-image: "/images/xml.png";
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
     -fx-background-color: #ffffff;
     -fx-border-color: #03a1e5;
 }
 
-#custom-button.button:focused {
+#custom-button.button:focused, #tile-button.button:focused{
     -fx-border-color: #6b7173;
 }
 
-#custom-button.button:hover {
+#custom-button.button:hover, #tile-button.button:hover{
     -fx-background-color: #03a1e5;
     -fx-background-radius: 5px;
     -fx-text-fill: #ffffff;

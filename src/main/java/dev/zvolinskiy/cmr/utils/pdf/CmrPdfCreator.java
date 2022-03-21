@@ -1,4 +1,4 @@
-package dev.zvolinskiy.cmr.utils;
+package dev.zvolinskiy.cmr.utils.pdf;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;

@@ -2,6 +2,7 @@ package dev.zvolinskiy.cmr.controller;
 
 import dev.zvolinskiy.cmr.MainApplication;
 import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCleaner;
 import dev.zvolinskiy.cmr.utils.xmlparser.XmlParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,6 +92,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void closeButtonAction() {
+        CmrPdfCleaner.cleanUpPdf();
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
         System.exit(0);
@@ -124,6 +126,25 @@ public class MainWindowController implements Initializable {
         customSceneLoader(containerFxml);
     }
 
+    public void createFromXmlAction() {
+        try {
+            Stage stage = (Stage) rootAnchorPane.getScene().getWindow();
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+                xmlParser.parser(selectedFile);
+                FXMLLoader fxmlLoader = customSceneLoader(cmrFxml);
+                CMRController controller = Objects.requireNonNull(fxmlLoader).getController();
+                controller.cmrTabPane.getSelectionModel().select(controller.tableCmrTab);
+                controller.getCmrTableAction();
+            } else {
+                Alerts.errorAlert("Операция отменена.");
+            }
+        } catch (Exception e) {
+            Alerts.errorAlert("Не удалось прочитать XML-файл.");
+        }
+    }
+
     private FXMLLoader customSceneLoader(Resource resourceFxml) {
         try {
             URL url = resourceFxml.getURL();
@@ -144,27 +165,8 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void createFromXmlAction() {
-        try {
-            Stage stage = (Stage) rootAnchorPane.getScene().getWindow();
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(stage);
-            if (selectedFile != null) {
-                xmlParser.parser(selectedFile);
-                FXMLLoader fxmlLoader = customSceneLoader(cmrFxml);
-                CMRController controller = Objects.requireNonNull(fxmlLoader).getController();
-                controller.cmrTabPane.getSelectionModel().select(controller.tableCmrTab);
-                controller.getCmrTableAction();
-            } else {
-                Alerts.errorAlert("Операция отменена.");
-            }
-        } catch (Exception e) {
-            Alerts.errorAlert("Не удалось прочитать XML-файл.");
-        }
-    }
-
-    private void xmlButtonCreating(){
-        Image img = new Image(MainApplication.class.getResourceAsStream("/fx/images/xml.png"));
+    private void xmlButtonCreating() {
+        Image img = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("/fx/images/xml.png")));
         ImageView view = new ImageView(img);
         view.setFitHeight(40);
         view.setPreserveRatio(true);

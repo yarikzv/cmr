@@ -5,7 +5,8 @@ import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 import dev.zvolinskiy.cmr.service.*;
 import dev.zvolinskiy.cmr.utils.Alerts;
 import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
-import dev.zvolinskiy.cmr.utils.CmrPdfCreator;
+import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCleaner;
+import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCreator;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -384,7 +384,7 @@ public class CMRController implements Initializable {
     }
 
     public void closeButtonAction() {
-        cleanUpPdf();
+        CmrPdfCleaner.cleanUpPdf();
         cmrAnchorPane.getScene().getWindow().hide();
     }
 
@@ -439,7 +439,6 @@ public class CMRController implements Initializable {
         cm.getItems().add(viewMI);
         MenuItem deleteMI = new MenuItem("Удалить");
         cm.getItems().add(deleteMI);
-
         cmrListTable.setRowFactory(tv -> {
             TableRow<CMR> row = new TableRow<>();
             row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
@@ -618,10 +617,7 @@ public class CMRController implements Initializable {
         taDocuments.clear();
         taCargoName.clear();
         taSenderInstructions.clear();
-    }
-
-    private void cleanUpPdf() {
-        File folder = new File(System.getProperty("user.dir"));
-        Arrays.stream(folder.listFiles()).filter(f -> f.getName().endsWith(".pdf")).forEach(File::delete);
+        trailerLabel.clear();
+        truckLabel.clear();
     }
 }
