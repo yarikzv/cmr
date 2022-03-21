@@ -49,7 +49,7 @@ public class CMR {
     @Column(name = "documents")
     private String documents;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "container_id")
     private Container container;
 

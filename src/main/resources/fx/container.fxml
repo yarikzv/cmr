@@ -10,7 +10,7 @@
             <tabs>
                 <Tab fx:id="addContainerTab" text="Добавить контейнер">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane fx:id="addContainerTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="210.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="250.0">
                                     <image>

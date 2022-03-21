@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="recipient-anchor-pane" fx:id="recipientAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.RecipientController">
+<AnchorPane id="recipient-anchor-pane" fx:id="recipientAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.RecipientController">
     <children>
         <TabPane id="recipient-tab-pane" fx:id="recipientTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab fx:id="addRecipientTab" text="Добавить получателя">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane fx:id="addRecipientTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="250.0">
                                     <image>
                                         <Image url="@images/truck.jpg" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="26.0" layoutY="24.0" text="Название" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
-                                <TextField id="custom-text-field" fx:id="tfRecipientName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Название" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="20.0" />
-                                <Label layoutX="25.0" layoutY="64.0" text="Адресс" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="74.0" />
-                                <TextField id="custom-text-field" fx:id="tfRecipientAddress" layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Адресс" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="70.0" />
-                                <Label layoutX="25.0" layoutY="104.0" text="Страна" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="124.0" />
-                                <ComboBox fx:id="cbCountryList" editable="true" layoutX="91.0" layoutY="99.0" prefWidth="300.0" promptText="Страна" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="120.0" />
-                                <Button id="custom-button" fx:id="saveRecipientButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveRecipientAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="200.0" />
-                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="200.0" />
+                                <Label layoutX="36.0" layoutY="34.0" text="ЄДРПОУ" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                                <TextField id="custom-text-field" fx:id="tfRecipientCode" layoutX="101.0" layoutY="30.0" minWidth="-Infinity" prefColumnCount="8" prefWidth="300.0" promptText="Код" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="26.0" layoutY="24.0" text="Название" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="74.0" />
+                                <TextField id="custom-text-field" fx:id="tfRecipientName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Название" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="70.0" />
+                                <Label layoutX="25.0" layoutY="64.0" text="Адрес" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="124.0" />
+                                <TextField id="custom-text-field" fx:id="tfRecipientAddress" layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Адрес" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="120.0" />
+                                <Label layoutX="25.0" layoutY="104.0" text="Страна" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="174.0" />
+                                <ComboBox fx:id="cbCountryList" editable="true" layoutX="91.0" layoutY="99.0" prefWidth="300.0" promptText="Страна" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="170.0" />
+                                <Button id="custom-button" fx:id="saveRecipientButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveRecipientAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="250.0" />
+                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="250.0" />
+                        <Label layoutX="400.0" layoutY="25.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="26.0" />
+                        <Label layoutX="410.0" layoutY="35.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="76.0" />
+                        <Label layoutX="420.0" layoutY="45.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="176.0" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -35,13 +41,18 @@
                             <children>
                                 <Label layoutX="28.0" layoutY="24.0" text="Поиск по названию:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
                                 <Label layoutX="28.0" layoutY="64.0" text="Название" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="64.0" />
-                                <TextField id="custom-text-field" fx:id="tfRecipientNameSearch" layoutX="93.0" layoutY="60.0" minWidth="-Infinity" prefWidth="290.0" promptText="Название" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="60.0" />
-                                <Button fx:id="searchRecipientByName" layoutX="393.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchRecipientByNameAction" text="Найти" />
-                                <Separator layoutX="25.0" layoutY="114.0" prefHeight="2.0" prefWidth="370.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="110.0" />
+                                <TextField id="custom-text-field" fx:id="tfRecipientNameSearch" layoutX="93.0" layoutY="60.0" minWidth="-Infinity" onAction="#searchRecipientByNameAction" prefWidth="290.0" promptText="Название" stylesheets="@styles.css" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="60.0" />
+                                <Button fx:id="searchRecipientByName" layoutX="393.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchRecipientByNameAction" text="Найти" AnchorPane.leftAnchor="390.0" />
+                                <Separator layoutX="25.0" layoutY="114.0" prefHeight="1.0" prefWidth="883.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="110.0" />
+                                <Label layoutX="478.0" layoutY="24.0" text="Поиск по коду &quot;ЄДРПОУ&quot;" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="30.0" />
+                                <Label layoutX="476.0" layoutY="64.0" text="Код" AnchorPane.leftAnchor="510.0" />
+                                <TextField id="custom-text-field" fx:id="tfRecipientCodeSearch" layoutX="543.0" layoutY="60.0" minWidth="-Infinity" onAction="#searchRecipientByCodeAction" prefWidth="290.0" promptText="Код" stylesheets="@styles.css" AnchorPane.leftAnchor="555.0" />
+                                <Button fx:id="searchRecipientCode" layoutX="843.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchRecipientByCodeAction" text="Найти" AnchorPane.leftAnchor="850.0" />
                                 <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefHeight="300.0" prefWidth="892.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="150.0">
                                     <columns>
-                                        <TableColumn fx:id="colName" prefWidth="270.0" text="Название" />
-                                        <TableColumn fx:id="colAddress" prefWidth="500.0" text="Адресс" />
+                                        <TableColumn fx:id="colName" prefWidth="250.0" text="Название" />
+                                        <TableColumn fx:id="colCode" prefWidth="120.0" text="Код" />
+                                        <TableColumn fx:id="colAddress" prefWidth="400.0" text="Адрес" />
                                         <TableColumn fx:id="colCountry" prefWidth="120.0" text="Страна" />
                                     </columns>
                                 </TableView>
@@ -56,8 +67,9 @@
                                 <Button id="custom-button" fx:id="getRecipientsListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getRecipientsListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
                                 <TableView fx:id="recipientsListTable" layoutX="25.0" layoutY="230.0" prefWidth="892.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
                                     <columns>
-                                        <TableColumn fx:id="listName" prefWidth="270.0" text="Название" />
-                                        <TableColumn fx:id="listAddress" prefWidth="500.0" text="Адресс" />
+                                        <TableColumn fx:id="listName" prefWidth="250.0" text="Название" />
+                                        <TableColumn fx:id="listCode" prefWidth="120.0" text="Код" />
+                                        <TableColumn fx:id="listAddress" prefWidth="400.0" text="Адрес" />
                                         <TableColumn fx:id="listCountry" prefWidth="120.0" text="Страна" />
                                     </columns>
                                 </TableView>

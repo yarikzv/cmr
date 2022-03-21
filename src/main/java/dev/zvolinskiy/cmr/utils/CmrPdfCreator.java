@@ -52,19 +52,19 @@ public class CmrPdfCreator {
 
             insertCell(table, cmr.getDocuments(), 50f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 6, bf12);
 
-            insertCell(table, cmr.getContainer().getNumber(), 100f,Element.ALIGN_LEFT, Element.ALIGN_TOP, 1, bf12);
+            insertCell(table, cmr.getContainer().getNumber(), 100f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 1, bf12);
             insertCell(table, String.valueOf(cmr.getCargoQuantity()), 100f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 1, bf12);
             insertCell(table, cmr.getCargoName(), 100f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 2, bf12);
             insertCell(table, String.valueOf(cmr.getCargoCode()), 100f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 1, bf12);
             insertCell(table, String.valueOf(cmr.getCargoWeight()), 100f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bf12);
 
-            insertCell(table, cmr.getSendersInstructions(), 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
+            insertCell(table, cmr.getSendersInstructions().isEmpty()?"ЕЕ/ЕА":cmr.getSendersInstructions(), 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
             insertCell(table, "", 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
 
-            insertCell(table, cmr.getPlaceOfIssue(), 80f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
+            insertCell(table, cmr.getPlaceOfIssue().isEmpty()?"м. Одеса":cmr.getPlaceOfIssue(), 80f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
             insertCell(table, cmr.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), 80f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 3, bf12);
 
-            insertCell(table, driver, 60f, Element.ALIGN_LEFT,  Element.ALIGN_TOP,2, bfBold12);
+            insertCell(table, driver, 60f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bfBold12);
             insertCell(table, truck, 60f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 4, bfBold12);
 
             document.add(table);
@@ -77,14 +77,20 @@ public class CmrPdfCreator {
     }
 
     private void insertCell(PdfPTable table, String text, float height, int align, int valign, int colspan, Font font) {
-        PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
+        String cellText;
+        if (text != null) {
+            cellText = text.trim();
+        } else {
+            cellText = "";
+        }
+        PdfPCell cell = new PdfPCell(new Phrase(cellText, font));
         cell.setHorizontalAlignment(align);
         cell.setVerticalAlignment(valign);
         cell.setColspan(colspan);
         cell.setFixedHeight(height);
         cell.setPadding(10f);
         cell.setBorder(Rectangle.NO_BORDER);
-        if (text.trim().equalsIgnoreCase("")) {
+        if (cellText.equalsIgnoreCase("")) {
             cell.setMinimumHeight(10f);
         }
         table.addCell(cell);

@@ -11,11 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -48,22 +49,51 @@ public class PlaceOfLoadingController implements Initializable {
     public TableView<PlaceOfLoading> polListTable;
     @FXML
     public Button closeButton;
+    @FXML
+    public AnchorPane addPolTabAnchorPane;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbCountryList);
+        tableContextMenuHandler(polListTable);
+    }
 
     public void savePlaceOfLoadingAction() {
         String polAddress = tfPlaceOfLoadingAddress.getText();
-        @NotNull
         String polCountry = cbCountryList.getValue();
-
         if (!polAddress.isEmpty() && polCountry != null) {
             PlaceOfLoading pol = PlaceOfLoading.builder()
                     .address(polAddress)
                     .country(countryService.findCountryByName(polCountry))
                     .build();
-            polService.savePlaceOfLoading(pol);
+            polService.save(pol);
             Alerts.successAlert("Место погрузки " + pol.getAddress() + " успешно сохранено в базу данных!");
+            refresh();
         } else {
             Alerts.errorAlert("Заполните поля!");
         }
+    }
+
+    public void updatePlaceOfLoadingAction(Integer id) {
+        String polAddress = tfPlaceOfLoadingAddress.getText();
+        String polCountry = cbCountryList.getValue();
+        if (!polAddress.isEmpty() && polCountry != null) {
+            PlaceOfLoading pol = PlaceOfLoading.builder()
+                    .id(id)
+                    .address(polAddress)
+                    .country(countryService.findCountryByName(polCountry))
+                    .build();
+            polService.save(pol);
+            Alerts.successAlert("Место погрузки " + pol.getAddress() + " успешно обновлено в базу данных!");
+            refresh();
+        } else {
+            Alerts.errorAlert("Заполните поля!");
+        }
+    }
+
+    public void closeButtonAction() {
+        polAnchorPane.getScene().getWindow().hide();
     }
 
     public void getPlaceOfLoadingListAction() {
@@ -72,6 +102,11 @@ public class PlaceOfLoadingController implements Initializable {
                 listAddress,
                 listCountry,
                 polListTable);
+    }
+
+    private void refresh() {
+        tfPlaceOfLoadingAddress.clear();
+        cbCountryList.setValue(null);
     }
 
     private void fillTableBySearchResult(List<PlaceOfLoading> pols,
@@ -84,13 +119,47 @@ public class PlaceOfLoadingController implements Initializable {
         table.getItems().setAll(pols);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        cbCountryList.getItems().setAll(countryService.findAll().stream().map(Country::getName).toList());
-        new AutoCompleteComboBoxListener<>(cbCountryList);
+    private void editPolAction(PlaceOfLoading clickedRowPol) {
+        tfPlaceOfLoadingAddress.setText(clickedRowPol.getAddress());
+        cbCountryList.setValue(clickedRowPol.getCountry().getName());
+        savePlaceOfLoadingButton.setVisible(false);
+        Button updateButton = new Button("Обновить");
+        addPolTabAnchorPane.getChildren().addAll(updateButton);
+        updateButton.setId("custom-button");
+        updateButton.setPrefHeight(30.0);
+        updateButton.setPrefWidth(150.0);
+        AnchorPane.setLeftAnchor(updateButton, 50.0);
+        AnchorPane.setTopAnchor(updateButton, 130.0);
+        updateButton.setOnAction(event -> {
+            updatePlaceOfLoadingAction(clickedRowPol.getId());
+            updateButton.setVisible(false);
+            savePlaceOfLoadingButton.setVisible(true);
+        });
+        polTabPane.getSelectionModel().select(addPlaceOfLoadingTab);
     }
 
-    public void closeButtonAction() {
-        polAnchorPane.getScene().getWindow().hide();
+    private void tableContextMenuHandler(TableView<PlaceOfLoading> polListTable) {
+        ContextMenu cm = new ContextMenu();
+        MenuItem editMI = new MenuItem("Редактировать");
+        cm.getItems().add(editMI);
+        MenuItem deleteMI = new MenuItem("Удалить");
+        cm.getItems().add(deleteMI);
+        polListTable.setRowFactory(tv -> {
+            TableRow<PlaceOfLoading> row = new TableRow<>();
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    cm.show(polListTable, t.getScreenX(), t.getScreenY());
+                    PlaceOfLoading clickedRowPol = row.getItem();
+                    //edit pol
+                    editMI.setOnAction(edit -> editPolAction(clickedRowPol));
+                    //delete row
+                    deleteMI.setOnAction(delete -> {
+                        polService.delete(clickedRowPol);
+                        getPlaceOfLoadingListAction();
+                    });
+                }
+            });
+            return row;
+        });
     }
 }

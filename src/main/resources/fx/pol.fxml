@@ -10,7 +10,7 @@
             <tabs>
                 <Tab fx:id="addPlaceOfLoadingTab" text="Добавить место погрузки">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane fx:id="addPolTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="250.0">
                                     <image>

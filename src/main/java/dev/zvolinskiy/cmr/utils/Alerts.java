@@ -13,7 +13,7 @@ public class Alerts {
                 message,
                 ButtonType.OK);
         alert.setTitle("Ошибка!");
-        alert.setHeaderText("Ошибка!");
+        alert.setHeaderText(null);
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
@@ -23,9 +23,9 @@ public class Alerts {
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
                 message,
                 ButtonType.OK);
+        alert.setHeaderText(null);
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) alert.close();
         });
     }
-
 }

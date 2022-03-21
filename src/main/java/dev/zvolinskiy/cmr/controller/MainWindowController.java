@@ -1,19 +1,27 @@
 package dev.zvolinskiy.cmr.controller;
 
+import dev.zvolinskiy.cmr.MainApplication;
+import dev.zvolinskiy.cmr.utils.Alerts;
+import dev.zvolinskiy.cmr.utils.xmlparser.XmlParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Component
@@ -27,6 +35,7 @@ public class MainWindowController implements Initializable {
     private final Resource polFxml;
     private final Resource containerFxml;
     private final ApplicationContext applicationContext;
+    private final XmlParser xmlParser;
 
     @FXML
     public Button cmrButton;
@@ -46,6 +55,8 @@ public class MainWindowController implements Initializable {
     public Button closeButton;
     @FXML
     public AnchorPane rootAnchorPane;
+    @FXML
+    public Button createFromXmlButton;
 
     public MainWindowController(
             @Value("classpath:/fx/cmr.fxml") Resource cmrFxml,
@@ -55,7 +66,7 @@ public class MainWindowController implements Initializable {
             @Value("classpath:/fx/pod.fxml") Resource podFxml,
             @Value("classpath:/fx/pol.fxml") Resource polFxml,
             @Value("classpath:/fx/container.fxml") Resource containerFxml,
-            ApplicationContext applicationContext) {
+            ApplicationContext applicationContext, XmlParser xmlParser) {
         this.cmrFxml = cmrFxml;
         this.driverFxml = driverFxml;
         this.senderFxml = senderFxml;
@@ -64,6 +75,7 @@ public class MainWindowController implements Initializable {
         this.polFxml = polFxml;
         this.containerFxml = containerFxml;
         this.applicationContext = applicationContext;
+        this.xmlParser = xmlParser;
     }
 
     @Override
@@ -75,6 +87,7 @@ public class MainWindowController implements Initializable {
         placeOfDeliveryButton.setOnAction(event -> podButtonAction());
         placeOfLoadingButton.setOnAction(event -> polButtonAction());
         containerButton.setOnAction(event -> containerButtonAction());
+        xmlButtonCreating();
     }
 
     public void closeButtonAction() {
@@ -111,23 +124,50 @@ public class MainWindowController implements Initializable {
         customSceneLoader(containerFxml);
     }
 
-    private void customSceneLoader(Resource resourceFxml) {
+    private FXMLLoader customSceneLoader(Resource resourceFxml) {
         try {
             URL url = resourceFxml.getURL();
             FXMLLoader loader = new FXMLLoader(url);
             loader.setControllerFactory(applicationContext::getBean);
-
-//            Node node = loader.load();
-//            rootAnchorPane.getChildren().set(0, node);
             rootAnchorPane = loader.load();
             Stage stage = new Stage();
             Scene scene = new Scene(rootAnchorPane);
             stage.setScene(scene);
             stage.setWidth(1000);
             stage.setHeight(700);
+            stage.getIcons().add(new Image("icon.png"));
             stage.show();
+            return loader;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
+    }
+
+    public void createFromXmlAction() {
+        try {
+            Stage stage = (Stage) rootAnchorPane.getScene().getWindow();
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+                xmlParser.parser(selectedFile);
+                FXMLLoader fxmlLoader = customSceneLoader(cmrFxml);
+                CMRController controller = Objects.requireNonNull(fxmlLoader).getController();
+                controller.cmrTabPane.getSelectionModel().select(controller.tableCmrTab);
+                controller.getCmrTableAction();
+            } else {
+                Alerts.errorAlert("Операция отменена.");
+            }
+        } catch (Exception e) {
+            Alerts.errorAlert("Не удалось прочитать XML-файл.");
+        }
+    }
+
+    private void xmlButtonCreating(){
+        Image img = new Image(MainApplication.class.getResourceAsStream("/fx/images/xml.png"));
+        ImageView view = new ImageView(img);
+        view.setFitHeight(40);
+        view.setPreserveRatio(true);
+        createFromXmlButton.setGraphic(view);
     }
 }

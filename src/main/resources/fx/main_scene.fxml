@@ -7,7 +7,10 @@
 
 <AnchorPane fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="800.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.MainWindowController">
     <children>
-        <AnchorPane fx:id="workAreaAnchorPane" prefHeight="600.0" prefWidth="790.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+        <AnchorPane fx:id="workAreaAnchorPane" prefHeight="600.0" prefWidth="790.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Button id="tile-button" fx:id="createFromXmlButton" layoutX="43.0" layoutY="39.0" mnemonicParsing="false" onAction="#createFromXmlAction" prefHeight="130.0" prefWidth="150.0" stylesheets="@styles.css" text="Создать с XML" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0" />
+         </children></AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: #f37474;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <effect>
                 <DropShadow />

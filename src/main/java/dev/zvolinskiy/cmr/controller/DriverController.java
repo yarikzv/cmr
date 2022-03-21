@@ -2,25 +2,31 @@ package dev.zvolinskiy.cmr.controller;
 
 import dev.zvolinskiy.cmr.entity.Driver;
 import dev.zvolinskiy.cmr.entity.Passport;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 import dev.zvolinskiy.cmr.service.DriverService;
 import dev.zvolinskiy.cmr.service.PassportService;
 import dev.zvolinskiy.cmr.utils.Alerts;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
-import javax.persistence.EntityNotFoundException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Controller
 @RequiredArgsConstructor
-public class DriverController {
+public class DriverController implements Initializable {
     private final DriverService driverService;
     private final PassportService passportService;
 
@@ -33,7 +39,7 @@ public class DriverController {
     @FXML
     public TextField tfDriverMiddleName;
     @FXML
-    public TextField tfDriverPassportSeries;
+    public TextField tfDriverPassportNumber;
     @FXML
     public DatePicker dpDriverPassportDate;
     @FXML
@@ -94,66 +100,73 @@ public class DriverController {
     public TableColumn<Driver, String> listTrailer;
     @FXML
     public Button closeButton;
+    @FXML
+    public Tab addDriverTab;
+    @FXML
+    public AnchorPane addDriverTabAnchorPane;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        tfDriverLastName.setOnAction(e -> tfDriverFirstName.requestFocus());
+        tfDriverFirstName.setOnAction(e -> tfDriverMiddleName.requestFocus());
+        tfDriverMiddleName.setOnAction(e -> tfDriverPassportNumber.requestFocus());
+        tfDriverPassportNumber.setOnAction(e -> {
+            tfDriverPassportNumber.setText(tfDriverPassportNumber.getText().toUpperCase());
+            dpDriverPassportDate.requestFocus();
+        });
+        dpDriverPassportDate.setOnAction(e -> tfDriverPassportIssue.requestFocus());
+        tfDriverPassportIssue.setOnAction(e -> tfDriverTruck.requestFocus());
+        tfDriverTruck.setOnAction((e -> {
+            tfDriverTruck.setText(tfDriverTruck.getText().toUpperCase());
+            tfDriverTrailer.requestFocus();
+        }));
+        tfDriverTrailer.setOnAction(e -> {
+            tfDriverTrailer.setText(tfDriverTrailer.getText().toUpperCase());
+            saveDriverButton.requestFocus();
+        });
+        tableContextMenuHandler(driverListTable);
+        tableContextMenuHandler(searchResultTable);
+    }
 
     public void saveDriverAction() {
-        String passportSeries = tfDriverPassportSeries.getText();
-        LocalDate passportDate = dpDriverPassportDate.getValue();
-        String passportIssue = tfDriverPassportIssue.getText();
-        String firstName = tfDriverFirstName.getText();
-        String middleName = tfDriverMiddleName.getText();
-        String lastName = tfDriverLastName.getText();
-        String truck = tfDriverTruck.getText();
-        String trailer = tfDriverTrailer.getText();
-
-        if (!passportSeries.isEmpty()
-                && passportDate != null
-                && !passportIssue.isEmpty()
-                && !firstName.isEmpty()
-                && !lastName.isEmpty()
-                && !truck.isEmpty()) {
-            Passport passport = Passport.builder()
-                    .number(passportSeries)
-                    .date(passportDate)
-                    .issue(passportIssue)
-                    .build();
-            Driver driver = Driver.builder()
-                    .firstName(firstName)
-                    .middleName(middleName)
-                    .lastName(lastName)
-                    .passport(passportService.savePassport(passport))
-                    .truck(truck)
-                    .trailer(trailer)
-                    .build();
-            driverService.saveDriver(driver);
+        try {
+            var driver = fillDriver();
+            driverService.save(driver);
             Alerts.successAlert("Водитель " +
                     driver.getLastName() + " " +
                     (!driver.getFirstName().equals("") ? (driver.getFirstName().charAt(0) + ". ") : " ") +
                     (!driver.getMiddleName().equals("") ? (driver.getMiddleName().charAt(0) + ". ") : " ") +
                     " успешно сохранен в базу данных!");
-        } else {
-            Alerts.errorAlert("Заполните все поля!");
+            refresh();
+        } catch (CmrEntityNotFoundException e) {
+            Alerts.errorAlert("Заполните необходимые поля!");
         }
     }
 
-    public void searchDriverByLastNameAction() {
-        List<Driver> driversByLastName = driverService.findDriverByLastName(tfDriverLastNameSearch.getText());
-        fillTableBySearchResult(driversByLastName,
-                colLastName,
-                colFirstName,
-                colMiddleName,
-                colPassportNumber,
-                colPassportIssue,
-                colPassportDate,
-                colTruck,
-                colTrailer,
-                searchResultTable);
-        tfDriverLastNameSearch.clear();
+    public void updateDriverAction(Integer driverId) {
+        try {
+            var driver = fillDriver();
+            driver.setId(driverId);
+            driverService.update(driver);
+            Alerts.successAlert("Водитель " +
+                    driver.getLastName() + " " +
+                    (!driver.getFirstName().equals("") ? (driver.getFirstName().charAt(0) + ". ") : " ") +
+                    (!driver.getMiddleName().equals("") ? (driver.getMiddleName().charAt(0) + ". ") : " ") +
+                    " успешно сохранен в базу данных!");
+            refresh();
+        } catch (CmrEntityNotFoundException e) {
+            Alerts.errorAlert("Заполните необходимые поля!");
+        }
     }
 
-    public void searchDriverByPassportNumberAction() {
+    public void closeButtonAction() {
+        driverAnchorPane.getScene().getWindow().hide();
+    }
+
+    public void searchDriverByLastNameAction() {
         try {
-            List<Driver> driversByPassport = List.of(driverService.findDriverByPassport(tfDriverPassportSearch.getText()));
-            fillTableBySearchResult(driversByPassport,
+            var driversByLastName = driverService.findByLastName(tfDriverLastNameSearch.getText());
+            fillTableBySearchResult(driversByLastName,
                     colLastName,
                     colFirstName,
                     colMiddleName,
@@ -163,14 +176,34 @@ public class DriverController {
                     colTruck,
                     colTrailer,
                     searchResultTable);
-        } catch (EntityNotFoundException e) {
+        } catch (CmrEntityNotFoundException e) {
+            Alerts.errorAlert("Данные не найдены");
+        }
+        tfDriverLastNameSearch.clear();
+    }
+
+    public void searchDriverByPassportNumberAction() {
+        List<Driver> driversByPassport = new ArrayList<>();
+        try {
+            driversByPassport.add(driverService.findByPassport(tfDriverPassportSearch.getText()));
+        } catch (CmrEntityNotFoundException e) {
             Alerts.errorAlert("Водителей с таким паспортом не найдено");
         }
+        fillTableBySearchResult(driversByPassport,
+                colLastName,
+                colFirstName,
+                colMiddleName,
+                colPassportNumber,
+                colPassportIssue,
+                colPassportDate,
+                colTruck,
+                colTrailer,
+                searchResultTable);
         tfDriverPassportSearch.clear();
     }
 
     public void getDriversListAction() {
-        List<Driver> drivers = driverService.findAllDrivers();
+        List<Driver> drivers = driverService.findAll();
         fillTableBySearchResult(drivers,
                 listLastName,
                 listFirstName,
@@ -181,6 +214,46 @@ public class DriverController {
                 listTruck,
                 listTrailer,
                 driverListTable);
+    }
+
+    private void refresh() {
+        tfDriverPassportNumber.clear();
+        dpDriverPassportDate.setValue(null);
+        tfDriverPassportIssue.clear();
+        tfDriverFirstName.clear();
+        tfDriverMiddleName.clear();
+        tfDriverLastName.clear();
+        tfDriverTruck.clear();
+        tfDriverTrailer.clear();
+    }
+
+    private Driver fillDriver() throws CmrEntityNotFoundException {
+        String passportNumber = tfDriverPassportNumber.getText().toUpperCase();
+        LocalDate passportDate = dpDriverPassportDate.getValue();
+        String passportIssue = tfDriverPassportIssue.getText();
+        String firstName = tfDriverFirstName.getText();
+        String middleName = tfDriverMiddleName.getText();
+        String lastName = tfDriverLastName.getText();
+        String truck = tfDriverTruck.getText().toUpperCase();
+        String trailer = tfDriverTrailer.getText().toUpperCase();
+
+        try {
+            Passport passport = Passport.builder()
+                    .number(passportNumber)
+                    .date(passportDate)
+                    .issue(passportIssue)
+                    .build();
+            return Driver.builder()
+                    .firstName(firstName)
+                    .middleName(middleName)
+                    .lastName(lastName)
+                    .passport(passportService.savePassport(passport))
+                    .truck(truck)
+                    .trailer(trailer)
+                    .build();
+        } catch (Exception e) {
+            throw new CmrEntityNotFoundException();
+        }
     }
 
     private void fillTableBySearchResult(List<Driver> drivers,
@@ -205,7 +278,57 @@ public class DriverController {
         table.getItems().setAll(drivers);
     }
 
-    public void closeButtonAction() {
-        driverAnchorPane.getScene().getWindow().hide();
+    private void editDriverAction(Driver clickedRowDriver) {
+        tfDriverLastName.setText(clickedRowDriver.getLastName());
+        tfDriverFirstName.setText(clickedRowDriver.getFirstName());
+        tfDriverMiddleName.setText(clickedRowDriver.getMiddleName());
+        tfDriverPassportNumber.setText(clickedRowDriver.getPassport().getNumber());
+        tfDriverPassportIssue.setText(clickedRowDriver.getPassport().getIssue());
+        dpDriverPassportDate.setValue(clickedRowDriver.getPassport().getDate());
+        tfDriverTruck.setText(clickedRowDriver.getTruck());
+        tfDriverTrailer.setText(clickedRowDriver.getTrailer());
+        saveDriverButton.setVisible(false);
+        Button updateButton = new Button("Обновить");
+        addDriverTabAnchorPane.getChildren().addAll(updateButton);
+        updateButton.setId("custom-button");
+        updateButton.setPrefHeight(30.0);
+        updateButton.setPrefWidth(150.0);
+        AnchorPane.setLeftAnchor(updateButton, 50.0);
+        AnchorPane.setTopAnchor(updateButton, 420.0);
+        updateButton.setOnAction(event -> {
+            updateDriverAction(clickedRowDriver.getId());
+            updateButton.setVisible(false);
+            saveDriverButton.setVisible(true);
+        });
+        driverTabPane.getSelectionModel().select(addDriverTab);
+    }
+
+    private void tableContextMenuHandler(TableView<Driver> driverListTable) {
+        ContextMenu cm = new ContextMenu();
+        MenuItem editMI = new MenuItem("Редактировать");
+        cm.getItems().add(editMI);
+        MenuItem deleteMI = new MenuItem("Удалить");
+        cm.getItems().add(deleteMI);
+        driverListTable.setRowFactory(tv -> {
+            TableRow<Driver> row = new TableRow<>();
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    cm.show(driverListTable, t.getScreenX(), t.getScreenY());
+                    Driver clickedRowDriver = row.getItem();
+                    //edit pod
+                    editMI.setOnAction(edit -> editDriverAction(clickedRowDriver));
+                    //delete row
+                    deleteMI.setOnAction(delete -> {
+                        try {
+                            driverService.delete(clickedRowDriver);
+                        } catch (CmrEntityNotFoundException e) {
+                            Alerts.errorAlert("Не удалось удалить.");
+                        }
+                        getDriversListAction();
+                    });
+                }
+            });
+            return row;
+        });
     }
 }

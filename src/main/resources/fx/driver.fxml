@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="driver-anchor-pane" fx:id="driverAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.DriverController">
+<AnchorPane id="driver-anchor-pane" fx:id="driverAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.DriverController">
     <children>
         <TabPane id="driver-tab-pane" fx:id="driverTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab fx:id="addDriverTab" text="Добавить водителя">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane fx:id="addDriverTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="390.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="250.0">
                                     <image>
@@ -18,25 +19,31 @@
                                     </image>
                                 </ImageView>
                                 <Label layoutX="26.0" layoutY="24.0" text="Фамилия" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
-                                <TextField fx:id="tfDriverLastName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Фамилия" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="20.0" />
+                                <TextField fx:id="tfDriverLastName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="300.0" promptText="Фамилия" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="20.0" />
                                 <Label layoutX="25.0" layoutY="64.0" text="Имя" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="64.0" />
-                                <TextField fx:id="tfDriverFirstName" layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Имя" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="60.0" />
+                                <TextField fx:id="tfDriverFirstName" layoutX="91.0" layoutY="54.0" minWidth="-Infinity" prefWidth="300.0" promptText="Имя" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="60.0" />
                                 <Label layoutX="25.0" layoutY="104.0" text="Отчество" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="104.0" />
-                                <TextField fx:id="tfDriverMiddleName" layoutX="91.0" layoutY="94.0" minWidth="-Infinity" prefWidth="300.0" promptText="Отчество" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="100.0" />
+                                <TextField fx:id="tfDriverMiddleName" layoutX="91.0" layoutY="94.0" minWidth="-Infinity" prefWidth="300.0" promptText="Отчество" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0" />
                                 <Separator layoutX="25.0" layoutY="157.0" prefHeight="2.0" prefWidth="370.0" />
                                 <Label layoutX="25.0" layoutY="182.0" text="Паспорт" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="184.0" />
-                                <TextField fx:id="tfDriverPassportSeries" layoutX="91.0" layoutY="178.0" minWidth="-Infinity" prefWidth="300.0" promptText="Серия и номер паспорта" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="180.0" />
+                                <TextField fx:id="tfDriverPassportNumber" layoutX="91.0" layoutY="178.0" minWidth="-Infinity" prefWidth="300.0" promptText="Серия и номер паспорта" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="180.0" />
                                 <Label layoutX="29.0" layoutY="227.0" text="Дата" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="224.0" />
-                                <DatePicker fx:id="dpDriverPassportDate" layoutX="83.0" layoutY="220.0" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="220.0" />
+                                <DatePicker fx:id="dpDriverPassportDate" layoutX="83.0" layoutY="220.0" promptText="Дата выдачи" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="220.0" />
                                 <Label layoutX="29.0" layoutY="269.0" text="Кем выдан" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="264.0" />
-                                <TextField fx:id="tfDriverPassportIssue" layoutX="94.0" layoutY="265.0" minWidth="-Infinity" prefWidth="300.0" promptText="Кем выдан" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="260.0" />
+                                <TextField fx:id="tfDriverPassportIssue" layoutX="94.0" layoutY="265.0" minWidth="-Infinity" prefWidth="300.0" promptText="Кем выдан" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="260.0" />
                                 <Separator layoutX="25.0" layoutY="309.0" prefHeight="2.0" prefWidth="370.0" />
                                 <Label layoutX="28.0" layoutY="331.0" text="Тягач" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="334.0" />
-                                <TextField fx:id="tfDriverTruck" layoutX="93.0" layoutY="327.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер автомобиля" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="330.0" />
+                                <TextField fx:id="tfDriverTruck" layoutX="93.0" layoutY="327.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер автомобиля" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="330.0" />
                                 <Label layoutX="25.0" layoutY="372.0" text="Прицеп" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="374.0" />
-                                <TextField fx:id="tfDriverTrailer" layoutX="90.0" layoutY="368.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер прицепа" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="370.0" />
+                                <TextField fx:id="tfDriverTrailer" layoutX="90.0" layoutY="368.0" minWidth="-Infinity" prefWidth="300.0" promptText="Госномер прицепа" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="370.0" />
                                 <Button id="custom-button" fx:id="saveDriverButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#saveDriverAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="420.0" />
                                 <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="420.0" />
+                        <Label layoutX="420.0" layoutY="45.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="26.0" />
+                        <Label layoutX="430.0" layoutY="55.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="66.0" />
+                        <Label layoutX="430.0" layoutY="55.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="186.0" />
+                        <Label layoutX="318.0" layoutY="235.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="226.0" />
+                        <Label layoutX="328.0" layoutY="245.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="266.0" />
+                        <Label layoutX="338.0" layoutY="255.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="336.0" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -55,7 +62,7 @@
                                 <TextField fx:id="tfDriverPassportSearch" layoutX="90.0" layoutY="160.0" minWidth="-Infinity" prefWidth="300.0" promptText="Номер паспорта" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="160.0" />
                                 <Button fx:id="searchDriverByPassportNumber" layoutX="393.0" layoutY="160.0" mnemonicParsing="false" onAction="#searchDriverByPassportNumberAction" text="Найти" />
                                 <Separator layoutX="25.0" layoutY="215.0" prefHeight="2.0" prefWidth="370.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="210.0" />
-                                <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefHeight="440.0" prefWidth="960.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="230.0">
+                                <TableView fx:id="searchResultTable" layoutX="25.0" layoutY="230.0" prefHeight="400.0" prefWidth="960.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="230.0">
                                     <columns>
                                         <TableColumn fx:id="colLastName" maxWidth="1000.0" prefWidth="140.0" text="Фамилия" />
                                         <TableColumn fx:id="colFirstName" prefWidth="100.0" text="Имя" />
@@ -77,7 +84,7 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <Button id="custom-button" fx:id="getDriversListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getDriversListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
-                                <TableView fx:id="driverListTable" layoutX="25.0" layoutY="230.0" prefHeight="440.0" prefWidth="960.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
+                                <TableView fx:id="driverListTable" editable="true" layoutX="25.0" layoutY="230.0" prefHeight="440.0" prefWidth="960.0" tableMenuButtonVisible="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
                                     <columns>
                                         <TableColumn fx:id="listLastName" prefWidth="140.0" text="Фамилия" />
                                         <TableColumn fx:id="listFirstName" prefWidth="100.0" text="Имя" />

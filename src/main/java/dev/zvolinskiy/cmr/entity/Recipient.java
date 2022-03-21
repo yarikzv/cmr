@@ -26,6 +26,9 @@ public class Recipient {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "edrpou")
+    private String edrpou;
+
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
