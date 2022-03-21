@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface PlaceOfLoadingService {
 
-    PlaceOfLoading savePlaceOfLoading(PlaceOfLoading placeOfLoading);
+    PlaceOfLoading save(PlaceOfLoading placeOfLoading);
+
+    PlaceOfLoading update(PlaceOfLoading placeOfLoading);
 
     PlaceOfLoading findPlaceOfLoadingById(Integer id);
 
@@ -14,5 +16,6 @@ public interface PlaceOfLoadingService {
 
     List<PlaceOfLoading> findAllPlaceOfLoading();
 
-    void deletePlaceOfLoading(PlaceOfLoading placeOfLoading);
+    void delete(PlaceOfLoading placeOfLoading);
+
 }

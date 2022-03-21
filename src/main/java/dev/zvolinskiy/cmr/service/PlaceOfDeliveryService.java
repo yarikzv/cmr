@@ -8,11 +8,13 @@ public interface PlaceOfDeliveryService {
 
     PlaceOfDelivery savePlaceOfDelivery(PlaceOfDelivery placeOfDelivery);
 
+    PlaceOfDelivery update(PlaceOfDelivery pod);
+
     PlaceOfDelivery findPlaceOfDeliveryById(Integer id);
 
     PlaceOfDelivery findPlaceOfDeliveryByAddress(String address);
 
     List<PlaceOfDelivery> findAllPlaceOfDelivery();
 
-    void deletePlaceOfDelivery(PlaceOfDelivery placeOfDelivery);
+    void delete(PlaceOfDelivery placeOfDelivery);
 }

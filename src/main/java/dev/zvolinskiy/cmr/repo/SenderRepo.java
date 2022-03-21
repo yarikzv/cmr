@@ -4,5 +4,5 @@ import dev.zvolinskiy.cmr.entity.Sender;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SenderRepo extends CrudRepository<Sender, Integer> {
-    Sender findSendersByName(String name);
+    Sender findSendersByNameContainingIgnoreCase(String name);
 }

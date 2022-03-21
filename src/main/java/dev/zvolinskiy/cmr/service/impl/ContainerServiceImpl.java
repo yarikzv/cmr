@@ -1,6 +1,7 @@
 package dev.zvolinskiy.cmr.service.impl;
 
 import dev.zvolinskiy.cmr.entity.Container;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 import dev.zvolinskiy.cmr.repo.ContainerRepo;
 import dev.zvolinskiy.cmr.service.ContainerService;
 import lombok.RequiredArgsConstructor;
@@ -17,27 +18,53 @@ public class ContainerServiceImpl implements ContainerService {
     private final ContainerRepo containerRepo;
 
     @Override
-    public Container saveContainer(Container container) {
+    public Container save(Container container) {
         return containerRepo.save(container);
     }
 
     @Override
-    public Container findContainerById(Integer id) {
-        return containerRepo.findById(id).orElse(null);
+    public Container update(Container container) {
+        Container updatedContainer = containerRepo.findById(container.getId()).orElse(null);
+        if (updatedContainer != null) {
+            updatedContainer.setNumber(container.getNumber());
+            updatedContainer.setType(container.getType());
+            return containerRepo.save(updatedContainer);
+        } else {
+            return container;
+        }
     }
 
     @Override
-    public Container findContainerByNumber(String number) {
-        return containerRepo.findContainerByNumber(number);
+    public Container findById(Integer id) throws CmrEntityNotFoundException {
+        var container = containerRepo.findById(id).orElse(null);
+        if (container != null) {
+            return container;
+        } else {
+            throw new CmrEntityNotFoundException();
+        }
     }
 
     @Override
-    public List<Container> findAllContainers() {
+    public Container findByNumber(String number) throws CmrEntityNotFoundException {
+        var container = containerRepo.findByNumberContaining(number);
+        if (container != null) {
+            return container;
+        } else {
+            throw new CmrEntityNotFoundException();
+        }
+    }
+
+    @Override
+    public List<Container> findAll() {
         return (List<Container>) containerRepo.findAll();
     }
 
     @Override
-    public void deleteContainer(Container container) {
-        containerRepo.delete(container);
+    public void delete(Container container) throws CmrEntityNotFoundException {
+        try {
+            containerRepo.delete(container);
+        } catch (IllegalArgumentException e) {
+            throw new CmrEntityNotFoundException();
+        }
     }
 }

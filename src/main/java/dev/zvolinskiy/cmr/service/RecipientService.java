@@ -1,18 +1,23 @@
 package dev.zvolinskiy.cmr.service;
 
 import dev.zvolinskiy.cmr.entity.Recipient;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 
 import java.util.List;
 
 public interface RecipientService {
 
-    Recipient saveRecipient(Recipient recipient);
+    Recipient save(Recipient recipient);
 
-    Recipient findRecipientById(Integer id);
+    Recipient update(Recipient recipient);
 
-    Recipient findRecipientByName(String name);
+    Recipient findById(Integer id) throws CmrEntityNotFoundException;
 
-    List<Recipient> findAllRecipient();
+    Recipient findByEdrpou(String code) throws CmrEntityNotFoundException;
 
-    void deleteRecipient(Recipient recipient);
+    Recipient findByName(String name) throws CmrEntityNotFoundException;
+
+    List<Recipient> findAll();
+
+    void delete(Recipient recipient) throws CmrEntityNotFoundException;
 }

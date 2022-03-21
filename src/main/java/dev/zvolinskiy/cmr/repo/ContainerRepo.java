@@ -4,5 +4,5 @@ import dev.zvolinskiy.cmr.entity.Container;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ContainerRepo extends CrudRepository<Container, Integer> {
-    Container findContainerByNumber(String number);
+    Container findByNumberContaining(String number);
 }

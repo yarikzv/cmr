@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DriverRepo extends CrudRepository<Driver, Integer> {
 
-    List<Driver> findDriverByLastNameContaining(String lastName);
+    List<Driver> findDriverByLastNameContainingIgnoreCase(String lastName);
 
     List<Driver> findDriverByTruckContaining(String truck);
 

@@ -17,8 +17,20 @@ public class PlaceOfLoadingServiceImpl implements PlaceOfLoadingService {
     private final PlaceOfLoadingRepo placeOfLoadingRepo;
 
     @Override
-    public PlaceOfLoading savePlaceOfLoading(PlaceOfLoading placeOfLoading) {
+    public PlaceOfLoading save(PlaceOfLoading placeOfLoading) {
         return placeOfLoadingRepo.save(placeOfLoading);
+    }
+
+    @Override
+    public PlaceOfLoading update(PlaceOfLoading pol) {
+        PlaceOfLoading updatedPol = placeOfLoadingRepo.findById(pol.getId()).orElse(null);
+        if (updatedPol != null){
+            updatedPol.setAddress(pol.getAddress());
+            updatedPol.setCountry(pol.getCountry());
+            return placeOfLoadingRepo.save(updatedPol);
+        } else {
+            return pol;
+        }
     }
 
     @Override
@@ -37,7 +49,7 @@ public class PlaceOfLoadingServiceImpl implements PlaceOfLoadingService {
     }
 
     @Override
-    public void deletePlaceOfLoading(PlaceOfLoading placeOfLoading) {
+    public void delete(PlaceOfLoading placeOfLoading) {
         placeOfLoadingRepo.delete(placeOfLoading);
     }
 }

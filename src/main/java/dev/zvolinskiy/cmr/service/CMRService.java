@@ -1,23 +1,26 @@
 package dev.zvolinskiy.cmr.service;
 
 import dev.zvolinskiy.cmr.entity.CMR;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CMRService {
 
-    CMR saveCMR(CMR cmr);
+    CMR save(CMR cmr);
 
-    CMR findCMRById(Integer id);
+    CMR update(CMR cmr);
 
-    List<CMR> findCMRByContainerNumber(String number);
+    CMR findById(Integer id) throws CmrEntityNotFoundException;
 
-    List<CMR> findCMRByDate(Date date);
+    List<CMR> findByContainerNumber(String number) throws CmrEntityNotFoundException;
 
-    List<CMR> findCMRByRecipientName(String recipientName);
+    List<CMR> findByDate(LocalDate date) throws CmrEntityNotFoundException;
 
-    List<CMR> findAllCMRs();
+    List<CMR> findByRecipientName(String recipientName) throws CmrEntityNotFoundException;
 
-    void deleteCMR(CMR cmr);
+    List<CMR> findAll();
+
+    void delete(CMR cmr) throws CmrEntityNotFoundException;
 }

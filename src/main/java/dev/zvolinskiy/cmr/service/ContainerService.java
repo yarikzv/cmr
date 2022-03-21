@@ -1,18 +1,21 @@
 package dev.zvolinskiy.cmr.service;
 
 import dev.zvolinskiy.cmr.entity.Container;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 
 import java.util.List;
 
 public interface ContainerService {
 
-    Container saveContainer(Container container);
+    Container save(Container container);
 
-    Container findContainerById(Integer id);
+    Container findById(Integer id) throws CmrEntityNotFoundException;
 
-    Container findContainerByNumber(String number);
+    Container findByNumber(String number) throws CmrEntityNotFoundException;
 
-    List<Container> findAllContainers();
+    List<Container> findAll();
 
-    void deleteContainer(Container container);
+    void delete(Container container) throws CmrEntityNotFoundException;
+
+    Container update(Container container);
 }

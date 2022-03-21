@@ -1,18 +1,21 @@
 package dev.zvolinskiy.cmr.service;
 
 import dev.zvolinskiy.cmr.entity.Sender;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 
 import java.util.List;
 
 public interface SenderService {
 
-    Sender saveSender(Sender sender);
+    Sender save(Sender sender);
 
-    Sender findSenderById(Integer id);
+    Sender update(Sender sender);
 
-    Sender findSenderByName(String name);
+    Sender findById(Integer id) throws CmrEntityNotFoundException;
 
-    List<Sender> findAllSenders();
+    Sender findByName(String name) throws CmrEntityNotFoundException;
 
-    void deleteSender(Sender sender);
+    List<Sender> findAll();
+
+    void delete(Sender sender) throws CmrEntityNotFoundException;
 }

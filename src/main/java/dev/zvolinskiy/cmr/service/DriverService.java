@@ -1,24 +1,27 @@
 package dev.zvolinskiy.cmr.service;
 
 import dev.zvolinskiy.cmr.entity.Driver;
+import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
 
 import java.util.List;
 
 public interface DriverService {
 
-    Driver saveDriver(Driver driver);
+    Driver save(Driver driver);
 
-    Driver findDriverById(Integer id);
+    Driver update(Driver driver);
 
-    List<Driver> findDriverByLastName(String lastName);
+    Driver findById(Integer id) throws CmrEntityNotFoundException;
 
-    List<Driver> findDriverByTruck(String truck);
+    List<Driver> findByLastName(String lastName) throws CmrEntityNotFoundException;
 
-    List<Driver> findAllDrivers();
+    List<Driver> findByTruck(String truck) throws CmrEntityNotFoundException;
 
-    Driver findDriverByPassport(String passportNumber);
+    List<Driver> findAll();
 
-    Driver findDriverByFullName(String fullName);
+    Driver findByPassport(String passportNumber) throws CmrEntityNotFoundException;
 
-    void deleteDriver(Driver driver);
+    Driver findByFullName(String fullName) throws CmrEntityNotFoundException;
+
+    void delete(Driver driver) throws CmrEntityNotFoundException;
 }

@@ -22,6 +22,18 @@ public class PlaceOfDeliveryServiceImpl implements PlaceOfDeliveryService {
     }
 
     @Override
+    public PlaceOfDelivery update(PlaceOfDelivery pod) {
+        PlaceOfDelivery updatedPod = placeOfDeliveryRepo.findById(pod.getId()).orElse(null);
+        if (updatedPod != null){
+            updatedPod.setAddress(pod.getAddress());
+            updatedPod.setCountry(pod.getCountry());
+            return  placeOfDeliveryRepo.save(updatedPod);
+        } else {
+            return pod;
+        }
+    }
+
+    @Override
     public PlaceOfDelivery findPlaceOfDeliveryById(Integer id) {
         return placeOfDeliveryRepo.findById(id).orElse(null);
     }
@@ -37,7 +49,7 @@ public class PlaceOfDeliveryServiceImpl implements PlaceOfDeliveryService {
     }
 
     @Override
-    public void deletePlaceOfDelivery(PlaceOfDelivery placeOfDelivery) {
+    public void delete(PlaceOfDelivery placeOfDelivery) {
         placeOfDeliveryRepo.delete(placeOfDelivery);
     }
 }
