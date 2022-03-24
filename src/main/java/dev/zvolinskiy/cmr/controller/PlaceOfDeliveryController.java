@@ -159,6 +159,12 @@ public class PlaceOfDeliveryController implements Initializable {
                     });
                 }
             });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    PlaceOfDelivery clickedRowPod = row.getItem();
+                    editPodAction(clickedRowPod);
+                }
+            });
             return row;
         });
     }

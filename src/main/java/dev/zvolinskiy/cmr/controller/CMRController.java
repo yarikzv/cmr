@@ -447,7 +447,6 @@ public class CMRController implements Initializable {
                     CMR clickedRowCmr = row.getItem();
                     //edit cmr
                     editMI.setOnAction(edit -> editCmrAction(clickedRowCmr));
-
                     //view row in PDF
                     viewMI.setOnAction(view -> {
                         try {
@@ -465,6 +464,12 @@ public class CMRController implements Initializable {
                         }
                         getCmrTableAction();
                     });
+                }
+            });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if(t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2){
+                    CMR clickedRowCmr = row.getItem();
+                    editCmrAction(clickedRowCmr);
                 }
             });
             return row;

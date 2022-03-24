@@ -285,6 +285,12 @@ public class RecipientController implements Initializable {
                     });
                 }
             });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    Recipient clickedRowRecipient = row.getItem();
+                    editRecipientAction(clickedRowRecipient);
+                }
+            });
             return row;
         });
     }

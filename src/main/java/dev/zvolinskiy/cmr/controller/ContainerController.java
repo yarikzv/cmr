@@ -128,7 +128,7 @@ public class ContainerController implements Initializable {
         table.getItems().setAll(containers);
     }
 
-    private void editPodAction(Container clickedRowContainer) {
+    private void editContainerAction(Container clickedRowContainer) {
         tfContainerNumber.setText(clickedRowContainer.getNumber());
         tfContainerType.setText(clickedRowContainer.getType());
         saveContainerButton.setVisible(false);
@@ -160,7 +160,7 @@ public class ContainerController implements Initializable {
                     cm.show(containerListTable, t.getScreenX(), t.getScreenY());
                     Container clickedRowContainer = row.getItem();
                     //edit pod
-                    editMI.setOnAction(edit -> editPodAction(clickedRowContainer));
+                    editMI.setOnAction(edit -> editContainerAction(clickedRowContainer));
                     //delete row
                     deleteMI.setOnAction(delete -> {
                         try {
@@ -170,6 +170,12 @@ public class ContainerController implements Initializable {
                         }
                         getContainerListAction();
                     });
+                }
+            });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    Container clickedRowCont = row.getItem();
+                    editContainerAction(clickedRowCont);
                 }
             });
             return row;

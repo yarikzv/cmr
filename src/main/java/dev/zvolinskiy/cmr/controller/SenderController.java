@@ -212,6 +212,12 @@ public class SenderController implements Initializable {
                     });
                 }
             });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    Sender clickedRowSender = row.getItem();
+                    editSenderAction(clickedRowSender);
+                }
+            });
             return row;
         });
     }

@@ -159,6 +159,12 @@ public class PlaceOfLoadingController implements Initializable {
                     });
                 }
             });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    PlaceOfLoading clickedRowPol = row.getItem();
+                    editPolAction(clickedRowPol);
+                }
+            });
             return row;
         });
     }

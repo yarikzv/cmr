@@ -1,5 +1,6 @@
 package dev.zvolinskiy.cmr.controller;
 
+import dev.zvolinskiy.cmr.entity.Container;
 import dev.zvolinskiy.cmr.entity.Driver;
 import dev.zvolinskiy.cmr.entity.Passport;
 import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
@@ -326,6 +327,12 @@ public class DriverController implements Initializable {
                         }
                         getDriversListAction();
                     });
+                }
+            });
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
+                    Driver clickedRowDriver = row.getItem();
+                    editDriverAction(clickedRowDriver);
                 }
             });
             return row;
