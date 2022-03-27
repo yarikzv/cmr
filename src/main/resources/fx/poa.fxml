@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="container-anchor-pane" fx:id="poaAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.PoAController">
+    <children>
+        <TabPane id="container-tab-pane" fx:id="poaTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="tableCmrTab" text="Список CMR">
+                    <content>
+                        <AnchorPane fx:id="poaListAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="25.0" layoutY="30.0" text="Для создания доверенности на бланке предприятия" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="25.0" layoutY="58.0" text="выберите файл бланка в формате JPEG на листе А4" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="40.0" />
+                                <Button id="custom-button" fx:id="addBlankButton" layoutX="25.0" layoutY="68.0" mnemonicParsing="false" onAction="#addBlankAction" stylesheets="@styles.css" text="Добавить бланк" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="70.0" />
+                                <Label layoutX="606.0" layoutY="20.0" text="Для просмотра доверенности кликните" />
+                                <Label layoutX="606.0" layoutY="40.0" text="правой кнопкой мыши по необходимой CMR из списка" />
+                                <Button id="custom-button" fx:id="getCMRListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getCmrTableAction" stylesheets="@styles.css" text="Получить список CMR" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="120.0" />
+                                <TableView id="result-table" fx:id="cmrListTable" editable="true" layoutX="25.0" layoutY="230.0" prefHeight="460.0" prefWidth="960.0" stylesheets="@styles.css" tableMenuButtonVisible="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="180.0">
+                                    <columns>
+                                        <TableColumn fx:id="listNumber" prefWidth="50.0" text="Номер" />
+                                        <TableColumn fx:id="listDate" prefWidth="70.0" text="Дата" />
+                                        <TableColumn fx:id="listOrder" prefWidth="95.0" text="Наряд" />
+                                        <TableColumn fx:id="listSender" prefWidth="150.0" text="Отправитель" />
+                                        <TableColumn fx:id="listRecipient" prefWidth="150.0" text="Получатель" />
+                                        <TableColumn fx:id="listPOD" prefWidth="70.0" text="Выгрузка" />
+                                        <TableColumn fx:id="listPOL" prefWidth="70.0" text="Погрузка" />
+                                        <TableColumn fx:id="listDocuments" prefWidth="100.0" text="Документы" />
+                                        <TableColumn fx:id="listContainer" prefWidth="90.0" text="Контейнер" />
+                                        <TableColumn fx:id="listCargoName" prefWidth="100.0" text="Груз" />
+                                        <TableColumn fx:id="listCargoQuantity" prefWidth="50.0" text="Мест" />
+                                        <TableColumn fx:id="listCargoWeight" prefWidth="50.0" text="Вес" />
+                                        <TableColumn fx:id="listCargoCode" prefWidth="70.0" text="Код груза" />
+                                        <TableColumn fx:id="listSenderInstructions" prefWidth="100.0" text="Декларация" />
+                                        <TableColumn fx:id="listDriver" prefWidth="140.0" text="Водитель" />
+                                        <TableColumn fx:id="listTruck" prefWidth="70.0" text="Тягач" />
+                                        <TableColumn fx:id="listTrailer" prefWidth="70.0" text="Прицеп" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

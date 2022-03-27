@@ -35,6 +35,7 @@ public class MainWindowController implements Initializable {
     private final Resource podFxml;
     private final Resource polFxml;
     private final Resource containerFxml;
+    private final Resource poaFxml;
     private final ApplicationContext applicationContext;
     private final XmlParser xmlParser;
 
@@ -58,6 +59,8 @@ public class MainWindowController implements Initializable {
     public AnchorPane rootAnchorPane;
     @FXML
     public Button createFromXmlButton;
+    @FXML
+    public Button firmPOAButton;
 
     public MainWindowController(
             @Value("classpath:/fx/cmr.fxml") Resource cmrFxml,
@@ -67,6 +70,7 @@ public class MainWindowController implements Initializable {
             @Value("classpath:/fx/pod.fxml") Resource podFxml,
             @Value("classpath:/fx/pol.fxml") Resource polFxml,
             @Value("classpath:/fx/container.fxml") Resource containerFxml,
+            @Value("classpath:/fx/poa.fxml") Resource poaFxml,
             ApplicationContext applicationContext, XmlParser xmlParser) {
         this.cmrFxml = cmrFxml;
         this.driverFxml = driverFxml;
@@ -75,6 +79,7 @@ public class MainWindowController implements Initializable {
         this.podFxml = podFxml;
         this.polFxml = polFxml;
         this.containerFxml = containerFxml;
+        this.poaFxml = poaFxml;
         this.applicationContext = applicationContext;
         this.xmlParser = xmlParser;
     }
@@ -88,7 +93,9 @@ public class MainWindowController implements Initializable {
         placeOfDeliveryButton.setOnAction(event -> podButtonAction());
         placeOfLoadingButton.setOnAction(event -> polButtonAction());
         containerButton.setOnAction(event -> containerButtonAction());
+        firmPOAButton.setOnAction(event -> firmPOAButtonAction());
         xmlButtonCreating();
+        poaButtonCreating();
     }
 
     public void closeButtonAction() {
@@ -124,6 +131,10 @@ public class MainWindowController implements Initializable {
 
     public void containerButtonAction() {
         customSceneLoader(containerFxml);
+    }
+
+    public void firmPOAButtonAction() {
+        customSceneLoader(poaFxml);
     }
 
     public void createFromXmlAction() {
@@ -166,10 +177,18 @@ public class MainWindowController implements Initializable {
     }
 
     private void xmlButtonCreating() {
-        Image img = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("/fx/images/xml.png")));
+        Image img = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("/fx/images/xml2.png")));
         ImageView view = new ImageView(img);
         view.setFitHeight(40);
         view.setPreserveRatio(true);
         createFromXmlButton.setGraphic(view);
+    }
+
+    private void poaButtonCreating() {
+        Image img = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("/fx/images/poa.png")));
+        ImageView view = new ImageView(img);
+        view.setFitHeight(40);
+        view.setPreserveRatio(true);
+        firmPOAButton.setGraphic(view);
     }
 }

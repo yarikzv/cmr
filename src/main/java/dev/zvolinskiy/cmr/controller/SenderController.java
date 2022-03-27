@@ -205,14 +205,14 @@ public class SenderController implements Initializable {
                             senderService.delete(clickedRowSender);
                         } catch (CmrEntityNotFoundException e) {
                             Alerts.errorAlert("Не удалось удалить. Данные не найдены.");
-                        } catch (DataIntegrityViolationException e){
+                        } catch (DataIntegrityViolationException e) {
                             Alerts.errorAlert("Данные используются в другой таблице.");
                         }
                         getSendersListAction();
                     });
                 }
             });
-            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
                 if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
                     Sender clickedRowSender = row.getItem();
                     editSenderAction(clickedRowSender);
