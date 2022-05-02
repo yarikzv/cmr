@@ -7,6 +7,9 @@ import dev.zvolinskiy.cmr.utils.Alerts;
 import dev.zvolinskiy.cmr.utils.AutoCompleteComboBoxListener;
 import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCleaner;
 import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCreator;
+import dev.zvolinskiy.cmr.utils.pdf.FirmPowerOfAttorneyPdfCreator;
+import dev.zvolinskiy.cmr.utils.pdf.MD2PowerOfAttorneyPdfCreator;
+import dev.zvolinskiy.cmr.utils.xmlparser.CmrToXmlCreator;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -16,10 +19,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -39,7 +46,12 @@ public class CMRController implements Initializable {
     private final PlaceOfLoadingService polService;
     private final ContainerService containerService;
     private final DriverService driverService;
+    private final TerminalService terminalService;
     private final MainWindowController mainWindowController;
+    private final CmrPdfCreator pdfCreator;
+    private final MD2PowerOfAttorneyPdfCreator md2PoaCreator;
+    private final FirmPowerOfAttorneyPdfCreator blankPoaCreator;
+    private final CmrToXmlCreator xmlCreator;
 
     @FXML
     public AnchorPane cmrAnchorPane;
@@ -76,6 +88,8 @@ public class CMRController implements Initializable {
     @FXML
     public ComboBox<String> cbDriverList;
     @FXML
+    public ComboBox<String> cbTerminal;
+    @FXML
     public DatePicker dpCMRDate;
     @FXML
     public TabPane cmrTabPane;
@@ -104,7 +118,7 @@ public class CMRController implements Initializable {
     @FXML
     public TextField tfIssuePlace;
     @FXML
-    public Button getContainerListButton;
+    public Button getCmrListButton;
     @FXML
     public TableView<CMR> cmrListTable;
     @FXML
@@ -141,6 +155,8 @@ public class CMRController implements Initializable {
     public TableColumn<CMR, String> listTruck;
     @FXML
     public TableColumn<CMR, String> listTrailer;
+    @FXML
+    public TableColumn<CMR, String> listTerminal;
     @FXML
     public TextField truckLabel;
     @FXML
@@ -182,6 +198,8 @@ public class CMRController implements Initializable {
     @FXML
     public TableColumn<CMR, String> searchTrailer;
     @FXML
+    public TableColumn<CMR, String> searchTerminal;
+    @FXML
     public DatePicker dpSearchByDate;
     @FXML
     public TextField tfSearchByContainer;
@@ -203,7 +221,8 @@ public class CMRController implements Initializable {
                 .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
                 .toList());
         new AutoCompleteComboBoxListener<>(cbDriverList);
-        tableContextMenuHandler(cmrListTable);
+        cbTerminal.getItems().setAll(terminalService.findAll().stream().map(Terminal::getName).toList());
+        new AutoCompleteComboBoxListener<>(cbTerminal);
         cbSenderList.setOnShowing(e -> {
             cbSenderList.getItems().setAll(senderService.findAll().stream().map(Sender::getName).toList());
             new AutoCompleteComboBoxListener<>(cbSenderList);
@@ -229,8 +248,12 @@ public class CMRController implements Initializable {
                     .map(driver -> driver.getLastName() + " " + driver.getFirstName() + " " + driver.getMiddleName())
                     .toList());
             new AutoCompleteComboBoxListener<>(cbDriverList);
-
         });
+        cbTerminal.setOnShowing(e -> {
+            cbTerminal.getItems().setAll(terminalService.findAll().stream().map(Terminal::getName).toList());
+            new AutoCompleteComboBoxListener<>(cbTerminal);
+        });
+        getCmrListButton.setOnAction(event -> getCmrTableAction());
         tableContextMenuHandler(cmrListTable);
         tableContextMenuHandler(searchResultTable);
     }
@@ -284,6 +307,7 @@ public class CMRController implements Initializable {
                 listDriver,
                 listTruck,
                 listTrailer,
+                listTerminal,
                 cmrListTable);
     }
 
@@ -311,6 +335,10 @@ public class CMRController implements Initializable {
         mainWindowController.driverButtonAction();
     }
 
+    public void addNewTerminal() {
+        mainWindowController.terminalButtonAction();
+    }
+
     public void dateSearchAction() {
         try {
             List<CMR> cmrByDate = cmrService.findByDate(dpSearchByDate.getValue());
@@ -332,6 +360,7 @@ public class CMRController implements Initializable {
                     searchDriver,
                     searchTruck,
                     searchTrailer,
+                    searchTerminal,
                     searchResultTable);
             if (cmrByDate.isEmpty()) Alerts.errorAlert("Данные не найдены");
         } catch (CmrEntityNotFoundException e) {
@@ -360,6 +389,7 @@ public class CMRController implements Initializable {
                     searchDriver,
                     searchTruck,
                     searchTrailer,
+                    searchTerminal,
                     searchResultTable);
             if (cmrByContainer.isEmpty()) Alerts.errorAlert("Данные не найдены");
         } catch (CmrEntityNotFoundException e) {
@@ -414,6 +444,7 @@ public class CMRController implements Initializable {
         taSenderInstructions.setText(clickedRowCmr.getSendersInstructions());
         tfIssuePlace.setText(clickedRowCmr.getPlaceOfIssue());
         cbDriverList.setValue(clickedRowCmr.getDriver() != null ? clickedRowCmr.getDriver().getLastName() + " " + clickedRowCmr.getDriver().getFirstName() + " " + clickedRowCmr.getDriver().getMiddleName() : null);
+        cbTerminal.setValue((clickedRowCmr.getTerminal().getName()));
         saveCmrButton.setVisible(false);
         Button updateButton = new Button("Обновить");
         addCmrTabAnchorPane.getChildren().addAll(updateButton);
@@ -421,7 +452,7 @@ public class CMRController implements Initializable {
         updateButton.setPrefHeight(30.0);
         updateButton.setPrefWidth(150.0);
         AnchorPane.setLeftAnchor(updateButton, 200.0);
-        AnchorPane.setTopAnchor(updateButton, 520.0);
+        AnchorPane.setTopAnchor(updateButton, 540.0);
         updateButton.setOnAction(event -> {
             if (Boolean.TRUE.equals(updateCmrAction(clickedRowCmr.getId()))) {
                 updateButton.setVisible(false);
@@ -434,11 +465,14 @@ public class CMRController implements Initializable {
     private void tableContextMenuHandler(TableView<CMR> cmrListTable) {
         ContextMenu cm = new ContextMenu();
         MenuItem editMI = new MenuItem("Редактировать");
-        cm.getItems().add(editMI);
         MenuItem viewMI = new MenuItem("Просмотреть");
-        cm.getItems().add(viewMI);
+        Menu poaMI = new Menu("Доверенность");
+        MenuItem poaBlankSubMI = new MenuItem("Бланк предприятия");
+        MenuItem poaMd2SubMI = new MenuItem("Бланк МД-2");
+        poaMI.getItems().addAll(poaBlankSubMI, poaMd2SubMI);
         MenuItem deleteMI = new MenuItem("Удалить");
-        cm.getItems().add(deleteMI);
+        MenuItem toXmlMI = new MenuItem("Создать XML");
+        cm.getItems().addAll(editMI, viewMI, poaMI, deleteMI, new SeparatorMenuItem(), toXmlMI);
         cmrListTable.setRowFactory(tv -> {
             TableRow<CMR> row = new TableRow<>();
             row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
@@ -447,6 +481,24 @@ public class CMRController implements Initializable {
                     CMR clickedRowCmr = row.getItem();
                     //edit cmr
                     editMI.setOnAction(edit -> editCmrAction(clickedRowCmr));
+                    //create Power of Attorney MD-2
+                    poaMd2SubMI.setOnAction(poa -> {
+                        try {
+                            viewPoaMD2(clickedRowCmr);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Alerts.errorAlert("Не могу заполнить Доверенность.\nПроверьте, внесены ли все данные.");
+                        }
+                    });
+                    //create Power of Attorney on firm blank
+                    poaBlankSubMI.setOnAction(poa -> {
+                        try {
+                            viewPoaBlank(clickedRowCmr);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Alerts.errorAlert("Не могу заполнить Доверенность.\nПроверьте, внесены ли все данные.");
+                        }
+                    });
                     //view row in PDF
                     viewMI.setOnAction(view -> {
                         try {
@@ -464,10 +516,19 @@ public class CMRController implements Initializable {
                         }
                         getCmrTableAction();
                     });
+                    //create XML
+                    toXmlMI.setOnAction(xml -> {
+                        try {
+                            xmlCreator.createXML(clickedRowCmr);
+                        } catch (ParserConfigurationException | IOException | TransformerException e) {
+                            e.printStackTrace();
+                            Alerts.errorAlert("Не удалось создать XML-файл");
+                        }
+                    });
                 }
             });
-            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t ->{
-                if(t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2){
+            row.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+                if (t.getButton() == MouseButton.PRIMARY && t.getClickCount() == 2) {
                     CMR clickedRowCmr = row.getItem();
                     editCmrAction(clickedRowCmr);
                 }
@@ -476,12 +537,37 @@ public class CMRController implements Initializable {
         });
     }
 
+    private void viewPoaBlank(CMR cmr) {
+        String blankImage;
+        try {
+            Stage stage = (Stage) cmrAnchorPane.getScene().getWindow();
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            fileChooser.getExtensionFilters().add(extFilterJPG);
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+                blankImage = selectedFile.getAbsolutePath();
+                blankPoaCreator.createPoaPdfFile(cmr, blankImage);
+                var file = new File("PowerOfAttorneyBlank" + cmr.getNumber() + ".pdf");
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+            } else {
+                Alerts.errorAlert("Операция отменена.");
+            }
+        } catch (Exception e) {
+            Alerts.errorAlert("Не удалось прочитать XML-файл.");
+        }
+    }
+
+    private void viewPoaMD2(CMR cmr) throws IOException {
+        md2PoaCreator.createPoaPdfFile(cmr);
+        var file = new File("PowerOfAttorney" + cmr.getNumber() + ".pdf");
+        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+    }
+
     private void viewPdf(CMR cmr) throws IOException {
-        var creator = new CmrPdfCreator();
-        creator.createPdfFile(cmr);
+        pdfCreator.createPdfFile(cmr);
         var file = new File("CMR" + cmr.getNumber() + ".pdf");
         Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
-
     }
 
     private CMR fillCmr() throws CmrEntityNotFoundException {
@@ -501,7 +587,7 @@ public class CMRController implements Initializable {
         String cmrSendersInstructions = taSenderInstructions.getText();
         String cmrIssuePlace = tfIssuePlace.getText();
         String cmrDriver = cbDriverList.getValue();
-
+        String cmrTerminal = cbTerminal.getValue();
         try {
             return CMR.builder()
                     .number(cmrNumber)
@@ -520,6 +606,7 @@ public class CMRController implements Initializable {
                     .sendersInstructions(cmrSendersInstructions)
                     .placeOfIssue(cmrIssuePlace)
                     .driver(driverService.findByFullName(cmrDriver))
+                    .terminal(terminalService.findByName(cmrTerminal))
                     .build();
         } catch (Exception e) {
             throw new CmrEntityNotFoundException();
@@ -544,6 +631,7 @@ public class CMRController implements Initializable {
                                          TableColumn<CMR, String> driver,
                                          TableColumn<CMR, String> truck,
                                          TableColumn<CMR, String> trailer,
+                                         TableColumn<CMR, String> terminal,
                                          TableView<CMR> table
     ) {
         number.setCellValueFactory(new PropertyValueFactory<>("number"));
@@ -575,7 +663,7 @@ public class CMRController implements Initializable {
         documents.setCellValueFactory(new PropertyValueFactory<>("documents"));
         container.setCellValueFactory(cont -> {
             Container cnt = cont.getValue().getContainer();
-            return cnt != null ? new SimpleStringProperty(cnt.getNumber()) :new SimpleStringProperty("");
+            return cnt != null ? new SimpleStringProperty(cnt.getNumber()) : new SimpleStringProperty("");
         });
         cargoName.setCellValueFactory(new PropertyValueFactory<>("cargoName"));
         cargoQuantity.setCellValueFactory(new PropertyValueFactory<>("cargoQuantity"));
@@ -602,6 +690,7 @@ public class CMRController implements Initializable {
             return drv != null ?
                     new SimpleStringProperty(drv.getTrailer()) : new SimpleStringProperty("");
         });
+        terminal.setCellValueFactory(new PropertyValueFactory<>("terminal"));
         table.getItems().setAll(cmrList);
     }
 
@@ -624,5 +713,6 @@ public class CMRController implements Initializable {
         taSenderInstructions.clear();
         trailerLabel.clear();
         truckLabel.clear();
+        cbTerminal.setValue(null);
     }
 }

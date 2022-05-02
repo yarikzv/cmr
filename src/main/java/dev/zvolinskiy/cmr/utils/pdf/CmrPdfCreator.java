@@ -1,6 +1,9 @@
 package dev.zvolinskiy.cmr.utils.pdf;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -9,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -22,7 +24,7 @@ public class CmrPdfCreator {
     public void createPdfFile(CMR cmr) {
         try {
             BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font bfBold12 = new Font(bf, 14, Font.BOLD, new BaseColor(0, 0, 0));
+            Font bfBold12 = new Font(bf, 12, Font.BOLD, new BaseColor(0, 0, 0));
             Font bf12 = new Font(bf, 12);
 
             Document document = new Document();
@@ -36,8 +38,18 @@ public class CmrPdfCreator {
             float[] columnWidths = {2f, 1f, 1.5f, 1f, 1f, 2f};
             table.setWidths(columnWidths);
 
-            String sender = cmr.getSender().getName() + "\n" + cmr.getSender().getAddress() + "\n" + cmr.getSender().getCountry().getName();
-            String recipient = cmr.getRecipient().getName() + "\n" + cmr.getRecipient().getAddress() + "\n" + cmr.getRecipient().getCountry().getName();
+            String recipientAddress = cmr.getRecipient().getAddress();
+            String[] array = recipientAddress.split(" ");
+            for (int i = 0; i < array.length; i++) {
+                if (i != 0 && i % 5 == 0) {
+                    array[i] += "\n";
+                }
+            }
+            recipientAddress = String.join(" ", array);
+            String sender = cmr.getSender().getName() + "\n" +
+                    (cmr.getSender().getAddress().isEmpty() ? " " : cmr.getSender().getAddress()) +
+                    "\n" + cmr.getSender().getCountry().getName();
+            String recipient = cmr.getRecipient().getName() + "\n" + recipientAddress + "\n" + cmr.getRecipient().getCountry().getName();
             String pod = cmr.getPlaceOfDelivery().getAddress() + "\n" + cmr.getPlaceOfDelivery().getCountry().getName();
             String pol = cmr.getPlaceOfLoading().getAddress() + "\n" + cmr.getPlaceOfLoading().getCountry().getName();
             String driver = cmr.getDriver().getLastName() + "\n" + cmr.getDriver().getFirstName() + " " + cmr.getDriver().getMiddleName();
@@ -62,10 +74,10 @@ public class CmrPdfCreator {
             insert.insertCell(table, String.valueOf(cmr.getCargoCode()), 100f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 1, bf12);
             insert.insertCell(table, String.valueOf(cmr.getCargoWeight()), 100f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bf12);
 
-            insert.insertCell(table, cmr.getSendersInstructions().isEmpty()?"ЕЕ/ЕА":cmr.getSendersInstructions(), 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
+            insert.insertCell(table, cmr.getSendersInstructions().isEmpty() ? "ЕЕ/ЕА" : cmr.getSendersInstructions(), 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
             insert.insertCell(table, "", 140f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
 
-            insert.insertCell(table, cmr.getPlaceOfIssue().isEmpty()?"м. Одеса":cmr.getPlaceOfIssue(), 80f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
+            insert.insertCell(table, cmr.getPlaceOfIssue().isEmpty() ? "м. Одеса" : cmr.getPlaceOfIssue(), 80f, Element.ALIGN_CENTER, Element.ALIGN_TOP, 3, bf12);
             insert.insertCell(table, cmr.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), 80f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 3, bf12);
 
             insert.insertCell(table, driver, 60f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bfBold12);
@@ -75,11 +87,10 @@ public class CmrPdfCreator {
 
             document.close();
             writer.close();
-        } catch (DocumentException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 
 }

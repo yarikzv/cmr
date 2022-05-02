@@ -54,6 +54,7 @@ public class MD2PowerOfAttorneyPdfCreator {
             String order = cmr.getOrderNumber();
             String container = cmr.getContainer().getNumber();
             String contType = cmr.getContainer().getType();
+            String terminal = cmr.getTerminal().getName();
 
             PdfPTable firstPageTable = new PdfPTable(6);
             firstPageTable.setWidthPercentage(100);
@@ -86,7 +87,7 @@ public class MD2PowerOfAttorneyPdfCreator {
             insert.insertCell(firstPageTable, issued, 28f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 5, bf12);
 
             insert.insertCell(firstPageTable, "", 25f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bf12);
-            insert.insertCell(firstPageTable, "terminal", 25f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 4, bf12);
+            insert.insertCell(firstPageTable, terminal, 25f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 4, bf12);
 
             insert.insertCell(firstPageTable, "", 30f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 2, bf12);
             insert.insertCell(firstPageTable, order, 30f, Element.ALIGN_LEFT, Element.ALIGN_TOP, 4, bf12);

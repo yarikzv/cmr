@@ -88,6 +88,8 @@ public class PoAController implements Initializable {
     @FXML
     public TableColumn<CMR, String> listTrailer;
     @FXML
+    public TableColumn<CMR, String> listTerminal;
+    @FXML
     public Button addBlankButton;
     @FXML
     public AnchorPane poaListAnchorPane;
@@ -118,6 +120,7 @@ public class PoAController implements Initializable {
                 listDriver,
                 listTruck,
                 listTrailer,
+                listTerminal,
                 cmrListTable);
     }
 
@@ -240,6 +243,7 @@ public class PoAController implements Initializable {
                                          TableColumn<CMR, String> driver,
                                          TableColumn<CMR, String> truck,
                                          TableColumn<CMR, String> trailer,
+                                         TableColumn<CMR, String> terminal,
                                          TableView<CMR> table
     ) {
         number.setCellValueFactory(new PropertyValueFactory<>("number"));

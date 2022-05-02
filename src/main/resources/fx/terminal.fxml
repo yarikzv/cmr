@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="terminal-anchor-pane" fx:id="terminalAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.TerminalController">
+    <children>
+        <TabPane id="terminal-tab-pane" fx:id="terminalTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="addTerminalTab" text="Добавить контейнер">
+                    <content>
+                        <AnchorPane fx:id="addTerminalTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="373.0" fitWidth="590.0" layoutX="210.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="250.0">
+                                    <image>
+                                        <Image url="@images/truck.jpg" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="26.0" layoutY="24.0" text="Терминал" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="24.0" />
+                                <TextField id="custom-text-field" fx:id="tfTerminalName" layoutX="91.0" layoutY="20.0" minWidth="-Infinity" prefWidth="270.0" promptText="Терминал" stylesheets="@styles.css" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="20.0" />
+                                <Button id="custom-button" fx:id="saveTerminalButton" layoutX="150.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveTerminalAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="130.0" />
+                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="130.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Список терминалов">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button id="custom-button" fx:id="getTerminalListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getTerminalListAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
+                                <TableView fx:id="terminalListTable" layoutX="25.0" layoutY="230.0" prefWidth="352.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0">
+                                    <columns>
+                                        <TableColumn fx:id="listName" prefWidth="250.0" text="Терминал" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

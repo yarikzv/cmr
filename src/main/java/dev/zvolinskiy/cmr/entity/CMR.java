@@ -75,6 +75,7 @@ public class CMR {
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
-    @Column(name = "terminal")
-    private String terminal;
+    @ManyToOne
+    @JoinColumn(name = "terminal")
+    private Terminal terminal;
 }

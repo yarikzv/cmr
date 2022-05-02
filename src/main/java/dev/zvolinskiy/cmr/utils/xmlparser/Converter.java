@@ -1,14 +1,8 @@
 package dev.zvolinskiy.cmr.utils.xmlparser;
 
-import dev.zvolinskiy.cmr.entity.CMR;
-import dev.zvolinskiy.cmr.entity.Container;
-import dev.zvolinskiy.cmr.entity.Country;
-import dev.zvolinskiy.cmr.entity.Recipient;
+import dev.zvolinskiy.cmr.entity.*;
 import dev.zvolinskiy.cmr.exception.CmrEntityNotFoundException;
-import dev.zvolinskiy.cmr.service.CMRService;
-import dev.zvolinskiy.cmr.service.ContainerService;
-import dev.zvolinskiy.cmr.service.CountryService;
-import dev.zvolinskiy.cmr.service.RecipientService;
+import dev.zvolinskiy.cmr.service.*;
 import dev.zvolinskiy.cmr.utils.Alerts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,6 +16,7 @@ public class Converter {
     private final RecipientService recipientService;
     private final CountryService countryService;
     private final ContainerService containerService;
+    private final TerminalService terminalService;
     private final CMRService cmrService;
 
     public void toCmrConverter(XmlCmr xmlCmr) {
@@ -32,7 +27,7 @@ public class Converter {
                 Alerts.successAlert((i + 1) + "-я CMR существует в базе. Воспользуйтесь поиском.");
             } catch (CmrEntityNotFoundException e) {
                 cmrService.save(CMR.builder()
-                                .number("")
+                        .number("")
                         .date(xmlCmr.getDate())
                         .orderNumber(xmlCmr.getOrder())
                         .documents(xmlCmr.getDocuments())
@@ -42,12 +37,23 @@ public class Converter {
                         .cargoQuantity(xmlCmr.getContainerList().get(i).getCargoList().get(0).getCargoQuantity())
                         .cargoWeight(xmlCmr.getContainerList().get(i).getCargoList().get(0).getCargoWeight())
                         .cargoCode(xmlCmr.getContainerList().get(i).getCargoList().get(0).getCargoCode())
-                                .placeOfIssue("")
-                                .sendersInstructions("")
+                        .placeOfIssue("")
+                        .sendersInstructions("")
+                        .terminal(terminalFromXml(xmlCmr))
                         .build());
                 Alerts.successAlert((i + 1) + "-я CMR успешно сохранена в базу данных.\n" +
                         "Для редактирования воспользуйтесь поиском.");
             }
+        }
+    }
+
+    private Terminal terminalFromXml(XmlCmr xmlCmr) {
+        try {
+            return terminalService.findByName(xmlCmr.getTerminal());
+        } catch (CmrEntityNotFoundException e) {
+            return terminalService.save(Terminal.builder()
+                    .name(xmlCmr.getTerminal())
+                    .build());
         }
     }
 

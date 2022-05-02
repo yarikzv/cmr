@@ -3,163 +3,74 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="cmr-anchor-pane" fx:id="cmrAnchorPane" maxHeight="1.7976931348623157E308"
-            maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
-            prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dev.zvolinskiy.cmr.controller.CMRController">
+<AnchorPane id="cmr-anchor-pane" fx:id="cmrAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.zvolinskiy.cmr.controller.CMRController">
     <children>
-        <TabPane id="cmr-tab-pane" fx:id="cmrTabPane" maxHeight="1.7976931348623157E308"
-                 maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css"
-                 tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TabPane id="cmr-tab-pane" fx:id="cmrTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab fx:id="addCmrTab" text="Добавить CMR">
                     <content>
-                        <AnchorPane fx:id="addCmrTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                    prefWidth="200.0">
+                        <AnchorPane fx:id="addCmrTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Label layoutX="15.0" layoutY="24.0" text="Номер CMR" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="24.0"/>
-                                <TextField id="custom-text-field" fx:id="tfCMRNumber" layoutX="105.0" layoutY="20.0"
-                                           minWidth="-Infinity" prefHeight="31.0" prefWidth="135.0"
-                                           promptText="Номер CMR" stylesheets="@styles.css"
-                                           AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="20.0"/>
-                                <Label layoutX="263.0" layoutY="24.0" text="Дата" AnchorPane.leftAnchor="263.0"
-                                       AnchorPane.topAnchor="24.0"/>
-                                <DatePicker fx:id="dpCMRDate" layoutX="299.0" layoutY="20.0" prefHeight="31.0"
-                                            promptText="Дата СМR" AnchorPane.leftAnchor="299.0"
-                                            AnchorPane.topAnchor="20.0"/>
-                                <Label layoutX="540.0" layoutY="24.0" text="Наряд" AnchorPane.leftAnchor="540.0"
-                                       AnchorPane.topAnchor="24.0"/>
-                                <TextField fx:id="tfOrderNumber" layoutX="590.0" layoutY="20.0" prefHeight="31.0"
-                                           prefWidth="190.0" promptText="Номер и дата наряда"
-                                           AnchorPane.leftAnchor="590.0" AnchorPane.topAnchor="20.0"/>
-                                <Label layoutX="15.0" layoutY="84.0" text="Отправитель" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="84.0"/>
-                                <ComboBox fx:id="cbSenderList" layoutX="106.0" layoutY="80.0" prefHeight="31.0"
-                                          prefWidth="200.0" promptText="Отправитель" AnchorPane.leftAnchor="106.0"
-                                          AnchorPane.topAnchor="80.0"/>
-                                <Button fx:id="bNewSender" layoutX="311.0" layoutY="80.0" mnemonicParsing="false"
-                                        onAction="#addNewSender" prefHeight="31.0" prefWidth="70.0" text="Новый"
-                                        AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="80.0"/>
-                                <Label layoutX="419.0" layoutY="84.0" text="Получатель" AnchorPane.leftAnchor="419.0"
-                                       AnchorPane.topAnchor="84.0"/>
-                                <ComboBox fx:id="cbRecipientList" layoutX="505.0" layoutY="80.0" prefHeight="31.0"
-                                          prefWidth="200.0" promptText="Получатель" AnchorPane.leftAnchor="505.0"
-                                          AnchorPane.topAnchor="80.0"/>
-                                <Button fx:id="bNewRecipient" layoutX="710.0" layoutY="80.0" mnemonicParsing="false"
-                                        onAction="#addNewRecipient" prefHeight="31.0" prefWidth="70.0" text="Новый"
-                                        AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="80.0"/>
-                                <Label layoutX="15.0" layoutY="134.0" text="Погрузка" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="134.0"/>
-                                <ComboBox fx:id="cbPOL" layoutX="106.0" layoutY="130.0" prefHeight="31.0"
-                                          prefWidth="200.0" promptText="Место погрузки" AnchorPane.leftAnchor="106.0"
-                                          AnchorPane.topAnchor="130.0"/>
-                                <Button fx:id="bNewPOL" layoutX="311.0" layoutY="130.0" mnemonicParsing="false"
-                                        onAction="#addNewPOL" prefHeight="31.0" prefWidth="70.0" text="Новое"
-                                        AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="130.0"/>
-                                <Label layoutX="419.0" layoutY="134.0" text="Выгрузка" AnchorPane.leftAnchor="419.0"
-                                       AnchorPane.topAnchor="134.0"/>
-                                <ComboBox fx:id="cbPOD" layoutX="505.0" layoutY="130.0" prefHeight="31.0"
-                                          prefWidth="200.0" promptText="Место выгрузки" AnchorPane.leftAnchor="505.0"
-                                          AnchorPane.topAnchor="130.0"/>
-                                <Button fx:id="bNewPOD" layoutX="710.0" layoutY="130.0" mnemonicParsing="false"
-                                        onAction="#addNewPOD" prefHeight="31.0" prefWidth="70.0" text="Новое"
-                                        AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="130.0"/>
-                                <Label layoutX="15.0" layoutY="184.0" text="Документы" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="184.0"/>
-                                <TextArea fx:id="taDocuments" layoutX="106.0" layoutY="180.0" prefHeight="60.0"
-                                          prefWidth="275.0" promptText="Список прилагаемых документов"
-                                          AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="180.0"/>
-                                <Label layoutX="15.0" layoutY="264.0" text="Контейнер" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="264.0"/>
-                                <ComboBox fx:id="cbContainerList" layoutX="106.0" layoutY="260.0" prefHeight="31.0"
-                                          prefWidth="200.0" promptText="Контейнер" AnchorPane.leftAnchor="106.0"
-                                          AnchorPane.topAnchor="260.0"/>
-                                <Button fx:id="bNewContainer" layoutX="311.0" layoutY="260.0" mnemonicParsing="false"
-                                        onAction="#addNewContainer" prefHeight="31.0" prefWidth="70.0" text="Новый"
-                                        AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="260.0"/>
-                                <Label layoutX="419.0" layoutY="184.0" text="Описание" AnchorPane.leftAnchor="419.0"
-                                       AnchorPane.topAnchor="184.0"/>
-                                <Label layoutX="453.0" layoutY="204.0" text="груза" AnchorPane.leftAnchor="453.0"
-                                       AnchorPane.topAnchor="204.0"/>
-                                <TextArea fx:id="taCargoName" layoutX="505.0" layoutY="180.0" prefHeight="111.0"
-                                          prefWidth="275.0" promptText="Наименование и описание груза"
-                                          AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="180.0"/>
-                                <Label layoutX="15.0" layoutY="314.0" text="Мест" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="314.0"/>
-                                <TextField fx:id="tfCargoQuantity" layoutX="75.0" layoutY="310.0" prefHeight="31.0"
-                                           prefWidth="135.0" promptText="Кол-во мест" AnchorPane.leftAnchor="75.0"
-                                           AnchorPane.topAnchor="310.0"/>
-                                <TextField fx:id="tfCargoWeight" layoutX="350.0" layoutY="310.0" prefHeight="31.0"
-                                           prefWidth="135.0" promptText="Вес груза" AnchorPane.leftAnchor="350.0"
-                                           AnchorPane.topAnchor="310.0"/>
-                                <Label layoutX="300.0" layoutY="314.0" text="Вес" AnchorPane.leftAnchor="300.0"
-                                       AnchorPane.topAnchor="314.0"/>
-                                <Label layoutX="570.0" layoutY="314.0" text="Код груза" AnchorPane.leftAnchor="570.0"
-                                       AnchorPane.topAnchor="314.0"/>
-                                <TextField fx:id="tfCargoCode" layoutX="645.0" layoutY="310.0" prefHeight="31.0"
-                                           prefWidth="135.0" promptText="Код груза" AnchorPane.leftAnchor="645.0"
-                                           AnchorPane.topAnchor="310.0"/>
-                                <TextArea fx:id="taSenderInstructions" layoutX="106.0" layoutY="360.0"
-                                          prefHeight="111.0" prefWidth="275.0"
-                                          promptText="Указания отправителя, таможенная декларация, таможенное обеспечение"
-                                          AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="360.0"/>
-                                <Label layoutX="15.0" layoutY="374.0" text="Указания" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="374.0"/>
-                                <Label layoutX="15.0" layoutY="394.0" text="отправителя" AnchorPane.leftAnchor="15.0"
-                                       AnchorPane.topAnchor="394.0"/>
-                                <Label layoutX="419.0" layoutY="364.0" text="Место издания"
-                                       AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="364.0"/>
-                                <TextField fx:id="tfIssuePlace" layoutX="530.0" layoutY="360.0" prefHeight="31.0"
-                                           prefWidth="250.0" promptText="Место издания" AnchorPane.leftAnchor="530.0"
-                                           AnchorPane.topAnchor="360.0"/>
-                                <Label layoutX="419.0" layoutY="414.0" text="Водитель" AnchorPane.leftAnchor="419.0"
-                                       AnchorPane.topAnchor="414.0"/>
-                                <ComboBox fx:id="cbDriverList" layoutX="505.0" layoutY="410.0" onAction="#fillDriver"
-                                          prefHeight="31.0" prefWidth="200.0" promptText="Водитель"
-                                          AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="410.0"/>
-                                <Button fx:id="bNewDriver" layoutX="710.0" layoutY="410.0" mnemonicParsing="false"
-                                        onAction="#addNewDriver" prefHeight="31.0" prefWidth="70.0" text="Новый"
-                                        AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="410.0"/>
-                                <TextField id="truck-label" fx:id="truckLabel" layoutX="509.0" layoutY="463.0"
-                                           prefHeight="30.0" prefWidth="90.0" promptText="Тягач"
-                                           AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="455.0"/>
-                                <TextField id="truck-label" fx:id="trailerLabel" layoutX="631.0" layoutY="462.0"
-                                           prefHeight="30.0" prefWidth="90.0" promptText="Прицеп"
-                                           AnchorPane.leftAnchor="605.0" AnchorPane.topAnchor="455.0"/>
-                                <Separator layoutX="397.0" layoutY="80.0" orientation="VERTICAL" prefHeight="220.0"
-                                           AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="80.0"/>
-                                <Separator layoutX="397.0" layoutY="360.0" orientation="VERTICAL" prefHeight="120.0"
-                                           AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="360.0"/>
-                                <Button id="custom-button" fx:id="createPdfButton" layoutX="59.0" layoutY="523.0"
-                                        mnemonicParsing="false" onAction="#viewPdfAction" stylesheets="@styles.css"
-                                        text="Просмотр" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="520.0"/>
-                                <Button id="custom-button" fx:id="saveCmrButton" layoutX="322.0" layoutY="520.0"
-                                        mnemonicParsing="false" onAction="#saveCmrAction" stylesheets="@styles.css"
-                                        text="Сохранить" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="520.0"/>
-                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0"
-                                        mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0"
-                                        prefWidth="150.0" stylesheets="@styles.css" text="Закрыть"
-                                        AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="520.0"/>
-                                <Label layoutX="520.0" layoutY="25.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="26.0"/>
-                                <Label layoutX="378.0" layoutY="85.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="86.0"/>
-                                <Label layoutX="388.0" layoutY="95.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="86.0"/>
-                                <Label layoutX="398.0" layoutY="105.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="136.0"/>
-                                <Label layoutX="388.0" layoutY="95.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="136.0"/>
-                                <Label layoutX="398.0" layoutY="105.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="266.0"/>
-                                <Label layoutX="220.0" layoutY="315.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="316.0"/>
-                                <Label layoutX="497.0" layoutY="314.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="490.0" AnchorPane.topAnchor="316.0"/>
-                                <Label layoutX="408.0" layoutY="115.0" text="*" textFill="#f50505"
-                                       AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="416.0"/>
+                                <Label layoutX="15.0" layoutY="24.0" text="Номер CMR" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="24.0" />
+                                <TextField id="custom-text-field" fx:id="tfCMRNumber" layoutX="105.0" layoutY="20.0" minWidth="-Infinity" prefHeight="31.0" prefWidth="135.0" promptText="Номер CMR" stylesheets="@styles.css" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="263.0" layoutY="24.0" text="Дата" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="24.0" />
+                                <DatePicker fx:id="dpCMRDate" layoutX="299.0" layoutY="20.0" prefHeight="31.0" promptText="Дата СМR" AnchorPane.leftAnchor="299.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="540.0" layoutY="24.0" text="Наряд" AnchorPane.leftAnchor="540.0" AnchorPane.topAnchor="24.0" />
+                                <TextField fx:id="tfOrderNumber" layoutX="590.0" layoutY="20.0" prefHeight="31.0" prefWidth="190.0" promptText="Номер и дата наряда" AnchorPane.leftAnchor="590.0" AnchorPane.topAnchor="20.0" />
+                                <Label layoutX="15.0" layoutY="84.0" text="Отправитель" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="84.0" />
+                                <ComboBox fx:id="cbSenderList" layoutX="106.0" layoutY="80.0" prefHeight="31.0" prefWidth="200.0" promptText="Отправитель" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="80.0" />
+                                <Button fx:id="bNewSender" layoutX="311.0" layoutY="80.0" mnemonicParsing="false" onAction="#addNewSender" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="80.0" />
+                                <Label layoutX="419.0" layoutY="84.0" text="Получатель" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="84.0" />
+                                <ComboBox fx:id="cbRecipientList" layoutX="505.0" layoutY="80.0" prefHeight="31.0" prefWidth="200.0" promptText="Получатель" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="80.0" />
+                                <Button fx:id="bNewRecipient" layoutX="710.0" layoutY="80.0" mnemonicParsing="false" onAction="#addNewRecipient" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="80.0" />
+                                <Label layoutX="15.0" layoutY="134.0" text="Погрузка" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="134.0" />
+                                <ComboBox fx:id="cbPOL" layoutX="106.0" layoutY="130.0" prefHeight="31.0" prefWidth="200.0" promptText="Место погрузки" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="130.0" />
+                                <Button fx:id="bNewPOL" layoutX="311.0" layoutY="130.0" mnemonicParsing="false" onAction="#addNewPOL" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="130.0" />
+                                <Label layoutX="419.0" layoutY="134.0" text="Выгрузка" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="134.0" />
+                                <ComboBox fx:id="cbPOD" layoutX="505.0" layoutY="130.0" prefHeight="31.0" prefWidth="200.0" promptText="Место выгрузки" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="130.0" />
+                                <Button fx:id="bNewPOD" layoutX="710.0" layoutY="130.0" mnemonicParsing="false" onAction="#addNewPOD" prefHeight="31.0" prefWidth="70.0" text="Новое" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="130.0" />
+                                <Label layoutX="15.0" layoutY="184.0" text="Документы" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="184.0" />
+                                <TextArea fx:id="taDocuments" layoutX="106.0" layoutY="180.0" prefHeight="60.0" prefWidth="275.0" promptText="Список прилагаемых документов" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="180.0" />
+                                <Label layoutX="15.0" layoutY="264.0" text="Контейнер" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="264.0" />
+                                <ComboBox fx:id="cbContainerList" layoutX="106.0" layoutY="260.0" prefHeight="31.0" prefWidth="200.0" promptText="Контейнер" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="260.0" />
+                                <Button fx:id="bNewContainer" layoutX="311.0" layoutY="260.0" mnemonicParsing="false" onAction="#addNewContainer" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="260.0" />
+                                <Label layoutX="419.0" layoutY="184.0" text="Описание" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="184.0" />
+                                <Label layoutX="453.0" layoutY="204.0" text="груза" AnchorPane.leftAnchor="453.0" AnchorPane.topAnchor="204.0" />
+                                <TextArea fx:id="taCargoName" layoutX="505.0" layoutY="180.0" prefHeight="111.0" prefWidth="275.0" promptText="Наименование и описание груза" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="180.0" />
+                                <Label layoutX="15.0" layoutY="314.0" text="Мест" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="314.0" />
+                                <TextField fx:id="tfCargoQuantity" layoutX="75.0" layoutY="310.0" prefHeight="31.0" prefWidth="135.0" promptText="Кол-во мест" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="310.0" />
+                                <TextField fx:id="tfCargoWeight" layoutX="350.0" layoutY="310.0" prefHeight="31.0" prefWidth="135.0" promptText="Вес груза" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="310.0" />
+                                <Label layoutX="300.0" layoutY="314.0" text="Вес" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="314.0" />
+                                <Label layoutX="570.0" layoutY="314.0" text="Код груза" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="314.0" />
+                                <TextField fx:id="tfCargoCode" layoutX="645.0" layoutY="310.0" prefHeight="31.0" prefWidth="135.0" promptText="Код груза" AnchorPane.leftAnchor="645.0" AnchorPane.topAnchor="310.0" />
+                                <TextArea fx:id="taSenderInstructions" layoutX="106.0" layoutY="360.0" prefHeight="111.0" prefWidth="275.0" promptText="Указания отправителя, таможенная декларация, таможенное обеспечение" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="360.0" />
+                                <Label layoutX="15.0" layoutY="374.0" text="Указания" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="374.0" />
+                                <Label layoutX="15.0" layoutY="394.0" text="отправителя" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="394.0" />
+                                <Label layoutX="419.0" layoutY="364.0" text="Место издания" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="364.0" />
+                                <TextField fx:id="tfIssuePlace" layoutX="530.0" layoutY="360.0" prefHeight="31.0" prefWidth="250.0" promptText="Место издания" AnchorPane.leftAnchor="530.0" AnchorPane.topAnchor="360.0" />
+                                <Label layoutX="419.0" layoutY="414.0" text="Водитель" AnchorPane.leftAnchor="419.0" AnchorPane.topAnchor="414.0" />
+                                <ComboBox fx:id="cbDriverList" layoutX="505.0" layoutY="410.0" onAction="#fillDriver" prefHeight="31.0" prefWidth="200.0" promptText="Водитель" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="410.0" />
+                                <Button fx:id="bNewDriver" layoutX="710.0" layoutY="410.0" mnemonicParsing="false" onAction="#addNewDriver" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="410.0" />
+                                <TextField id="truck-label" fx:id="truckLabel" layoutX="509.0" layoutY="463.0" prefHeight="30.0" prefWidth="90.0" promptText="Тягач" AnchorPane.leftAnchor="505.0" AnchorPane.topAnchor="455.0" />
+                                <TextField id="truck-label" fx:id="trailerLabel" layoutX="631.0" layoutY="462.0" prefHeight="30.0" prefWidth="90.0" promptText="Прицеп" AnchorPane.leftAnchor="605.0" AnchorPane.topAnchor="455.0" />
+                                <ComboBox fx:id="cbTerminal" layoutX="106.0" layoutY="480.0" prefHeight="31.0" prefWidth="200.0" promptText="Терминал" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="490.0" />
+                                <Button fx:id="bNewTerminal" layoutX="311.0" layoutY="260.0" mnemonicParsing="false" onAction="#addNewTerminal" prefHeight="31.0" prefWidth="70.0" text="Новый" AnchorPane.leftAnchor="311.0" AnchorPane.topAnchor="490.0" />
+                                <Separator layoutX="397.0" layoutY="80.0" orientation="VERTICAL" prefHeight="220.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="80.0" />
+                                <Separator layoutX="397.0" layoutY="360.0" orientation="VERTICAL" prefHeight="120.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="360.0" />
+                                <Button id="custom-button" fx:id="createPdfButton" layoutX="59.0" layoutY="523.0" mnemonicParsing="false" onAction="#viewPdfAction" stylesheets="@styles.css" text="Просмотр" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="540.0" />
+                                <Button id="custom-button" fx:id="saveCmrButton" layoutX="322.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveCmrAction" stylesheets="@styles.css" text="Сохранить" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="540.0" />
+                                <Button id="close-button" fx:id="closeButton" layoutX="531.0" layoutY="523.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="30.0" prefWidth="150.0" stylesheets="@styles.css" text="Закрыть" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="540.0" />
+                                <Label layoutX="520.0" layoutY="25.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="26.0" />
+                                <Label layoutX="378.0" layoutY="85.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="86.0" />
+                                <Label layoutX="388.0" layoutY="95.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="86.0" />
+                                <Label layoutX="398.0" layoutY="105.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="136.0" />
+                                <Label layoutX="388.0" layoutY="95.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="136.0" />
+                                <Label layoutX="398.0" layoutY="105.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="266.0" />
+                                <Label layoutX="220.0" layoutY="315.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="316.0" />
+                                <Label layoutX="497.0" layoutY="314.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="490.0" AnchorPane.topAnchor="316.0" />
+                                <Label layoutX="408.0" layoutY="115.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="416.0" />
+                                <Label layoutX="388.0" layoutY="497.0" text="*" textFill="#f50505" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="496.0" />
+                                <Label layoutX="29.0" layoutY="477.0" text="Терминал" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="494.0" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -168,45 +79,33 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Label layoutX="34.0" layoutY="26.0" text="Поиск по дате" AnchorPane.leftAnchor="25.0"
-                                       AnchorPane.topAnchor="30.0"/>
-                                <DatePicker fx:id="dpSearchByDate" layoutX="105.0" layoutY="26.0" prefWidth="200.0"
-                                            AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="26.0"/>
-                                <Button layoutX="289.0" layoutY="26.0" mnemonicParsing="false"
-                                        onAction="#dateSearchAction" text="Поиск" AnchorPane.leftAnchor="315.0"
-                                        AnchorPane.topAnchor="26.0"/>
-                                <Separator layoutX="25.0" layoutY="66.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0"
-                                           AnchorPane.topAnchor="65.0"/>
-                                <Label layoutX="25.0" layoutY="82.0" text="По контейнеру" AnchorPane.leftAnchor="25.0"
-                                       AnchorPane.topAnchor="80.0"/>
-                                <TextField fx:id="tfSearchByContainer" layoutX="110.0" layoutY="76.0"
-                                           prefWidth="200.0"/>
-                                <Button layoutX="314.0" layoutY="76.0" mnemonicParsing="false"
-                                        onAction="#containerSearchAction" text="Поиск" AnchorPane.leftAnchor="315.0"
-                                        AnchorPane.topAnchor="76.0"/>
-                                <TableView id="result-table" fx:id="searchResultTable" editable="true" layoutX="25.0"
-                                           layoutY="230.0" prefHeight="360.0" prefWidth="960.0"
-                                           stylesheets="@styles.css" tableMenuButtonVisible="true"
-                                           AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="190.0">
+                                <Label layoutX="34.0" layoutY="26.0" text="Поиск по дате" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
+                                <DatePicker fx:id="dpSearchByDate" layoutX="105.0" layoutY="26.0" prefWidth="200.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="26.0" />
+                                <Button layoutX="289.0" layoutY="26.0" mnemonicParsing="false" onAction="#dateSearchAction" text="Поиск" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="26.0" />
+                                <Separator layoutX="25.0" layoutY="66.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="65.0" />
+                                <Label layoutX="25.0" layoutY="82.0" text="По контейнеру" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="80.0" />
+                                <TextField fx:id="tfSearchByContainer" layoutX="110.0" layoutY="76.0" prefWidth="200.0" />
+                                <Button layoutX="314.0" layoutY="76.0" mnemonicParsing="false" onAction="#containerSearchAction" text="Поиск" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="76.0" />
+                                <TableView id="result-table" fx:id="searchResultTable" editable="true" layoutX="25.0" layoutY="230.0" prefHeight="360.0" prefWidth="960.0" stylesheets="@styles.css" tableMenuButtonVisible="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="190.0">
                                     <columns>
-                                        <TableColumn fx:id="searchNumber" prefWidth="50.0" text="Номер"/>
-                                        <TableColumn fx:id="searchDate" prefWidth="70.0" text="Дата"/>
-                                        <TableColumn fx:id="searchOrder" prefWidth="95.0" text="Наряд"/>
-                                        <TableColumn fx:id="searchSender" prefWidth="150.0" text="Отправитель"/>
-                                        <TableColumn fx:id="searchRecipient" prefWidth="150.0" text="Получатель"/>
-                                        <TableColumn fx:id="searchPOD" prefWidth="70.0" text="Выгрузка"/>
-                                        <TableColumn fx:id="searchPOL" prefWidth="70.0" text="Погрузка"/>
-                                        <TableColumn fx:id="searchDocuments" prefWidth="100.0" text="Документы"/>
-                                        <TableColumn fx:id="searchContainer" prefWidth="90.0" text="Контейнер"/>
-                                        <TableColumn fx:id="searchCargoName" prefWidth="100.0" text="Груз"/>
-                                        <TableColumn fx:id="searchCargoQuantity" prefWidth="50.0" text="Мест"/>
-                                        <TableColumn fx:id="searchCargoWeight" prefWidth="50.0" text="Вес"/>
-                                        <TableColumn fx:id="searchCargoCode" prefWidth="70.0" text="Код груза"/>
-                                        <TableColumn fx:id="searchSenderInstructions" prefWidth="100.0"
-                                                     text="Декларация"/>
-                                        <TableColumn fx:id="searchDriver" prefWidth="140.0" text="Водитель"/>
-                                        <TableColumn fx:id="searchTruck" prefWidth="70.0" text="Тягач"/>
-                                        <TableColumn fx:id="searchTrailer" prefWidth="70.0" text="Прицеп"/>
+                                        <TableColumn fx:id="searchNumber" prefWidth="50.0" text="Номер" />
+                                        <TableColumn fx:id="searchDate" prefWidth="70.0" text="Дата" />
+                                        <TableColumn fx:id="searchOrder" prefWidth="95.0" text="Наряд" />
+                                        <TableColumn fx:id="searchSender" prefWidth="150.0" text="Отправитель" />
+                                        <TableColumn fx:id="searchRecipient" prefWidth="150.0" text="Получатель" />
+                                        <TableColumn fx:id="searchPOD" prefWidth="70.0" text="Выгрузка" />
+                                        <TableColumn fx:id="searchPOL" prefWidth="70.0" text="Погрузка" />
+                                        <TableColumn fx:id="searchDocuments" prefWidth="100.0" text="Документы" />
+                                        <TableColumn fx:id="searchContainer" prefWidth="90.0" text="Контейнер" />
+                                        <TableColumn fx:id="searchCargoName" prefWidth="100.0" text="Груз" />
+                                        <TableColumn fx:id="searchCargoQuantity" prefWidth="50.0" text="Мест" />
+                                        <TableColumn fx:id="searchCargoWeight" prefWidth="50.0" text="Вес" />
+                                        <TableColumn fx:id="searchCargoCode" prefWidth="70.0" text="Код груза" />
+                                        <TableColumn fx:id="searchSenderInstructions" prefWidth="100.0" text="Декларация" />
+                                        <TableColumn fx:id="searchDriver" prefWidth="140.0" text="Водитель" />
+                                        <TableColumn fx:id="searchTruck" prefWidth="70.0" text="Тягач" />
+                                        <TableColumn fx:id="searchTrailer" prefWidth="70.0" text="Прицеп" />
+                                        <TableColumn fx:id="searchTerminal" prefWidth="70.0" text="Терминал" />
                                     </columns>
                                 </TableView>
                             </children>
@@ -217,33 +116,27 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Button id="custom-button" fx:id="getCmrListButton" layoutX="184.0"
-                                        layoutY="416.0" mnemonicParsing="false" onAction="#getCmrTableAction"
-                                        stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0"
-                                        AnchorPane.topAnchor="20.0"/>
-                                <TableView id="result-table" fx:id="cmrListTable" editable="true" layoutX="25.0"
-                                           layoutY="230.0" prefHeight="460.0" prefWidth="960.0"
-                                           stylesheets="@styles.css" tableMenuButtonVisible="true"
-                                           AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
+                                <Button id="custom-button" fx:id="getCmrListButton" layoutX="184.0" layoutY="416.0" mnemonicParsing="false" onAction="#getCmrTableAction" stylesheets="@styles.css" text="Получить список" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="20.0" />
+                                <TableView id="result-table" fx:id="cmrListTable" editable="true" layoutX="25.0" layoutY="230.0" prefHeight="460.0" prefWidth="960.0" stylesheets="@styles.css" tableMenuButtonVisible="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
                                     <columns>
-                                        <TableColumn fx:id="listNumber" prefWidth="50.0" text="Номер"/>
-                                        <TableColumn fx:id="listDate" prefWidth="70.0" text="Дата"/>
-                                        <TableColumn fx:id="listOrder" prefWidth="95.0" text="Наряд"/>
-                                        <TableColumn fx:id="listSender" prefWidth="150.0" text="Отправитель"/>
-                                        <TableColumn fx:id="listRecipient" prefWidth="150.0" text="Получатель"/>
-                                        <TableColumn fx:id="listPOD" prefWidth="70.0" text="Выгрузка"/>
-                                        <TableColumn fx:id="listPOL" prefWidth="70.0" text="Погрузка"/>
-                                        <TableColumn fx:id="listDocuments" prefWidth="100.0" text="Документы"/>
-                                        <TableColumn fx:id="listContainer" prefWidth="90.0" text="Контейнер"/>
-                                        <TableColumn fx:id="listCargoName" prefWidth="100.0" text="Груз"/>
-                                        <TableColumn fx:id="listCargoQuantity" prefWidth="50.0" text="Мест"/>
-                                        <TableColumn fx:id="listCargoWeight" prefWidth="50.0" text="Вес"/>
-                                        <TableColumn fx:id="listCargoCode" prefWidth="70.0" text="Код груза"/>
-                                        <TableColumn fx:id="listSenderInstructions" prefWidth="100.0"
-                                                     text="Декларация"/>
-                                        <TableColumn fx:id="listDriver" prefWidth="140.0" text="Водитель"/>
-                                        <TableColumn fx:id="listTruck" prefWidth="70.0" text="Тягач"/>
-                                        <TableColumn fx:id="listTrailer" prefWidth="70.0" text="Прицеп"/>
+                                        <TableColumn fx:id="listNumber" prefWidth="50.0" text="Номер" />
+                                        <TableColumn fx:id="listDate" prefWidth="70.0" text="Дата" />
+                                        <TableColumn fx:id="listOrder" prefWidth="95.0" text="Наряд" />
+                                        <TableColumn fx:id="listSender" prefWidth="150.0" text="Отправитель" />
+                                        <TableColumn fx:id="listRecipient" prefWidth="150.0" text="Получатель" />
+                                        <TableColumn fx:id="listPOD" prefWidth="70.0" text="Выгрузка" />
+                                        <TableColumn fx:id="listPOL" prefWidth="70.0" text="Погрузка" />
+                                        <TableColumn fx:id="listDocuments" prefWidth="100.0" text="Документы" />
+                                        <TableColumn fx:id="listContainer" prefWidth="90.0" text="Контейнер" />
+                                        <TableColumn fx:id="listCargoName" prefWidth="100.0" text="Груз" />
+                                        <TableColumn fx:id="listCargoQuantity" prefWidth="50.0" text="Мест" />
+                                        <TableColumn fx:id="listCargoWeight" prefWidth="50.0" text="Вес" />
+                                        <TableColumn fx:id="listCargoCode" prefWidth="70.0" text="Код груза" />
+                                        <TableColumn fx:id="listSenderInstructions" prefWidth="100.0" text="Декларация" />
+                                        <TableColumn fx:id="listDriver" prefWidth="140.0" text="Водитель" />
+                                        <TableColumn fx:id="listTruck" prefWidth="70.0" text="Тягач" />
+                                        <TableColumn fx:id="listTrailer" prefWidth="70.0" text="Прицеп" />
+                                        <TableColumn fx:id="listTerminal" prefWidth="70.0" text="Терминал" />
                                     </columns>
                                 </TableView>
                             </children>

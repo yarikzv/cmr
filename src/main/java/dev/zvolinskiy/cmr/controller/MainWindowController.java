@@ -3,7 +3,8 @@ package dev.zvolinskiy.cmr.controller;
 import dev.zvolinskiy.cmr.MainApplication;
 import dev.zvolinskiy.cmr.utils.Alerts;
 import dev.zvolinskiy.cmr.utils.pdf.CmrPdfCleaner;
-import dev.zvolinskiy.cmr.utils.xmlparser.XmlParser;
+import dev.zvolinskiy.cmr.utils.xmlparser.CmrToXmlCreator;
+import dev.zvolinskiy.cmr.utils.xmlparser.XmlToCmrParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,8 +37,10 @@ public class MainWindowController implements Initializable {
     private final Resource polFxml;
     private final Resource containerFxml;
     private final Resource poaFxml;
+    private final Resource terminalFxml;
     private final ApplicationContext applicationContext;
-    private final XmlParser xmlParser;
+    private final XmlToCmrParser xmlParser;
+    private final CmrToXmlCreator xmlCreator;
 
     @FXML
     public Button cmrButton;
@@ -61,6 +64,8 @@ public class MainWindowController implements Initializable {
     public Button createFromXmlButton;
     @FXML
     public Button firmPOAButton;
+    @FXML
+    public Button createXmlFileButton;
 
     public MainWindowController(
             @Value("classpath:/fx/cmr.fxml") Resource cmrFxml,
@@ -71,7 +76,8 @@ public class MainWindowController implements Initializable {
             @Value("classpath:/fx/pol.fxml") Resource polFxml,
             @Value("classpath:/fx/container.fxml") Resource containerFxml,
             @Value("classpath:/fx/poa.fxml") Resource poaFxml,
-            ApplicationContext applicationContext, XmlParser xmlParser) {
+            @Value("classpath:/fx/terminal.fxml") Resource terminalFxml,
+            ApplicationContext applicationContext, XmlToCmrParser xmlParser, CmrToXmlCreator xmlCreator) {
         this.cmrFxml = cmrFxml;
         this.driverFxml = driverFxml;
         this.senderFxml = senderFxml;
@@ -80,8 +86,10 @@ public class MainWindowController implements Initializable {
         this.polFxml = polFxml;
         this.containerFxml = containerFxml;
         this.poaFxml = poaFxml;
+        this.terminalFxml = terminalFxml;
         this.applicationContext = applicationContext;
         this.xmlParser = xmlParser;
+        this.xmlCreator = xmlCreator;
     }
 
     @Override
@@ -137,6 +145,10 @@ public class MainWindowController implements Initializable {
         customSceneLoader(poaFxml);
     }
 
+    public void terminalButtonAction() {
+        customSceneLoader(terminalFxml);
+    }
+
     public void createFromXmlAction() {
         try {
             Stage stage = (Stage) rootAnchorPane.getScene().getWindow();
@@ -190,5 +202,8 @@ public class MainWindowController implements Initializable {
         view.setFitHeight(40);
         view.setPreserveRatio(true);
         firmPOAButton.setGraphic(view);
+    }
+
+    public void createXmlFileAction() {
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class XmlParser {
+public class XmlToCmrParser {
     private final Converter converter;
 
     public void parser(File file) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
@@ -37,6 +37,7 @@ public class XmlParser {
         Element recipientEdrpouElement = (Element) doc.getElementsByTagName("CSG_EDRPO").item(0);
         Element recipientAddressElement = (Element) doc.getElementsByTagName("CSG_ADR").item(0);
         Element recipientNameElement = (Element) doc.getElementsByTagName("CSG_NAME").item(0);
+        Element terminalElement = (Element) doc.getElementsByTagName("TRM_CODE").item(0);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         xmlCmr.setDate(LocalDate.parse(orderDateElement.getTextContent(), formatter));
@@ -45,6 +46,11 @@ public class XmlParser {
         xmlCmr.setRecipientEdrpou(recipientEdrpouElement.getTextContent());
         xmlCmr.setRecipientAddress(recipientAddressElement.getTextContent());
         xmlCmr.setRecipientName(recipientNameElement.getTextContent());
+        switch (terminalElement.getTextContent()) {
+            case "UAODSCT" -> xmlCmr.setTerminal("ДП \"КТО\"");
+            case "UAODSBKP" -> xmlCmr.setTerminal("ТОВ \"БРУКЛІН-КИЇВ ПОРТ\"");
+            default -> xmlCmr.setTerminal("");
+        }
 
         NodeList cmrNodeList = doc.getElementsByTagName("CONTAINER");
         List<XmlContainer> xmlContList = new ArrayList<>();

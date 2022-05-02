@@ -14,4 +14,5 @@ class XmlCmr {
     private String recipientAddress;
     private String recipientName;
     private List<XmlContainer> containerList;
+    private String terminal;
 }

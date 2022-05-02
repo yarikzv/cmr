@@ -47,6 +47,7 @@ public class CMRServiceImpl implements CMRService {
             updatedCMR.setSendersInstructions(cmr.getSendersInstructions());
             updatedCMR.setPlaceOfIssue(cmr.getPlaceOfIssue());
             updatedCMR.setDriver(cmr.getDriver());
+            updatedCMR.setTerminal(cmr.getTerminal());
             return cmrRepo.save(updatedCMR);
         } else {
             return cmr;
